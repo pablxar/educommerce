@@ -26,9 +26,9 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function Destination({ url, children, variant = "default", className = "", label }: { url?: string; children: React.ReactNode; variant?: "default" | "outline" | "link"; className?: string; label: string }) {
+function Destination({ url, children, variant = "default", className = "", label, onSelect }: { url?: string | undefined; children: React.ReactNode; variant?: "default" | "outline" | "link"; className?: string; label: string; onSelect?: () => void }) {
   const [pending, setPending] = useState(false);
-  return <><Button asChild={!!url} variant={variant} className={className} onClick={url ? undefined : () => setPending(!pending)} aria-label={url ? undefined : `${label}: enlace pendiente de configurar`}>
+  return <><Button asChild={!!url} variant={variant} className={className} onClick={() => { if (!url) setPending(!pending); onSelect?.(); }} aria-label={url ? undefined : `${label}: enlace pendiente de configurar`}>
     {url ? <a href={url}>{children}</a> : children}
   </Button>{pending && <p className="pending-notice" role="status">Enlace pendiente de configurar.</p>}</>;
 }
@@ -62,7 +62,7 @@ function Index() {
         <div className="header-actions"><Destination url={destinations.login} variant="link" label="Ingresar">Ingresar</Destination><Button asChild><Link to="/" hash="cursos">Explorar cursos</Link></Button></div>
         <Button ref={menuButton} variant="ghost" size="icon" className="menu-toggle" aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
       </div>
-      {menuOpen && <div ref={menuRef} id="mobile-navigation" className="mobile-menu"><nav className="mobile-menu" aria-label="Navegación móvil">{nav}<Destination url={destinations.login} variant="link" label="Ingresar">Ingresar</Destination><Button asChild><Link to="/" hash="cursos" onClick={() => setMenuOpen(false)}>Explorar cursos</Link></Button></nav></div>}
+      {menuOpen && <div ref={menuRef} id="mobile-navigation"><nav className="mobile-menu" aria-label="Navegación móvil">{nav}<Destination url={destinations.login} variant="link" label="Ingresar" onSelect={() => setMenuOpen(false)}>Ingresar</Destination><Button asChild><Link to="/" hash="cursos" onClick={() => setMenuOpen(false)}>Explorar cursos</Link></Button></nav></div>}
     </header>
     <main className="shell">
       <section className="hero" aria-labelledby="hero-title">
