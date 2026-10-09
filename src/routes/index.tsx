@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { categories, filterCourses, destinations, externalUrl, type Category } from "@/lib/educommerce";
 import logo from "@/assets/logo_educommerce.png.asset.json";
 import student from "@/assets/student.png.asset.json";
-import teacher from "@/assets/teacher.png.asset.json";
+import teacher from "@/assets/teacher-clean.png.asset.json";
 import individual from "@/assets/individual.png.asset.json";
 import academy from "@/assets/academy.png.asset.json";
 import shopify from "@/assets/shopify.svg.asset.json";
