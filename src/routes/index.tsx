@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { categories, filterCourses, destinations, externalUrl, type Category } from "@/lib/educommerce";
 import logo from "@/assets/logo_educommerce.png.asset.json";
 import student from "@/assets/student.png.asset.json";
-import teacher from "@/assets/teacher-clean.png.asset.json";
+import teacher from "@/assets/teacher-restored.jpg";
 import individual from "@/assets/individual.png.asset.json";
 import academy from "@/assets/academy.png.asset.json";
 import shopify from "@/assets/shopify.svg.asset.json";
@@ -76,7 +76,7 @@ function Index() {
         <div className="hero-visual">
           <div className="main-photo"><div className="photo-caption"><Clapperboard aria-hidden="true" />De la idea a la práctica</div><img src={student.url} alt="Alumna estudiando frente a su computador" /></div>
           <img className="side-student" src={individual.url} alt="Alumno trabajando en su portátil" />
-          <div className="class-preview" role="img" aria-label="Vista previa de una clase grabada: Crea tu tienda en Shopify"><img className="teacher-photo" src={teacher.url} alt="Docente explicando una clase grabada" /><div className="class-syllabus"><h3>Crea tu tienda en Shopify</h3><ol><li>1. Introducción</li><li>2. Configuración de tienda</li><li>3. Productos y colecciones</li><li>4. Medios de pago</li><li>5. Lanzamiento</li></ol></div></div>
+          <div className="class-preview" role="img" aria-label="Vista previa de una clase grabada: Crea tu tienda en Shopify"><img className="teacher-photo" src={teacher} alt="Docente explicando una clase grabada" /><div className="class-syllabus"><h3>Crea tu tienda en Shopify</h3><ol><li>1. Introducción</li><li>2. Configuración de tienda</li><li>3. Productos y colecciones</li><li>4. Medios de pago</li><li>5. Lanzamiento</li></ol></div></div>
         </div>
       </section>
       <section className="tools-band" aria-label="Herramientas de aprendizaje"><p className="tools-intro">Aprende a trabajar con herramientas como:</p><div className="tools-list"><div className="tool"><img className="tool-icon" src={shopify.url} alt="" />Shopify</div><div className="tool"><img className="tool-icon" src={meta.url} alt="" />Meta Ads</div><img className="tool-logo" src={klaviyo.url} alt="Klaviyo" /><img className="tool-logo" src={canva.url} alt="Canva" /><img className="tool-logo" src={capcut.url} alt="CapCut" /></div></section>
