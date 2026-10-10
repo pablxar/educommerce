@@ -334,3 +334,4 @@
   .campus-panel { padding: 18px; }
   .bar-row { grid-template-columns: 1fr 36px; } .bar-row .progress { grid-column: 1 / -1; grid-row: 2; }
 }
+.campus-main .filters { justify-content: flex-start; margin: 0; }
