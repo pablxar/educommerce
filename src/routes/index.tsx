@@ -278,7 +278,7 @@ function Index() {
                   <h3>{m.title}</h3>
                   <p className="course-description">{m.description}</p>
 <p className="module-price">{formatPrice(m.price)}</p>
-                  <Button variant="link" asChild className="course-link">
+                  <Button variant="default" asChild className="course-link course-cta">
                     <Link to="/modulos" aria-label={`Ver módulo ${m.title}`}>
                       Ver módulo <ArrowRight />
                     </Link>
