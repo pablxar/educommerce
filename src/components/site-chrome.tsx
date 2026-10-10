@@ -169,7 +169,6 @@ export function SiteFooter() {
       <div className="footer-bottom">
         <div className="shell footer-bottom-inner">
           <p>© 2026 Educommerce. Todos los derechos reservados.</p>
-          <Link to="/modulos">Índice del prototipo</Link>
         </div>
       </div>
     </footer>
