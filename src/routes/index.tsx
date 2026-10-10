@@ -116,7 +116,6 @@ function Index() {
           <div className="hero-copy">
             <div className="eyebrow">
               <span className="desktop-only">APRENDE A TU RITMO</span>
-              <span className="mobile-only">100% ONLINE · CLASES GRABADAS</span>
             </div>
             <h1 id="hero-title">
               <span>Aprende</span>
