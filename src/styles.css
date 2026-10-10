@@ -45,6 +45,18 @@
   --nav-glass-hover: color-mix(in oklab, var(--background) 12%, transparent);
   --nav-glass-shadow: 0 8px 24px color-mix(in oklab, var(--foreground) 8%, transparent);
   --nav-surface: color-mix(in oklab, var(--primary) 46%, transparent);
+  --button-radius: 999px;
+  --button-primary-surface: color-mix(in oklab, var(--primary) 86%, var(--foreground));
+  --button-primary-hover: color-mix(in oklab, var(--primary) 80%, var(--foreground));
+  --button-highlight: color-mix(in oklab, var(--background) 30%, transparent);
+  --button-highlight-soft: color-mix(in oklab, var(--background) 12%, transparent);
+  --button-clear: color-mix(in oklab, var(--background) 0%, transparent);
+  --button-edge: color-mix(in oklab, var(--foreground) 12%, transparent);
+  --button-primary-shadow: inset 0 2px 3px var(--button-highlight), inset 0 -2px 3px var(--button-edge), inset 0 0 0 1px var(--button-highlight-soft), 0 2px 4px var(--button-edge);
+  --button-secondary-shadow: inset 0 1px 2px var(--background), inset 0 -1px 2px var(--button-edge), 0 1px 2px var(--button-edge);
+  --button-gloss: linear-gradient(180deg, var(--button-highlight) 0%, var(--button-highlight-soft) 38%, var(--button-clear) 52%, var(--button-clear) 76%, var(--button-highlight-soft) 100%);
+  --button-secondary-gloss: linear-gradient(180deg, var(--background), var(--muted));
+  --button-danger-surface: var(--foreground);
 }
 @layer base {
   * { border-color: var(--border); }
@@ -66,14 +78,13 @@
 .floating-header .brand-logo { width: 168px; filter: brightness(0) invert(1); }
 .floating-header .nav-links a { color: var(--background); border-radius: 8px; padding-block: 8px; }
 .floating-header .nav-links a:hover { color: var(--background); }
-.floating-header .header-actions > a:first-child { color: var(--background); background: var(--nav-glass-hover); border: 1px solid var(--nav-glass-border); border-radius: 10px; padding-inline: 18px; text-decoration: none; }
-.floating-header .header-actions > a:last-child, .floating-header .mobile-menu > a:last-child { background: var(--background); color: var(--primary); border-radius: 10px; }
+.floating-header .header-actions .edu-button-secondary, .floating-header .mobile-menu .edu-button-secondary { color: var(--foreground); }
 .floating-header :is(a, button):focus-visible { outline-color: var(--background); }
 .floating-header .menu-toggle { color: var(--background); border-radius: 10px; }
 .floating-header .menu-toggle:hover { background: var(--nav-glass-hover); }
 .floating-header .mobile-menu { border-color: var(--nav-glass-border); margin-inline: 18px; padding-bottom: 18px; }
-.floating-header .mobile-menu a { color: var(--background); border-radius: 8px; }
-.floating-header .mobile-menu a:hover { background: var(--nav-glass-hover); }
+.floating-header .mobile-menu a:not(.edu-button) { color: var(--background); border-radius: 8px; }
+.floating-header .mobile-menu a:not(.edu-button):hover { background: var(--nav-glass-hover); }
 @media (max-width: 1100px) and (min-width: 861px) {
   .floating-header .site-header { gap: 18px; padding-inline: 18px; }
   .floating-header .brand-logo { width: 144px; }
@@ -300,7 +311,7 @@
 .auth-divider { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--foreground); }
 .auth-divider::before, .auth-divider::after { content: ""; height: 1px; flex: 1; background: var(--border); }
 .auth-socials { display: flex; flex-direction: column; gap: 10px; }
-.auth-socials button { width: 100%; height: 42px; font-size: 14px; font-weight: 450; gap: 10px; border-radius: 8px; }
+.auth-socials button { width: 100%; min-height: 44px; font-size: 14px; font-weight: 500; gap: 10px; }
 .auth-socials button svg { width: 20px; height: 20px; }
 .google-blue { fill: var(--brand-google-blue); }
 .google-green { fill: var(--brand-google-green); }
@@ -310,7 +321,7 @@
 .auth-switch button { padding: 0; height: auto; font-weight: 450; }
 .auth-recovery { align-self: flex-end; height: auto; padding: 0; font-size: 12px; margin-top: -12px; }
 .auth-form input { border-radius: 8px; height: 42px; }
-.auth-form > button { margin-top: 10px; height: 42px; border-radius: 8px; font-weight: 500; }
+.auth-form > button { margin-top: 10px; min-height: 46px; font-weight: 600; }
 .auth-form, .account-form { display: flex; flex-direction: column; gap: 14px; }
 .auth-form label, .account-form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 550; }
 .auth-form input, .account-form input, .resource-filters select, .search-field { height: 46px; border: 1px solid var(--border); border-radius: 10px; padding: 0 12px; font: inherit; font-weight: 400; background: var(--background); color: var(--foreground); min-width: 0; }
@@ -327,7 +338,7 @@
 .campus-links a { padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 550; text-decoration: none; white-space: nowrap; color: var(--foreground); }
 .campus-links a:hover { background: var(--muted); }
 .campus-links a.is-active { background: var(--muted); box-shadow: inset 0 -2px 0 var(--primary); }
-.campus-signout { display: inline-flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--border); border-radius: 8px; height: 38px; padding: 0 12px; font: inherit; font-size: 14px; cursor: pointer; color: var(--foreground); }
+.campus-signout { gap: 6px; min-height: 38px; padding: 0 12px; }
 .campus-signout svg { width: 16px; }
 .campus-main { width: min(1240px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 64px; display: flex; flex-direction: column; gap: 24px; }
 .campus-narrow { width: min(960px, calc(100% - 32px)); }
@@ -370,9 +381,8 @@
 .video-placeholder svg { width: 40px; height: 40px; color: var(--primary); }
 .capsule-list h2 { font-size: 16px; font-weight: 650; margin: 4px 0 10px; }
 .capsule-list ol { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-direction: column; gap: 6px; }
-.capsule-list button { width: 100%; display: flex; gap: 12px; align-items: flex-start; text-align: left; padding: 10px; border: 1px solid transparent; border-radius: 10px; background: none; font: inherit; font-size: 14px; color: var(--foreground); cursor: pointer; }
-.capsule-list button:hover { background: var(--muted); }
-.capsule-list button[aria-current="true"] { border-color: var(--primary); background: var(--muted); }
+.capsule-list .edu-button { width: 100%; height: auto; min-height: 48px; gap: 12px; align-items: flex-start; justify-content: flex-start; text-align: left; padding: 10px 14px; border-radius: 12px; }
+.capsule-list .edu-button[aria-current="true"] { border-color: var(--primary); }
 .capsule-list small { display: block; color: var(--muted-foreground); font-size: 12px; margin-top: 2px; }
 .capsule-check { flex: 0 0 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); display: grid; place-items: center; font-size: 12px; font-weight: 650; }
 .capsule-check.is-done { background: var(--primary); border-color: var(--primary); color: var(--background); }
@@ -425,6 +435,27 @@
   .bar-row { grid-template-columns: 1fr 36px; } .bar-row .progress { grid-column: 1 / -1; grid-row: 2; }
 }
 .campus-main .filters { justify-content: flex-start; margin: 0; }
+
+/* Shared Stardust-inspired action finishes, including links rendered with asChild. */
+.edu-button { position: relative; isolation: isolate; border: 1px solid transparent; border-radius: var(--button-radius); max-width: 100%; white-space: normal; text-align: center; line-height: 1.35; font-weight: 600; text-decoration: none; background-origin: border-box; transition: background-color 180ms ease, box-shadow 180ms ease, border-color 180ms ease, transform 180ms ease; }
+.edu-button-primary, .edu-button-destructive { color: var(--background); background-color: var(--button-primary-surface); background-image: var(--button-gloss); border-color: var(--button-highlight-soft); box-shadow: var(--button-primary-shadow); }
+.edu-button-primary:hover:not(:disabled):not([aria-disabled="true"]) { background-color: var(--button-primary-hover); }
+.edu-button-inverse { border-color: var(--button-highlight); }
+.edu-button-secondary, .edu-button-ghost { color: var(--foreground); background-color: var(--muted); background-image: var(--button-secondary-gloss); border-color: var(--border); box-shadow: var(--button-secondary-shadow); }
+.edu-button-secondary:hover:not(:disabled):not([aria-disabled="true"]), .edu-button-ghost:hover:not(:disabled):not([aria-disabled="true"]) { border-color: var(--button-edge); background-image: var(--button-gloss); }
+.edu-button-filter { white-space: nowrap; }
+.edu-button-filter[aria-pressed="true"] { color: var(--background); background-color: var(--button-primary-surface); background-image: var(--button-gloss); border-color: var(--button-primary-surface); box-shadow: var(--button-primary-shadow); }
+.edu-button-destructive { background-color: var(--button-danger-surface); }
+.edu-button:not(.edu-button-link):active:not(:disabled):not([aria-disabled="true"]) { transform: translateY(1px); box-shadow: inset 0 2px 4px var(--button-edge); }
+.edu-button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.edu-button:disabled, .edu-button[aria-disabled="true"] { cursor: not-allowed; opacity: 0.5; }
+.edu-button-link { background: none; border-color: transparent; box-shadow: none; border-radius: 4px; font-weight: 500; }
+.edu-button-icon { white-space: nowrap; }
+.carousel-dot.edu-button { background: none; border-color: transparent; box-shadow: none; }
+.floating-header .edu-button-primary { color: var(--background); }
+.floating-header .menu-toggle.edu-button { color: var(--background); background-color: var(--nav-glass-hover); background-image: var(--button-gloss); border-color: var(--nav-glass-border); border-radius: var(--button-radius); }
+.campus-module-foot { flex-wrap: wrap; }
+@media (prefers-reduced-motion: reduce) { .edu-button { transition: none; } .edu-button:active { transform: none !important; } }
 
 /* Preguntas frecuentes */
 .faq-section { margin-top: 72px; }

@@ -62,7 +62,7 @@ function CampusHome() {
                 <div className="module-meta"><span className="module-number">{String(m.number).padStart(2, "0")}</span><span className="module-tag">{m.category}</span>{pct === 100 && <span className="module-tag">Completado</span>}</div>
                 <h3>{m.title}</h3>
                 <div className="progress" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label={`Progreso de ${m.title}`}><span style={{ width: `${pct}%` }} /></div>
-                <div className="campus-module-foot"><span>{pct}% completado</span><Button asChild variant="link"><Link to="/campus/$moduleId" params={{ moduleId: m.id }}>{pct === 100 ? "Repasar" : "Continuar"} <ArrowRight /></Link></Button></div>
+                <div className="campus-module-foot"><span>{pct}% completado</span><Button asChild variant={pct === 100 ? "secondary" : "default"}><Link to="/campus/$moduleId" params={{ moduleId: m.id }}>{pct === 100 ? "Repasar" : "Continuar"} <ArrowRight /></Link></Button></div>
               </article>;
             })}
           </div>

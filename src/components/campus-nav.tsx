@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo_educommerce.png.asset.json";
 
@@ -24,7 +25,7 @@ export function CampusNav({ isAdmin }: { isAdmin: boolean }) {
           <Link to="/cuenta" activeProps={active}>Mi cuenta</Link>
           {isAdmin && <Link to="/admin" activeProps={active}>Administración</Link>}
         </nav>
-        <button type="button" className="campus-signout" onClick={signOut}><LogOut aria-hidden="true" /> Salir</button>
+        <Button type="button" variant="secondary" className="campus-signout" onClick={signOut}><LogOut aria-hidden="true" /> Salir</Button>
       </div>
     </header>
   );
