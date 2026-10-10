@@ -64,14 +64,18 @@ function AuthPage() {
     } finally { setBusy(false); }
   }
 
-  async function google() {
+  async function social(provider: "google" | "apple") {
     setError("");
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/auth" });
-    if (result.error) return setError("No pudimos ingresar con Google.");
+    const result = await lovable.auth.signInWithOAuth(provider, { redirect_uri: window.location.origin + "/auth" });
+    if (result.error) return setError(`No pudimos ingresar con ${provider === "google" ? "Google" : "Apple"}.`);
     if (!result.redirected) navigate({ to: safePath(redirect) });
   }
 
-  const titles: Record<Mode, string> = { ingresar: "Ingresa a tu campus", crear: "Crea tu cuenta", recuperar: "Recupera tu contraseña" };
+  function changeMode(next: Mode) {
+    setMode(next); setError(""); setNotice("");
+  }
+
+  const titles: Record<Mode, string> = { ingresar: "Iniciar sesión", crear: "Crear cuenta", recuperar: "Recupera tu contraseña" };
   const subtitles: Record<Mode, string> = {
     ingresar: "Ingresa tus credenciales para acceder a tus módulos.",
     crear: "Crea tu cuenta y empieza a aprender hoy.",
@@ -92,28 +96,39 @@ function AuthPage() {
         </ul>
       </div>
       <div className="auth-card">
-        <Link to="/" aria-label="Educommerce, inicio"><img className="campus-logo" src={logo.url} alt="Educommerce" /></Link>
         <h1>{titles[mode]}</h1>
-        <p className="auth-subtitle">{subtitles[mode]}</p>
-        {mode !== "recuperar" && <>
-          <div className="auth-tabs" role="group" aria-label="Elegir acción">
-            <Button variant="filter" aria-pressed={mode === "ingresar"} onClick={() => setMode("ingresar")}>Ingresar</Button>
-            <Button variant="filter" aria-pressed={mode === "crear"} onClick={() => setMode("crear")}>Crear cuenta</Button>
-          </div>
-          <Button variant="outline" size="lg" className="auth-google" onClick={google}>Continuar con Google</Button>
-          <p className="auth-divider">o con tu correo</p>
-        </>}
+        {mode === "recuperar" && <p className="auth-subtitle">{subtitles[mode]}</p>}
         <form className="auth-form" onSubmit={submit} noValidate>
           {mode === "crear" && <label>Nombre<input name="nombre" autoComplete="given-name" maxLength={100} required /></label>}
-          <label>Correo electrónico<input name="correo" type="email" autoComplete="email" maxLength={255} required /></label>
+          <label>Correo electrónico<input name="correo" type="email" autoComplete="email" placeholder="tu@correo.com" maxLength={255} required /></label>
           {mode !== "recuperar" && <label>Contraseña<input name="clave" type="password" autoComplete={mode === "crear" ? "new-password" : "current-password"} minLength={8} required /></label>}
           {error && <p className="form-error" role="alert">{error}</p>}
           {notice && <p className="form-notice" role="status">{notice}</p>}
-          <Button type="submit" size="lg" disabled={busy}>{busy ? "Enviando…" : mode === "ingresar" ? "Ingresar" : mode === "crear" ? "Crear cuenta" : "Enviar enlace"}</Button>
+          <Button type="submit" size="lg" disabled={busy}>{busy ? "Enviando…" : mode === "ingresar" ? "Continuar" : mode === "crear" ? "Crear cuenta" : "Enviar enlace"}</Button>
         </form>
-        {mode === "ingresar" && <button type="button" className="text-button" onClick={() => setMode("recuperar")}>¿Olvidaste tu contraseña?</button>}
-        {mode === "recuperar" && <button type="button" className="text-button" onClick={() => setMode("ingresar")}>Volver a ingresar</button>}
-        <p className="auth-legal">Al continuar aceptas nuestros términos y la política de protección de datos.</p>
+        {mode === "ingresar" && <Button variant="link" className="auth-recovery" onClick={() => changeMode("recuperar")}>¿Olvidaste tu contraseña?</Button>}
+        {mode !== "recuperar" && <>
+          <div className="auth-divider"><span>o</span></div>
+          <div className="auth-socials">
+            <Button variant="outline" size="lg" onClick={() => social("google")} disabled={busy}>
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="google-mark">
+                <path className="google-blue" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.52h3.24c1.9-1.75 2.98-4.33 2.98-7.37Z" />
+                <path className="google-green" d="M12 22c2.7 0 4.96-.9 6.62-2.4l-3.24-2.52c-.9.6-2.05.96-3.38.96-2.6 0-4.81-1.76-5.6-4.13H3.05v2.59A10 10 0 0 0 12 22Z" />
+                <path className="google-yellow" d="M6.4 13.91a6 6 0 0 1 0-3.82V7.5H3.05a10 10 0 0 0 0 9l3.35-2.59Z" />
+                <path className="google-red" d="M12 5.96c1.47 0 2.79.5 3.83 1.5L18.7 4.6A9.64 9.64 0 0 0 12 2a10 10 0 0 0-8.95 5.5l3.35 2.59C7.19 7.72 9.4 5.96 12 5.96Z" />
+              </svg>
+              <span>Continuar con Google</span>
+            </Button>
+            <Button variant="outline" size="lg" onClick={() => social("apple")} disabled={busy}>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.05 12.54c.03 3.1 2.72 4.13 2.75 4.14-.02.07-.43 1.48-1.42 2.94-.86 1.26-1.75 2.52-3.15 2.54-1.37.03-1.82-.82-3.39-.82-1.57 0-2.07.79-3.37.85-1.35.05-2.38-1.36-3.24-2.61-1.77-2.56-3.12-7.25-1.3-10.41A5.04 5.04 0 0 1 8.2 6.59c1.34-.03 2.61.91 3.44.91.82 0 2.36-1.13 3.98-.96.68.03 2.59.27 3.82 2.08-.1.06-2.39 1.4-2.39 3.92ZM14.47 4.83c.72-.87 1.21-2.08 1.08-3.28-1.04.04-2.3.69-3.05 1.56-.67.77-1.26 2-1.1 3.17 1.16.09 2.35-.59 3.07-1.45Z" />
+              </svg>
+              <span>Continuar con Apple</span>
+            </Button>
+          </div>
+          <p className="auth-switch">{mode === "ingresar" ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?"} <Button variant="link" onClick={() => changeMode(mode === "ingresar" ? "crear" : "ingresar")}>{mode === "ingresar" ? "Crear cuenta" : "Iniciar sesión"}</Button></p>
+        </>}
+        {mode === "recuperar" && <Button variant="link" onClick={() => changeMode("ingresar")}>Volver a ingresar</Button>}
       </div>
     </main>
   );
