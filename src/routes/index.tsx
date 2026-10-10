@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, BookOpen, GraduationCap, Image as ImageIcon, Menu, X, Clapperboard } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, BookOpen, GraduationCap, Image as ImageIcon, Menu, X, Clapperboard, Hammer, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { categories, filterModules, destinations, externalUrl, type Category } from "@/lib/educommerce";
 import logo from "@/assets/logo_educommerce.png.asset.json";
@@ -97,6 +97,13 @@ function Index() {
         </div>
       </section>
       <section className="tools-band" aria-label="Herramientas de aprendizaje"><p className="tools-intro">Aprende a trabajar con herramientas como:</p><div className="tools-marquee"><div className="tools-track">{toolLogos.map((tool, index) => <img key={index} src={tool.src} alt={tool.alt} />)}{toolLogos.map((tool, index) => <img key={`dup-${index}`} src={tool.src} alt="" aria-hidden="true" />)}</div></div></section>
+      <section className="value-props" aria-label="Aprende, ejecuta y monetiza">
+        <div className="value-grid">
+          <div className="value-card"><span className="value-icon"><BookOpen aria-hidden="true" /></span><h3>Aprende</h3><p>Clases cortas y prácticas para dominar las herramientas que hoy se usan para vender online.</p></div>
+          <div className="value-card"><span className="value-icon"><Hammer aria-hidden="true" /></span><h3>Ejecuta</h3><p>Cada cápsula termina con algo hecho: una pieza, una campaña, una página.</p></div>
+          <div className="value-card"><span className="value-icon"><TrendingUp aria-hidden="true" /></span><h3>Monetiza</h3><p>Aplícalo en tu negocio o véndelo como servicio.</p></div>
+        </div>
+      </section>
       <section id="cursos" className="catalog" aria-labelledby="catalog-title">
         <div className="catalog-head"><div><h2 id="catalog-title" className="section-heading">¿Qué quieres aprender hoy?</h2><p className="section-subtitle">Elige una habilidad y comienza a construir.</p></div><div className="carousel-arrows"><Button variant="outline" size="icon" aria-label="Módulo anterior" aria-controls="module-track" disabled={edges.start} onClick={() => scrollByCards(-1)}><ChevronLeft /></Button><Button variant="outline" size="icon" aria-label="Módulo siguiente" aria-controls="module-track" disabled={edges.end} onClick={() => scrollByCards(1)}><ChevronRight /></Button></div></div>
         <div className="filters" role="group" aria-label="Filtrar módulos por categoría">{categories.map(value => <Button key={value} variant="filter" aria-pressed={category === value} onClick={() => selectCategory(value)}>{value}</Button>)}</div>
