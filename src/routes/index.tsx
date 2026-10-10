@@ -22,13 +22,14 @@ import teacher from "@/assets/teacher-restored.jpg";
 import founders from "@/assets/founders.jpg.asset.json";
 import individual from "@/assets/individual.png.asset.json";
 import academy from "@/assets/academy.png.asset.json";
-import shopify from "@/assets/shopify-logo.png.asset.json";
-import meta from "@/assets/meta-logo.png.asset.json";
-import klaviyo from "@/assets/klaviyo-logo.png.asset.json";
-import canva from "@/assets/canva-logo.png.asset.json";
-import capcut from "@/assets/capcut-logo.png.asset.json";
-import googleads from "@/assets/googleads-logo.png.asset.json";
-import lovableLogo from "@/assets/lovable-logo.png.asset.json";
+import shopify from "@/assets/shopify-wordmark.png.asset.json";
+import meta from "@/assets/meta-wordmark.png.asset.json";
+import klaviyo from "@/assets/klaviyo-wordmark.png.asset.json";
+import canva from "@/assets/canva-wordmark.png.asset.json";
+import capcut from "@/assets/capcut-wordmark.png.asset.json";
+import googleads from "@/assets/googleads-wordmark.png.asset.json";
+import lovableLogo from "@/assets/lovable-wordmark.png.asset.json";
+import manychat from "@/assets/manychat-wordmark.png.asset.json";
 
 const toolLogos = [
   { src: shopify.url, alt: "Shopify" },
@@ -38,8 +39,7 @@ const toolLogos = [
   { src: capcut.url, alt: "CapCut" },
   { src: googleads.url, alt: "Google Ads" },
   { src: lovableLogo.url, alt: "Lovable" },
-  { src: "/tools/chatgpt.svg", alt: "ChatGPT" },
-  { src: "/tools/manychat.png", alt: "ManyChat" },
+  { src: manychat.url, alt: "ManyChat" },
 ];
 
 export const Route = createFileRoute("/")({
