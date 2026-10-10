@@ -36,10 +36,12 @@ function ModulePage() {
   if (!mod) return <><CampusNav isAdmin={data.isAdmin} /><main className="campus-main"><div className="campus-panel campus-empty"><p>Este módulo no existe.</p><Button asChild variant="outline"><Link to="/campus">Volver a mi campus</Link></Button></div></main></>;
   const hasAccess = data.owned.includes(mod.id);
   const pct = moduleProgress(mod.id, done);
-  const cap = capsules.find(c => c.n === current) ?? capsules[0]!;
+  const cap = capsules.find(c => c.n === current) ?? capsules[0];
+  if (!cap) return <><CampusNav isAdmin={data.isAdmin} /><main className="campus-main"><p>Contenido en preparación.</p></main></>;
   const isDone = done.includes(cap.n);
 
   async function toggle() {
+    if (!cap) return;
     setSaving(true); setError("");
     const res = isDone
       ? await supabase.from("progreso").delete().eq("user_id", data.user.id).eq("module_id", moduleId).eq("capsula", cap.n)
@@ -72,10 +74,10 @@ function ModulePage() {
           </section>
           <aside className="campus-panel capsule-list" aria-label="Cápsulas del módulo">
             <h2>Cápsulas</h2>
-            <ol>{capsules.map(c => <li key={c.n}><button type="button" aria-current={c.n === current ? "true" : undefined} onClick={() => setCurrent(c.n)}>
+            <ol>{capsules.map(c => <li key={c.n}><Button variant="secondary" type="button" aria-current={c.n === current ? "true" : undefined} onClick={() => setCurrent(c.n)}>
               <span className={done.includes(c.n) ? "capsule-check is-done" : "capsule-check"}>{done.includes(c.n) ? <Check aria-label="Completada" /> : c.n}</span>
               <span>{c.title}{c.minutes ? <small>{c.minutes} min</small> : null}</span>
-            </button></li>)}</ol>
+            </Button></li>)}</ol>
             <h2>Recursos</h2>
             {resources.filter(r => r.moduleId === mod.id).map(r => <p key={r.title} className="resource-mini"><FileText aria-hidden="true" /> {r.title} <small>{r.format} · Archivo pendiente</small></p>)}
             {!resources.some(r => r.moduleId === mod.id) && <p className="muted-text">Aún no hay recursos para este módulo.</p>}

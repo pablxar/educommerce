@@ -65,7 +65,7 @@ export function SiteHeader() {
             {nav}
           </nav>
           <div className="header-actions">
-            <Button asChild variant="link">
+            <Button asChild variant="secondary">
               {user ? <Link to="/campus">Mi campus</Link> : <Link to="/auth">Ingresar</Link>}
             </Button>
             <Button asChild>
@@ -91,7 +91,7 @@ export function SiteHeader() {
           <div ref={menuRef} id="mobile-navigation">
             <nav className="mobile-menu" aria-label="Navegación móvil">
               {nav}
-              <Button asChild variant="link">
+              <Button asChild variant="secondary">
                 {user ? <Link to="/campus" onClick={() => setMenuOpen(false)}>Mi campus</Link> : <Link to="/auth" onClick={() => setMenuOpen(false)}>Ingresar</Link>}
               </Button>
               <Button asChild>

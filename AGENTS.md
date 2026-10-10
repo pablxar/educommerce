@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 - Keep homepage catalog data and category filtering in a browser-safe module; the page must function without a backend.
+- All current and future action controls use the shared Button/buttonVariants in src/components/ui/button.tsx; the Stardust-inspired finishes and interaction states live in semantic CSS tokens so every view inherits one consistent system.
 - Keep the access-panel WebGL animation in a reusable effect-initialized UI component with CSS palette tokens, reduced-motion support and a static fallback, so SSR and unsupported devices retain a usable sign-in page.
 - Configure external login, academy, contact and course destinations through VITE_* environment variables; missing destinations show accessible pending-resource states rather than invented links.
 - Use extracted photographs from supplied references only for the study composition; course thumbnails remain explicitly labeled replaceable placeholders.
