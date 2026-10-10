@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { destinations } from "@/lib/educommerce";
 import { useSessionUser } from "@/hooks/use-session-user";
 import logo from "@/assets/logo_educommerce.png.asset.json";
+import Velaris from "@/components/ui/velaris";
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -54,7 +55,8 @@ export function SiteHeader() {
         <span className="desktop-only">Habilidades digitales para aplicar desde el primer día</span>
         <span className="mobile-only">Aprende a tu ritmo</span>
       </div>
-      <header className="shell">
+      <header className="shell floating-header">
+        <div className="header-glass-surface" aria-hidden="true"><Velaris /></div>
         <div className="site-header">
           <Link to="/" aria-label="Educommerce, inicio">
             <img className="brand-logo" src={logo.url} alt="Educommerce" />

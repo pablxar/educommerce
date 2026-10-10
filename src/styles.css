@@ -40,6 +40,10 @@
   --auth-motion-brand: #1ea180;
   --auth-motion-shade: #0b0d0c;
   --auth-motion-light: #ffffff;
+  --nav-glass: color-mix(in oklab, var(--foreground) 18%, transparent);
+  --nav-glass-border: color-mix(in oklab, var(--background) 26%, transparent);
+  --nav-glass-hover: color-mix(in oklab, var(--background) 12%, transparent);
+  --nav-glass-shadow: 0 8px 24px color-mix(in oklab, var(--foreground) 8%, transparent);
 }
 @layer base {
   * { border-color: var(--border); }
@@ -53,7 +57,33 @@
 }
 .shell { width: min(1140px, calc(100% - 80px)); margin-inline: auto; }
 .top-strip { background: var(--primary); color: var(--background); text-align: center; padding: 9px 20px; font-size: 12px; font-weight: 550; }
-.site-header { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 48px; align-items: center; min-height: 88px; }
+.floating-header { position: sticky; top: 14px; z-index: 40; margin-top: 18px; margin-bottom: 16px; border: 1px solid var(--nav-glass-border); border-radius: 24px; color: var(--background); background: var(--primary); box-shadow: var(--nav-glass-shadow); isolation: isolate; }
+.header-glass-surface { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; z-index: -1; background: var(--primary); }
+.header-glass-surface .velaris-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; filter: blur(12px); transform: scale(1.08); }
+.header-glass-surface::after { content: ""; position: absolute; inset: 0; background: var(--nav-glass); backdrop-filter: blur(18px) saturate(120%); }
+.site-header { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 32px; align-items: center; min-height: 82px; padding: 12px 24px; }
+.floating-header .brand-logo { width: 190px; filter: brightness(0) invert(1); }
+.floating-header .nav-links a { color: var(--background); border-radius: 8px; padding-block: 10px; }
+.floating-header .nav-links a:hover { color: var(--background); }
+.floating-header .header-actions > a:first-child { color: var(--background); background: var(--nav-glass-hover); border: 1px solid var(--nav-glass-border); border-radius: 10px; padding-inline: 18px; text-decoration: none; }
+.floating-header .header-actions > a:last-child, .floating-header .mobile-menu > a:last-child { background: var(--background); color: var(--primary); border-radius: 10px; }
+.floating-header :is(a, button):focus-visible { outline-color: var(--background); }
+.floating-header .menu-toggle { color: var(--background); border-radius: 10px; }
+.floating-header .menu-toggle:hover { background: var(--nav-glass-hover); }
+.floating-header .mobile-menu { border-color: var(--nav-glass-border); margin-inline: 18px; padding-bottom: 18px; }
+.floating-header .mobile-menu a { color: var(--background); border-radius: 8px; }
+.floating-header .mobile-menu a:hover { background: var(--nav-glass-hover); }
+@media (max-width: 1100px) and (min-width: 861px) {
+  .floating-header .site-header { gap: 18px; padding-inline: 18px; }
+  .floating-header .brand-logo { width: 156px; }
+  .floating-header .nav-links { gap: 16px; }
+  .floating-header .header-actions { gap: 10px; }
+}
+@media (max-width: 860px) {
+  .floating-header.shell { width: calc(100% - 24px); top: 10px; margin-top: 12px; margin-bottom: 12px; border-radius: 20px; }
+  .floating-header .site-header { min-height: 68px; padding: 10px 18px; }
+  .floating-header .brand-logo { width: 164px; }
+}
 .brand-logo { display: block; width: 222px; height: auto; }
 .nav-links { display: flex; gap: 30px; align-items: center; }
 .nav-links a, .footer-links a { font-size: 13px; font-weight: 500; text-decoration: none; }
