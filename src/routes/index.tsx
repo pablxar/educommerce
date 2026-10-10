@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight, BookOpen, GraduationCap, Image as ImageIcon, Menu, X, Clapperboard, Hammer, TrendingUp } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, BookOpen, GraduationCap, Image as ImageIcon, Clapperboard, Hammer, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { categories, filterModules, destinations, externalUrl, type Category } from "@/lib/educommerce";
-import logo from "@/assets/logo_educommerce.png.asset.json";
+import { categories, filterModules, destinations, type Category } from "@/lib/educommerce";
+import { Destination } from "@/components/destination";
+import { ProgramSection } from "@/components/program-section";
+import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import student from "@/assets/student.png.asset.json";
 import teacher from "@/assets/teacher-restored.jpg";
 import founders from "@/assets/founders.jpg.asset.json";
@@ -39,48 +41,20 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function Destination({ url, children, variant = "default", className = "", label, onSelect }: { url?: string | undefined; children: React.ReactNode; variant?: "default" | "outline" | "link"; className?: string; label: string; onSelect?: () => void }) {
-  const [pending, setPending] = useState(false);
-  return <><Button asChild={!!url} variant={variant} className={className} onClick={() => { if (!url) setPending(!pending); onSelect?.(); }} aria-label={url ? undefined : `${label}: enlace pendiente de configurar`}>
-    {url ? <a href={url}>{children}</a> : children}
-  </Button>{pending && <p className="pending-notice" role="status">Enlace pendiente de configurar.</p>}</>;
-}
-
 function Index() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [category, setCategory] = useState<Category>("Todos");
   const [activeSlide, setActiveSlide] = useState(0);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const menuButton = useRef<HTMLButtonElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const visibleCourses = filterModules(category);
   const [edges, setEdges] = useState({ start: true, end: false });
-  useEffect(() => {
-    if (!menuOpen) return;
-    menuRef.current?.querySelector<HTMLAnchorElement>("a")?.focus();
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") { setMenuOpen(false); menuButton.current?.focus(); } };
-    const closeOutside = (event: PointerEvent) => { if (event.target instanceof Node && !menuRef.current?.contains(event.target) && !menuButton.current?.contains(event.target)) setMenuOpen(false); };
-    document.addEventListener("keydown", closeOnEscape); document.addEventListener("pointerdown", closeOutside);
-    return () => { document.removeEventListener("keydown", closeOnEscape); document.removeEventListener("pointerdown", closeOutside); };
-  }, [menuOpen]);
   function selectCategory(value: Category) { setCategory(value); setActiveSlide(0); trackRef.current?.scrollTo({ left: 0, behavior: "instant" }); }
   function goToSlide(index: number) { const track = trackRef.current; const card = track?.children.item(index); if (track && card instanceof HTMLElement) { const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; track.scrollTo({ left: card.offsetLeft - (track.children.item(0) as HTMLElement).offsetLeft, behavior: reduced ? "instant" : "smooth" }); setActiveSlide(index); } }
   function slideStep() { const track = trackRef.current; const a = track?.children.item(0), b = track?.children.item(1); if (!(a instanceof HTMLElement)) return 1; return b instanceof HTMLElement ? b.offsetLeft - a.offsetLeft : a.offsetWidth; }
   function updateSlide() { const track = trackRef.current; if (!track) return; setActiveSlide(Math.min(visibleCourses.length - 1, Math.round(track.scrollLeft / slideStep()))); setEdges({ start: track.scrollLeft <= 2, end: track.scrollLeft + track.clientWidth >= track.scrollWidth - 2 }); }
   function scrollByCards(direction: number) { const track = trackRef.current; if (!track) return; const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; track.scrollBy({ left: direction * slideStep(), behavior: reduced ? "instant" : "smooth" }); }
   useEffect(() => { updateSlide(); }, [category]);
-  const nav = <><Link to="/" hash="cursos" onClick={() => setMenuOpen(false)}>Cursos</Link><Link to="/" hash="academia" onClick={() => setMenuOpen(false)}>Academia</Link><Link to="/" hash="como-funciona" onClick={() => setMenuOpen(false)}>Cómo funciona</Link></>;
   return <>
-    <div className="top-strip"><span className="desktop-only">Habilidades digitales para aplicar desde el primer día</span><span className="mobile-only">Aprende a tu ritmo</span></div>
-    <header className="shell">
-      <div className="site-header">
-        <Link to="/" aria-label="Educommerce, inicio"><img className="brand-logo" src={logo.url} alt="Educommerce" /></Link>
-        <nav className="nav-links" aria-label="Navegación principal">{nav}</nav>
-        <div className="header-actions"><Destination url={destinations.login} variant="link" label="Ingresar">Ingresar</Destination><Button asChild><Link to="/" hash="cursos">Explorar cursos</Link></Button></div>
-        <Button ref={menuButton} variant="ghost" size="icon" className="menu-toggle" aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
-      </div>
-      {menuOpen && <div ref={menuRef} id="mobile-navigation"><nav className="mobile-menu" aria-label="Navegación móvil">{nav}<Destination url={destinations.login} variant="link" label="Ingresar" onSelect={() => setMenuOpen(false)}>Ingresar</Destination><Button asChild><Link to="/" hash="cursos" onClick={() => setMenuOpen(false)}>Explorar cursos</Link></Button></nav></div>}
-    </header>
+    <SiteHeader />
     <main className="shell">
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
@@ -107,7 +81,7 @@ function Index() {
       <section id="cursos" className="catalog" aria-labelledby="catalog-title">
         <div className="catalog-head"><div><h2 id="catalog-title" className="section-heading">¿Qué quieres aprender hoy?</h2><p className="section-subtitle">Elige una habilidad y comienza a construir.</p></div><div className="carousel-arrows"><Button variant="outline" size="icon" aria-label="Módulo anterior" aria-controls="module-track" disabled={edges.start} onClick={() => scrollByCards(-1)}><ChevronLeft /></Button><Button variant="outline" size="icon" aria-label="Módulo siguiente" aria-controls="module-track" disabled={edges.end} onClick={() => scrollByCards(1)}><ChevronRight /></Button></div></div>
         <div className="filters" role="group" aria-label="Filtrar módulos por categoría">{categories.map(value => <Button key={value} variant="filter" aria-pressed={category === value} onClick={() => selectCategory(value)}>{value}</Button>)}</div>
-        <div className="course-track" id="module-track" ref={trackRef} onScroll={updateSlide} role="region" aria-roledescription="carrusel" aria-label="Módulos del programa" tabIndex={0}>{visibleCourses.map(m => <article className="course-card" key={m.id} aria-label={`Módulo ${m.number}: ${m.title}`}><div className="course-placeholder" aria-label={`Miniatura pendiente: ${m.title}`}><ImageIcon aria-hidden="true" /><span>Miniatura · Módulo {m.number}</span></div><div className="course-body"><div className="module-meta"><span className="module-number">{String(m.number).padStart(2, "0")}</span><span className="module-tag">{m.category}</span></div><h3>{m.title}</h3><p className="course-description">{m.description}</p><Destination url={externalUrl(m.url)} variant="link" className="course-link" label={`Ver módulo ${m.title}`}>Ver módulo <ArrowRight /></Destination></div></article>)}</div>
+        <div className="course-track" id="module-track" ref={trackRef} onScroll={updateSlide} role="region" aria-roledescription="carrusel" aria-label="Módulos del programa" tabIndex={0}>{visibleCourses.map(m => <article className="course-card" key={m.id} aria-label={`Módulo ${m.number}: ${m.title}`}><div className="course-placeholder" aria-label={`Miniatura pendiente: ${m.title}`}><ImageIcon aria-hidden="true" /><span>Miniatura · Módulo {m.number}</span></div><div className="course-body"><div className="module-meta"><span className="module-number">{String(m.number).padStart(2, "0")}</span><span className="module-tag">{m.category}</span></div><h3>{m.title}</h3><p className="course-description">{m.description}</p><Button variant="link" asChild className="course-link"><Link to="/modulos" aria-label={`Ver módulo ${m.title}`}>Ver módulo <ArrowRight /></Link></Button></div></article>)}</div>
         <div className="carousel-dots" aria-label="Elegir tarjeta del carrusel">{visibleCourses.map((course,index) => <Button key={course.id} variant="ghost" size="icon" className="carousel-dot" aria-label={`Mostrar ${course.title}`} aria-current={activeSlide === index} onClick={() => goToSlide(index)}><span /></Button>)}</div>
       </section>
       <section className="next-step" aria-labelledby="next-title"><h2 id="next-title" className="section-heading">Tu próximo paso empieza aquí</h2><div className="path-grid">
@@ -132,25 +106,9 @@ function Index() {
           </div>
         </div>
       </section>
-      <section className="program-section" aria-labelledby="program-title">
-        <div className="program-card">
-          <p className="eyebrow">PROGRAMA COMPLETO</p>
-          <h2 id="program-title">Todos los módulos de Educommerce</h2>
-          <ul className="program-list">
-            <li><Check aria-hidden="true" /> Acceso a los 10 módulos</li>
-            <li><Check aria-hidden="true" /> Actualizaciones incluidas</li>
-            <li><Check aria-hidden="true" /> Recursos descargables en cada cápsula</li>
-            <li><Check aria-hidden="true" /> Garantía de 7 días</li>
-          </ul>
-          <p className="program-price-label">Pago único</p>
-          <p className="program-price">$297 USD</p>
-          <Destination url={destinations.program} size="lg" className="program-cta" label="Quiero el programa completo">Quiero el programa completo <ArrowRight /></Destination>
-          <p className="program-guarantee">Garantía de 20 días o te devolvemos tu dinero.</p>
-        </div>
-        <p className="program-alternative">¿Solo necesitas una habilidad? <Link to="/" hash="cursos">Cada módulo se puede comprar por separado.</Link></p>
-      </section>
+      <ProgramSection />
       <section className="final-panel"><div><h2>El siguiente paso lo das tú.</h2><p>Empieza a desarrollar tus habilidades digitales hoy.</p></div><Button variant="inverse" size="lg" asChild><Link to="/" hash="cursos">Explorar cursos <ArrowRight /></Link></Button></section>
     </main>
-    <footer id="contacto" className="site-footer shell"><div className="footer-brand"><Link to="/" aria-label="Educommerce, inicio"><img src={logo.url} alt="Educommerce" /></Link><p>Habilidades para el mundo digital.</p></div><nav className="footer-links" aria-label="Navegación del pie de página"><Link to="/" hash="cursos">Cursos</Link><Link to="/" hash="academia">Academia</Link><Link to="/" hash="contacto">Contacto</Link></nav>{destinations.contact && <a href={destinations.contact} aria-label="Contactar a Educommerce">Contacto</a>}</footer>
+    <SiteFooter />
   </>;
 }
