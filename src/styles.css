@@ -152,13 +152,23 @@
 .program-guarantee { font-size: 12px; color: var(--muted-foreground); margin-top: 10px; }
 .program-alternative { text-align: center; margin-top: 21px; font-size: 14px; }
 .program-alternative a { color: var(--primary); font-weight: 650; }
-.modules-hero { padding-top: 42px; }
+.modules-hero { padding-top: 42px; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 48px; align-items: center; }
 .modules-hero h1 { font-size: 44px; line-height: 1.1; font-weight: 750; margin-top: 16px; }
 .modules-hero .section-subtitle { font-size: 15px; line-height: 1.6; margin-top: 12px; max-width: 480px; text-align: left; }
+.modules-hero-bullets { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 26px; }
+.modules-hero-bullets li { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 550; }
+.modules-hero-bullets svg { width: 18px; height: 18px; color: var(--primary); flex: 0 0 auto; }
+.modules-hero-tiles { display: grid; grid-template-columns: repeat(2, 108px); gap: 18px; }
+.hero-tile { aspect-ratio: 1; border-radius: 20px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; background: var(--background); }
+.hero-tile[data-tone="gray"] { background: color-mix(in oklab, var(--muted) 55%, var(--background)); }
+.hero-tile:nth-child(odd) { transform: translateY(18px); }
+.hero-tile svg { width: 34px; height: 34px; color: var(--primary); stroke-width: 1.8; }
 .modules-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 17px; margin-top: 0; }
 .modules-grid .course-card { display: flex; flex-direction: column; }
 .modules-grid .course-body { flex: 1; display: flex; flex-direction: column; }
-.modules-grid .course-link { margin-top: auto; align-self: flex-start; }
+.modules-grid .course-cta { margin-top: auto; width: 100%; justify-content: center; }
+.module-price-big { font-size: 22px; font-weight: 800; }
+.module-price-big .price-currency { font-size: 13px; font-weight: 600; }
 .teacher-section { padding-top: 0; }
 .teacher-card { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 25px; align-items: stretch; margin-top: 27px; background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 25px; }
 .teacher-photo-frame { aspect-ratio: 1 / 1; width: 100%; border-radius: 12px; overflow: hidden; }
