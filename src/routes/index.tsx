@@ -120,7 +120,13 @@ function Index() {
             </div>
             <h1 id="hero-title">
               <span>Aprende</span>
-              <span className="green-text">habilidades digitales.</span>
+              <span className="green-text hero-underline">
+                habilidades digitales.
+                <svg className="underline-swoosh" viewBox="0 0 200 26" preserveAspectRatio="none" aria-hidden="true">
+                  <path className="swoosh-main" d="M3 15 C 55 22, 125 22, 172 13 C 183 10.5, 192 8, 197 5" pathLength="1" fill="none" strokeLinecap="round" />
+                  <path className="swoosh-soft" d="M14 20 C 70 25, 138 23, 186 13" pathLength="1" fill="none" strokeLinecap="round" />
+                </svg>
+              </span>
               <span>Impulsa tus</span>
               <span>proyectos.</span>
             </h1>
