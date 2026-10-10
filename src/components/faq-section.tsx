@@ -105,6 +105,7 @@ const faqGroups: FaqGroup[] = [
 ];
 
 export function FaqSection() {
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   return (
     <section id="preguntas-frecuentes" className="faq-section" aria-labelledby="faq-title">
       <h2 id="faq-title" className="section-heading">
@@ -113,7 +114,15 @@ export function FaqSection() {
       <p className="section-subtitle">Resolvemos las dudas más comunes antes de empezar.</p>
       <div className="faq-groups">
         {faqGroups.map((group) => (
-          <details className="faq-group" key={group.title}>
+          <details
+            className="faq-group"
+            key={group.title}
+            open={openGroup === group.title}
+            onToggle={(event) => {
+              const isOpen = (event.currentTarget as HTMLDetailsElement).open;
+              setOpenGroup(isOpen ? group.title : (current) => (current === group.title ? null : current));
+            }}
+          >
             <summary>
               <span>{group.title}</span>
               <ChevronDown className="faq-chevron" aria-hidden="true" />
