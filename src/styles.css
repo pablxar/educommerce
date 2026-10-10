@@ -121,6 +121,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .underline-swoosh path { animation: none; stroke-dashoffset: 0; }
+  .underline-swoosh { animation: none; }
 }
 .hero-description { margin-top: 23px; max-width: 410px; font-size: 16px; line-height: 1.55; }
 .hero-actions { display: flex; gap: 13px; margin-top: 24px; }
