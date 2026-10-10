@@ -221,6 +221,7 @@
 .catalog-head .section-subtitle { text-align: left; }
 .course-track > .course-card .course-body { flex: 1; display: flex; flex-direction: column; }
 .course-track > .course-card .course-link { margin-top: auto; align-self: flex-start; }
+.course-track .course-cta { margin-left: 0; align-self: stretch; width: 100%; margin-top: 12px; font-size: 14px; }
 
 /* Precios en tarjetas */
 .module-price { margin-top: 10px; font-size: 15px; font-weight: 700; }
