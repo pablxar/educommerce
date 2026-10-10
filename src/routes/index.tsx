@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { categories, filterModules, destinations, type Category } from "@/lib/educommerce";
 import { Destination } from "@/components/destination";
 import { ProgramSection } from "@/components/program-section";
+import { WaitlistSection } from "@/components/waitlist-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import student from "@/assets/student.png.asset.json";
 import teacher from "@/assets/teacher-restored.jpg";
@@ -385,6 +386,7 @@ function Index() {
           </div>
         </section>
         <ProgramSection />
+        <WaitlistSection />
         <section className="final-panel">
           <div>
             <h2>El siguiente paso lo das tú.</h2>
