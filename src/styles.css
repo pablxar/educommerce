@@ -70,7 +70,7 @@
 }
 .shell { width: min(1140px, calc(100% - 80px)); margin-inline: auto; }
 .top-strip { background: var(--primary); color: var(--background); text-align: center; padding: 9px 20px; font-size: 12px; font-weight: 550; }
-.floating-header { position: sticky; top: 14px; z-index: 40; margin-top: 18px; margin-bottom: 16px; border: 1px solid var(--nav-glass-border); border-radius: 24px; color: var(--background); background: var(--nav-surface); box-shadow: var(--nav-glass-shadow); isolation: isolate; }
+.floating-header { position: sticky; top: 14px; z-index: 40; margin-top: 18px; margin-bottom: 16px; border: 1px solid var(--nav-glass-border); border-radius: var(--button-radius); color: var(--background); background: var(--nav-surface); box-shadow: var(--nav-glass-shadow); isolation: isolate; }
 .header-glass-surface { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; z-index: -1; background: var(--nav-surface); }
 .header-glass-surface .velaris-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.38; filter: blur(14px); transform: scale(1.08); }
 .header-glass-surface::after { content: ""; position: absolute; inset: 0; background: var(--nav-glass); backdrop-filter: blur(26px) saturate(135%); }
@@ -92,7 +92,7 @@
   .floating-header .header-actions { gap: 10px; }
 }
 @media (max-width: 860px) {
-  .floating-header.shell { width: calc(100% - 24px); top: 10px; margin-top: 12px; margin-bottom: 12px; border-radius: 20px; }
+  .floating-header.shell { width: calc(100% - 24px); top: 10px; margin-top: 12px; margin-bottom: 12px; border-radius: var(--button-radius); }
   .floating-header .site-header { min-height: 54px; padding: 6px 16px; }
   .floating-header .brand-logo { width: 148px; }
 }
