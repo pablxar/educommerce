@@ -139,7 +139,7 @@
 .tools-marquee { overflow: hidden; mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent); }
 .tools-track { display: flex; align-items: center; gap: 48px; width: max-content; animation: tools-scroll 40s linear infinite; }
 .tools-track img { height: 30px; width: auto; flex: 0 0 auto; object-fit: contain; filter: grayscale(1) brightness(0); opacity: 0.8; }
-.tools-track img.tool-shopify { height: 34px; }
+.tools-track img.tool-shopify { height: 34px; filter: grayscale(1) brightness(0.6); }
 .tools-track img.tool-meta { height: 26px; }
 .tools-track img.tool-googleads { height: 33px; }
 @keyframes tools-scroll { to { transform: translateX(calc(-50% - 24px)); } }
