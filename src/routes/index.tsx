@@ -114,9 +114,7 @@ function Index() {
       <main className="shell">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <div className="eyebrow">
-              <span className="desktop-only">APRENDE A TU RITMO</span>
-            </div>
+
             <h1 id="hero-title">
               <span>Aprende</span>
               <span className="green-text hero-underline desktop-only">
