@@ -3,11 +3,12 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { destinations } from "@/lib/educommerce";
-import { Destination } from "@/components/destination";
+import { useSessionUser } from "@/hooks/use-session-user";
 import logo from "@/assets/logo_educommerce.png.asset.json";
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const user = useSessionUser();
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -62,9 +63,9 @@ export function SiteHeader() {
             {nav}
           </nav>
           <div className="header-actions">
-            <Destination url={destinations.login} variant="link" label="Ingresar">
-              Ingresar
-            </Destination>
+            <Button asChild variant="link">
+              {user ? <Link to="/campus">Mi campus</Link> : <Link to="/auth">Ingresar</Link>}
+            </Button>
             <Button asChild>
               <Link to="/" hash="cursos">
                 Explorar módulos
@@ -88,9 +89,9 @@ export function SiteHeader() {
           <div ref={menuRef} id="mobile-navigation">
             <nav className="mobile-menu" aria-label="Navegación móvil">
               {nav}
-              <Destination url={destinations.login} variant="link" label="Ingresar" onSelect={() => setMenuOpen(false)}>
-                Ingresar
-              </Destination>
+              <Button asChild variant="link">
+                {user ? <Link to="/campus" onClick={() => setMenuOpen(false)}>Mi campus</Link> : <Link to="/auth" onClick={() => setMenuOpen(false)}>Ingresar</Link>}
+              </Button>
               <Button asChild>
                 <Link to="/" hash="cursos" onClick={() => setMenuOpen(false)}>
                   Explorar módulos
