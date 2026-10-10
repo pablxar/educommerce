@@ -11,3 +11,17 @@ describe("Homepage module filter rules", () => {
   it("Negocio shows mentalidad and monetiza", () => { expect(ids("Negocio")).toEqual([1,10]); });
   it("External destinations reject unsafe protocols", () => { expect(externalUrl("javascript:alert(1)")).toBeUndefined(); expect(externalUrl("https://example.com/login")).toBe("https://example.com/login"); });
 });
+
+import { modules, formatPrice, moduleProgress } from "@/lib/educommerce";
+describe("Module prices", () => {
+  const price = (id: string) => modules.find(m => m.id === id)!.price;
+  it("Shopify costs 99 USD", () => { expect(price("shopify")).toBe(99); expect(formatPrice(99)).toBe("$99 USD"); });
+  it("Meta Ads and Google Ads cost 79 USD", () => { expect(price("meta")).toBe(79); expect(price("google")).toBe(79); });
+  it("Klaviyo costs 69 USD", () => { expect(price("klaviyo")).toBe(69); });
+  it("Mentalidad and Gráficas cost 49 USD", () => { expect(price("mentalidad")).toBe(49); expect(price("graficas")).toBe(49); });
+  it("Guiones, CapCut, Lovable and Monetiza cost 59 USD", () => { for (const id of ["guiones","capcut","lovable","monetiza"]) expect(price(id)).toBe(59); });
+});
+describe("Module progress", () => {
+  it("2 of 4 capsules is 50%", () => { expect(moduleProgress("shopify", [1, 2])).toBe(50); });
+  it("duplicates and unknown capsules don't count", () => { expect(moduleProgress("shopify", [1, 1, 9])).toBe(25); });
+});
