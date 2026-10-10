@@ -254,10 +254,10 @@
 .auth-legal { font-size: 12px; line-height: 1.5; color: var(--muted-foreground); text-align: center; margin-top: 8px; }
 @media (max-width: 860px) {
   .auth-page { grid-template-columns: 1fr; }
-  .auth-panel { padding: 32px 24px 28px; gap: 22px; }
+  .auth-panel { padding: 34px 24px; gap: 0; align-items: center; justify-content: center; }
   .auth-panel-logo { width: 150px; }
-  .auth-panel-copy h2 { font-size: 32px; }
-  .auth-panel-copy p { font-size: 14px; margin-top: 12px; }
+  .auth-panel-copy { display: none; }
+  .auth-panel-points { display: none; }
   .auth-card { padding: 32px 20px 40px; }
 }
 .auth-divider { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--foreground); }
