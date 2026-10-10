@@ -23,4 +23,5 @@ export const destinations = {
   login: externalUrl(import.meta.env['VITE_LOGIN_URL']),
   academy: externalUrl(import.meta.env['VITE_ACADEMY_URL']),
   contact: externalUrl(import.meta.env['VITE_CONTACT_URL']),
+  program: externalUrl(import.meta.env['VITE_PROGRAM_URL']),
 };
