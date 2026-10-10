@@ -33,6 +33,10 @@
   --border: oklch(0.933429252 0.005035780 165.0014311);
   --muted-foreground: oklch(0.662684252 0.014616922 166.9446467);
   --radius: 8px;
+  --brand-google-blue: #4285f4;
+  --brand-google-green: #34a853;
+  --brand-google-yellow: #fbbc05;
+  --brand-google-red: #ea4335;
 }
 @layer base {
   * { border-color: var(--border); }
@@ -236,17 +240,16 @@
 /* Acceso */
 .auth-page { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); background: var(--background); }
 .auth-panel { position: relative; background: var(--primary); color: var(--background); display: flex; flex-direction: column; justify-content: space-between; gap: 40px; padding: 48px 56px; overflow: hidden; }
-.auth-panel::after { content: ""; position: absolute; inset: auto -25% -35% auto; width: 70%; aspect-ratio: 1; border-radius: 50%; border: 90px solid oklch(1 0 0 / 0.08); pointer-events: none; }
 .auth-panel-logo { width: 190px; height: auto; filter: brightness(0) invert(1); }
 .auth-panel-copy { position: relative; z-index: 1; max-width: 480px; }
-.auth-panel-copy h2 { font-size: clamp(40px, 4.5vw, 60px); line-height: 1.04; font-weight: 800; letter-spacing: -.03em; }
+.auth-panel-copy h2 { font-size: 60px; line-height: 1.04; font-weight: 800; letter-spacing: 0; }
 .auth-panel-copy h2 span { display: block; opacity: 0.65; }
 .auth-panel-copy p { margin-top: 18px; font-size: 16px; line-height: 1.55; opacity: 0.92; max-width: 400px; }
 .auth-panel-points { position: relative; z-index: 1; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: 13px; font-weight: 550; }
 .auth-panel-points li { display: flex; align-items: center; gap: 8px; }
 .auth-panel-points li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--background); flex: 0 0 7px; }
-.auth-card { width: min(460px, 100%); margin: auto; padding: 48px 40px; display: flex; flex-direction: column; gap: 16px; }
-.auth-card h1 { font-size: 30px; font-weight: 750; letter-spacing: -.02em; }
+.auth-card { box-sizing: border-box; width: min(448px, 100%); margin: auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 24px; }
+.auth-card h1 { font-size: 30px; line-height: 1.2; font-weight: 650; letter-spacing: 0; }
 .auth-subtitle { font-size: 14px; color: var(--muted-foreground); margin-top: -8px; }
 .auth-legal { font-size: 12px; line-height: 1.5; color: var(--muted-foreground); text-align: center; margin-top: 8px; }
 @media (max-width: 860px) {
@@ -255,12 +258,22 @@
   .auth-panel-logo { width: 150px; }
   .auth-panel-copy h2 { font-size: 32px; }
   .auth-panel-copy p { font-size: 14px; margin-top: 12px; }
-  .auth-panel::after { border-width: 50px; inset: auto -30% -25% auto; }
   .auth-card { padding: 32px 20px 40px; }
 }
-.auth-tabs { display: flex; gap: 8px; }
-.auth-google { width: 100%; }
-.auth-divider { text-align: center; font-size: 13px; color: var(--muted-foreground); }
+.auth-divider { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--foreground); }
+.auth-divider::before, .auth-divider::after { content: ""; height: 1px; flex: 1; background: var(--border); }
+.auth-socials { display: flex; flex-direction: column; gap: 10px; }
+.auth-socials button { width: 100%; height: 42px; font-size: 14px; font-weight: 450; gap: 10px; border-radius: 8px; }
+.auth-socials button svg { width: 20px; height: 20px; }
+.google-blue { fill: var(--brand-google-blue); }
+.google-green { fill: var(--brand-google-green); }
+.google-yellow { fill: var(--brand-google-yellow); }
+.google-red { fill: var(--brand-google-red); }
+.auth-switch { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 0 4px; font-size: 14px; color: var(--muted-foreground); }
+.auth-switch button { padding: 0; height: auto; font-weight: 450; }
+.auth-recovery { align-self: flex-end; height: auto; padding: 0; font-size: 12px; margin-top: -12px; }
+.auth-form input { border-radius: 8px; height: 42px; }
+.auth-form > button { margin-top: 10px; height: 42px; border-radius: 8px; font-weight: 500; }
 .auth-form, .account-form { display: flex; flex-direction: column; gap: 14px; }
 .auth-form label, .account-form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 550; }
 .auth-form input, .account-form input, .resource-filters select, .search-field { height: 46px; border: 1px solid var(--border); border-radius: 10px; padding: 0 12px; font: inherit; font-weight: 400; background: var(--background); color: var(--foreground); min-width: 0; }
