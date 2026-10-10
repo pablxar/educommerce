@@ -345,9 +345,13 @@ function Index() {
           </div>
         </section>
         <section id="como-funciona" className="steps-section" aria-labelledby="steps-title">
-          <h2 className="section-heading" id="steps-title">
-            Aprende. Practica. Aplica.
-          </h2>
+          <div className="steps-head">
+            <div className="eyebrow">ASÍ FUNCIONA</div>
+            <h2 className="section-heading" id="steps-title">
+              Aprende. Practica. Aplica.
+            </h2>
+            <p className="section-subtitle">El camino corto desde la idea hasta un resultado real.</p>
+          </div>
           <div className="steps-grid">
             {[
               ["01", "Elige tu camino", "Encuentra la habilidad que quieres desarrollar."],
