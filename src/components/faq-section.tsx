@@ -118,12 +118,13 @@ export function FaqSection() {
             className="faq-group"
             key={group.title}
             open={openGroup === group.title}
-            onToggle={(event) => {
-              const isOpen = (event.currentTarget as HTMLDetailsElement).open;
-              setOpenGroup(isOpen ? group.title : (current) => (current === group.title ? null : current));
-            }}
           >
-            <summary>
+            <summary
+              onClick={(event) => {
+                event.preventDefault();
+                setOpenGroup(openGroup === group.title ? null : group.title);
+              }}
+            >
               <span>{group.title}</span>
               <ChevronDown className="faq-chevron" aria-hidden="true" />
             </summary>
