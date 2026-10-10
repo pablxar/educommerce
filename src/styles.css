@@ -458,7 +458,7 @@
 .floating-header .edu-button-primary { color: var(--background); }
 .floating-header .menu-toggle.edu-button { color: var(--background); background-color: var(--nav-glass-hover); background-image: var(--button-gloss); border-color: var(--nav-glass-border); border-radius: var(--button-radius); }
 .campus-module-foot { flex-wrap: wrap; }
-@media (prefers-reduced-motion: reduce) { .edu-button { transition: none; } .edu-button:active { transform: none !important; } }
+@media (prefers-reduced-motion: reduce) { .edu-button { transition: none; } .edu-button:active, .edu-button-primary:hover:not(:disabled):not([aria-disabled="true"]), .edu-button-filter[aria-pressed="true"]:hover:not(:disabled):not([aria-disabled="true"]) { transform: none !important; } .edu-button::after, .edu-button-primary::after, .edu-button-filter[aria-pressed="true"]::after { display: none; } }
 
 /* Preguntas frecuentes */
 .faq-section { margin-top: 72px; }
