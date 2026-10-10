@@ -167,8 +167,12 @@
 .modules-grid .course-card { display: flex; flex-direction: column; }
 .modules-grid .course-body { flex: 1; display: flex; flex-direction: column; }
 .modules-grid .course-cta { margin-top: auto; width: 100%; justify-content: center; }
-.module-price-big { font-size: 22px; font-weight: 800; }
-.module-price-big .price-currency { font-size: 13px; font-weight: 600; }
+.module-price-big { font-size: 22px; font-weight: 800; display: flex; align-items: baseline; gap: 6px; }
+.module-price-big .price-amount { font-size: 26px; }
+.module-price-big .price-currency { font-size: 13px; font-weight: 600; color: var(--muted-foreground); }
+.filters > button { display: inline-flex; align-items: center; gap: 8px; }
+.filters > button svg { width: 17px; height: 17px; color: var(--primary); flex: 0 0 auto; }
+.filters > button[aria-pressed="true"] svg { color: var(--primary-foreground); }
 .teacher-section { padding-top: 0; }
 .teacher-card { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 25px; align-items: stretch; margin-top: 27px; background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 25px; }
 .teacher-photo-frame { aspect-ratio: 1 / 1; width: 100%; border-radius: 12px; overflow: hidden; }
