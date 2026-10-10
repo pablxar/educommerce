@@ -10,28 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ModulosRouteImport } from './routes/modulos'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedCuentaRouteImport } from './routes/_authenticated/cuenta'
-import { Route as AuthenticatedRecursosRouteImport } from './routes/_authenticated/recursos'
-import { Route as AuthenticatedCampusIndexRouteImport } from './routes/_authenticated/campus.index'
-import { Route as AuthenticatedCampusModuleIdRouteImport } from './routes/_authenticated/campus.$moduleId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ModulosRoute = ModulosRouteImport.update({
@@ -39,117 +22,31 @@ const ModulosRoute = ModulosRouteImport.update({
   path: '/modulos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCuentaRoute = AuthenticatedCuentaRouteImport.update({
-  id: '/cuenta',
-  path: '/cuenta',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedRecursosRoute = AuthenticatedRecursosRouteImport.update({
-  id: '/recursos',
-  path: '/recursos',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCampusIndexRoute =
-  AuthenticatedCampusIndexRouteImport.update({
-    id: '/campus/',
-    path: '/campus/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedCampusModuleIdRoute =
-  AuthenticatedCampusModuleIdRouteImport.update({
-    id: '/campus/$moduleId',
-    path: '/campus/$moduleId',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
   '/modulos': typeof ModulosRoute
-  '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/cuenta': typeof AuthenticatedCuentaRoute
-  '/recursos': typeof AuthenticatedRecursosRoute
-  '/campus/$moduleId': typeof AuthenticatedCampusModuleIdRoute
-  '/campus/': typeof AuthenticatedCampusIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
   '/modulos': typeof ModulosRoute
-  '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/cuenta': typeof AuthenticatedCuentaRoute
-  '/recursos': typeof AuthenticatedRecursosRoute
-  '/campus/$moduleId': typeof AuthenticatedCampusModuleIdRoute
-  '/campus': typeof AuthenticatedCampusIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/auth': typeof AuthRoute
   '/modulos': typeof ModulosRoute
-  '/reset-password': typeof ResetPasswordRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
-  '/_authenticated/cuenta': typeof AuthenticatedCuentaRoute
-  '/_authenticated/recursos': typeof AuthenticatedRecursosRoute
-  '/_authenticated/campus/$moduleId': typeof AuthenticatedCampusModuleIdRoute
-  '/_authenticated/campus/': typeof AuthenticatedCampusIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/auth'
-    | '/modulos'
-    | '/reset-password'
-    | '/admin'
-    | '/cuenta'
-    | '/recursos'
-    | '/campus/$moduleId'
-    | '/campus/'
+  fullPaths: '/' | '/modulos'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/auth'
-    | '/modulos'
-    | '/reset-password'
-    | '/admin'
-    | '/cuenta'
-    | '/recursos'
-    | '/campus/$moduleId'
-    | '/campus'
-  id:
-    | '__root__'
-    | '/'
-    | '/_authenticated'
-    | '/auth'
-    | '/modulos'
-    | '/reset-password'
-    | '/_authenticated/admin'
-    | '/_authenticated/cuenta'
-    | '/_authenticated/recursos'
-    | '/_authenticated/campus/$moduleId'
-    | '/_authenticated/campus/'
+  to: '/' | '/modulos'
+  id: '__root__' | '/' | '/modulos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AuthRoute: typeof AuthRoute
   ModulosRoute: typeof ModulosRoute
-  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -161,20 +58,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/modulos': {
       id: '/modulos'
       path: '/modulos'
@@ -182,76 +65,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModulosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/cuenta': {
-      id: '/_authenticated/cuenta'
-      path: '/cuenta'
-      fullPath: '/cuenta'
-      preLoaderRoute: typeof AuthenticatedCuentaRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/recursos': {
-      id: '/_authenticated/recursos'
-      path: '/recursos'
-      fullPath: '/recursos'
-      preLoaderRoute: typeof AuthenticatedRecursosRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/campus/': {
-      id: '/_authenticated/campus/'
-      path: '/campus'
-      fullPath: '/campus/'
-      preLoaderRoute: typeof AuthenticatedCampusIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/campus/$moduleId': {
-      id: '/_authenticated/campus/$moduleId'
-      path: '/campus/$moduleId'
-      fullPath: '/campus/$moduleId'
-      preLoaderRoute: typeof AuthenticatedCampusModuleIdRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
   }
 }
 
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
-  AuthenticatedCuentaRoute: typeof AuthenticatedCuentaRoute
-  AuthenticatedRecursosRoute: typeof AuthenticatedRecursosRoute
-  AuthenticatedCampusModuleIdRoute: typeof AuthenticatedCampusModuleIdRoute
-  AuthenticatedCampusIndexRoute: typeof AuthenticatedCampusIndexRoute
-}
-
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
-  AuthenticatedCuentaRoute: AuthenticatedCuentaRoute,
-  AuthenticatedRecursosRoute: AuthenticatedRecursosRoute,
-  AuthenticatedCampusModuleIdRoute: AuthenticatedCampusModuleIdRoute,
-  AuthenticatedCampusIndexRoute: AuthenticatedCampusIndexRoute,
-}
-
-const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AuthRoute: AuthRoute,
   ModulosRoute: ModulosRoute,
-  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
