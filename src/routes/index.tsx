@@ -204,27 +204,68 @@ function Index() {
         </section>
         <section className="value-props" aria-label="Aprende, ejecuta y monetiza">
           <div className="value-grid">
-            <div className="value-card">
-              <span className="value-icon">
-                <BookOpen aria-hidden="true" />
-              </span>
-              <h3>Aprende</h3>
+            <article className="value-card" tabIndex={0}>
+              <div className="value-stage value-stage-learn" aria-hidden="true">
+                <div className="vp-window">
+                  <div className="vp-head">
+                    <span className="vp-head-icon"><BookOpen /></span>
+                    <span className="vp-head-text"><strong>Módulo 2</strong><small>Shopify</small></span>
+                    <span className="vp-pill">En curso</span>
+                  </div>
+                  <ul className="vp-list">
+                    <li className="is-done"><span className="vp-dot" />Configura tu tienda<em>listo</em></li>
+                    <li className="is-done"><span className="vp-dot" />Sube tus productos<em>listo</em></li>
+                    <li><span className="vp-dot" />Diseña tu portada<em>ahora</em></li>
+                  </ul>
+                  <div className="vp-progress"><span /></div>
+                </div>
+              </div>
+              <p className="value-eyebrow">01 · Aprende</p>
+              <h3>Domina las herramientas</h3>
               <p>Clases cortas y prácticas para dominar las herramientas que hoy se usan para vender online.</p>
-            </div>
-            <div className="value-card">
-              <span className="value-icon">
-                <Hammer aria-hidden="true" />
-              </span>
-              <h3>Ejecuta</h3>
+            </article>
+            <article className="value-card" tabIndex={0}>
+              <div className="value-stage value-stage-build" aria-hidden="true">
+                <div className="vp-window">
+                  <div className="vp-head">
+                    <span className="vp-head-icon"><Hammer /></span>
+                    <span className="vp-head-text"><strong>Tu entrega</strong><small>Cápsula 4</small></span>
+                    <span className="vp-pill">Creando</span>
+                  </div>
+                  <div className="vp-tasks">
+                    <span className="vp-task"><Clapperboard />Pieza de video</span>
+                    <span className="vp-task"><ImageIcon />Gráfica de anuncio</span>
+                    <span className="vp-task"><GraduationCap />Página de producto</span>
+                  </div>
+                  <p className="vp-foot"><span className="vp-dot is-live" />Algo hecho en cada cápsula</p>
+                </div>
+              </div>
+              <p className="value-eyebrow">02 · Ejecuta</p>
+              <h3>Termina con algo hecho</h3>
               <p>Cada cápsula termina con algo hecho: una pieza, una campaña, una página.</p>
-            </div>
-            <div className="value-card">
-              <span className="value-icon">
-                <TrendingUp aria-hidden="true" />
-              </span>
-              <h3>Monetiza</h3>
+            </article>
+            <article className="value-card" tabIndex={0}>
+              <div className="value-stage value-stage-earn" aria-hidden="true">
+                <div className="vp-window">
+                  <div className="vp-head">
+                    <span className="vp-head-icon"><TrendingUp /></span>
+                    <span className="vp-head-text"><strong>Tus habilidades</strong><small>Aplicadas</small></span>
+                  </div>
+                  <div className="vp-bars">
+                    {[38, 52, 46, 68, 80, 96].map((h, i) => (
+                      <span key={i} style={{ ["--h" as string]: `${h}%`, ["--i" as string]: i }} />
+                    ))}
+                  </div>
+                  <div className="vp-split">
+                    <span><small>Uso</small>Tu negocio</span>
+                    <span><small>O bien</small>Como servicio</span>
+                  </div>
+                </div>
+              </div>
+              <p className="value-eyebrow">03 · Monetiza</p>
+              <h3>Ponlo a trabajar</h3>
               <p>Aplícalo en tu negocio o véndelo como servicio.</p>
-            </div>
+            </article>
           </div>
         </section>
         <section id="cursos" className="catalog" aria-labelledby="catalog-title">
