@@ -149,7 +149,7 @@ export function SiteFooter() {
           ) : (
             <FooterPending>Contacto</FooterPending>
           )}
-          <FooterPending>Preguntas frecuentes</FooterPending>
+          <Link to="/" hash="preguntas-frecuentes">Preguntas frecuentes</Link>
         </nav>
         <div className="footer-col footer-social">
           <h3>Redes sociales</h3>

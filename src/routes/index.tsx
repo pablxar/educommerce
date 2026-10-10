@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { categories, filterModules, destinations, type Category , formatPrice } from "@/lib/educommerce";
 import { Destination } from "@/components/destination";
+import { FaqSection } from "@/components/faq-section";
 import { ProgramSection } from "@/components/program-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import student from "@/assets/student.png.asset.json";
@@ -386,6 +387,7 @@ function Index() {
           </div>
         </section>
         <ProgramSection />
+        <FaqSection />
         <section className="final-panel">
           <div>
             <h2>El siguiente paso lo das tú.</h2>
