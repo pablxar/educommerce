@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { Users, KeyRound, Mail, CheckCircle2 } from "lucide-react";
+import { Users, KeyRound, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CampusNav, CampusLoading } from "@/components/campus-nav";
 import { campusQuery } from "@/lib/campus";
@@ -11,9 +11,9 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [
     { title: "Administración | Educommerce" },
-    { name: "description", content: "Alumnos, accesos y lista de espera de Educommerce." },
+    { name: "description", content: "Alumnos, accesos y módulos de Educommerce." },
     { property: "og:title", content: "Administración | Educommerce" },
-    { property: "og:description", content: "Alumnos, accesos y lista de espera de Educommerce." },
+    { property: "og:description", content: "Alumnos, accesos y módulos de Educommerce." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
     { name: "robots", content: "noindex" },
@@ -26,18 +26,17 @@ export const Route = createFileRoute("/_authenticated/admin")({
 const adminQuery = queryOptions({
   queryKey: ["admin"],
   queryFn: async () => {
-    const [p, a, g, w] = await Promise.all([
+    const [p, a, g] = await Promise.all([
       supabase.from("profiles").select("id, nombre, apellido, correo, created_at").order("created_at", { ascending: false }),
       supabase.from("accesos").select("user_id, module_id"),
       supabase.from("progreso").select("user_id, module_id, capsula"),
-      supabase.from("lista_espera").select("id, nombre, correo, created_at").order("created_at", { ascending: false }),
     ]);
-    for (const r of [p, a, g, w]) if (r.error) throw r.error;
-    return { profiles: p.data!, accesos: a.data!, progreso: g.data!, espera: w.data! };
+    for (const r of [p, a, g]) if (r.error) throw r.error;
+    return { profiles: p.data!, accesos: a.data!, progreso: g.data! };
   },
 });
 
-type Tab = "resumen" | "alumnos" | "modulos" | "espera";
+type Tab = "resumen" | "alumnos" | "modulos";
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-CL", { day: "2-digit", month: "short", year: "numeric" });
 
 function AdminPage() {
@@ -64,7 +63,7 @@ function AdminBody() {
     setBusyKey("");
   }
 
-  const tabs: [Tab, string][] = [["resumen", "Resumen"], ["alumnos", "Alumnos"], ["modulos", "Módulos"], ["espera", "Lista de espera"]];
+  const tabs: [Tab, string][] = [["resumen", "Resumen"], ["alumnos", "Alumnos"], ["modulos", "Módulos"]];
   return <main className="campus-main">
     <h1 className="campus-h1">Administración</h1>
     <div className="filters" role="group" aria-label="Secciones">{tabs.map(([v, t]) => <Button key={v} variant="filter" aria-pressed={tab === v} onClick={() => setTab(v)}>{t}</Button>)}</div>
@@ -76,7 +75,6 @@ function AdminBody() {
         <div className="campus-panel kpi"><span><Users aria-hidden="true" /> Alumnos</span><strong>{data.profiles.length}</strong></div>
         <div className="campus-panel kpi"><span><KeyRound aria-hidden="true" /> Accesos activos</span><strong>{data.accesos.length}</strong></div>
         <div className="campus-panel kpi"><span><CheckCircle2 aria-hidden="true" /> Cápsulas completadas</span><strong>{data.progreso.length}</strong></div>
-        <div className="campus-panel kpi"><span><Mail aria-hidden="true" /> Lista de espera</span><strong>{data.espera.length}</strong></div>
       </div>
       <section className="campus-panel">
         <h2 className="campus-h2">Alumnos por módulo</h2>
@@ -89,7 +87,5 @@ function AdminBody() {
         <fieldset><legend>Acceso a módulos</legend><div className="access-grid">{modules.map(m => { const has = data.accesos.some(a => a.user_id === p.id && a.module_id === m.id); return <label key={m.id} className="access-toggle"><input type="checkbox" checked={has} disabled={busyKey === p.id + m.id} onChange={() => toggleAccess(p.id, m.id, has)} /> {String(m.number).padStart(2, "0")} {m.title}</label>; })}</div></fieldset>
       </article>)}</div>)}
     {data && tab === "modulos" && <div className="campus-panel admin-table">{modules.map(m => <div key={m.id} className="admin-row"><span className="module-number">{String(m.number).padStart(2, "0")}</span><span className="grow">{m.title}</span><span className="muted-text">{m.category}</span><strong>{formatPrice(m.price)}</strong><span className="module-tag">{data.accesos.filter(a => a.module_id === m.id).length} alumnos</span></div>)}</div>}
-    {data && tab === "espera" && (data.espera.length === 0 ? <p className="muted-text">Aún no hay registros en la lista de espera.</p> :
-      <div className="campus-panel admin-table">{data.espera.map(w => <div key={w.id} className="admin-row"><span className="grow">{w.nombre}</span><span>{w.correo}</span><span className="muted-text">{fecha(w.created_at)}</span></div>)}</div>)}
   </main>;
 }
