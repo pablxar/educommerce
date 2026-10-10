@@ -120,11 +120,21 @@ function Index() {
             </div>
             <h1 id="hero-title">
               <span>Aprende</span>
-              <span className="green-text hero-underline">
+              <span className="green-text hero-underline desktop-only">
                 habilidades digitales.
                 <svg className="underline-swoosh" viewBox="0 0 220 30" preserveAspectRatio="none" aria-hidden="true">
-                  <path className="swoosh-main" d="M3 21 C 55 28, 122 27, 168 15 C 188 9.5, 204 8, 212 11 C 217 13, 215 17, 207 17 C 201 17, 196 15, 193 12" pathLength="1" fill="none" strokeLinecap="round" />
-                  <path className="swoosh-soft" d="M14 26 C 68 31, 134 30, 186 18" pathLength="1" fill="none" strokeLinecap="round" />
+                  <path className="swoosh-main" d="M3 20 C 45 26, 80 25, 100 16 C 108 11, 116 10, 118 14 C 120 18, 114 21, 108 19 C 104 17.5, 104 13, 108 11 C 130 2, 185 8, 217 13" pathLength="1" fill="none" strokeLinecap="round" />
+                  <path className="swoosh-soft" d="M10 25 C 60 30, 150 26, 205 17" pathLength="1" fill="none" strokeLinecap="round" />
+                  <path className="swoosh-glint" d="M3 20 C 45 26, 80 25, 100 16 C 108 11, 116 10, 118 14 C 120 18, 114 21, 108 19 C 104 17.5, 104 13, 108 11 C 130 2, 185 8, 217 13" pathLength="1" fill="none" strokeLinecap="round" />
+                </svg>
+              </span>
+              <span className="green-text mobile-only">habilidades</span>
+              <span className="green-text hero-underline mobile-only">
+                digitales.
+                <svg className="underline-swoosh" viewBox="0 0 220 30" preserveAspectRatio="none" aria-hidden="true">
+                  <path className="swoosh-main" d="M3 20 C 45 26, 80 25, 100 16 C 108 11, 116 10, 118 14 C 120 18, 114 21, 108 19 C 104 17.5, 104 13, 108 11 C 130 2, 185 8, 217 13" pathLength="1" fill="none" strokeLinecap="round" />
+                  <path className="swoosh-soft" d="M10 25 C 60 30, 150 26, 205 17" pathLength="1" fill="none" strokeLinecap="round" />
+                  <path className="swoosh-glint" d="M3 20 C 45 26, 80 25, 100 16 C 108 11, 116 10, 118 14 C 120 18, 114 21, 108 19 C 104 17.5, 104 13, 108 11 C 130 2, 185 8, 217 13" pathLength="1" fill="none" strokeLinecap="round" />
                 </svg>
               </span>
               <span>Impulsa tus</span>
