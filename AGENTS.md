@@ -13,5 +13,5 @@
 - All current and future action controls use the shared Button/buttonVariants in src/components/ui/button.tsx; the Stardust-inspired finishes and interaction states live in semantic CSS tokens so every view inherits one consistent system.
 - Keep the access-panel WebGL animation in a reusable effect-initialized UI component with CSS palette tokens, reduced-motion support and a static fallback, so SSR and unsupported devices retain a usable sign-in page.
 - Configure external login, academy, contact and course destinations through VITE_* environment variables; missing destinations show accessible pending-resource states rather than invented links.
+- This project is the public landing only; the campus and its sign-in live in a separate project served at app.educommerce.cl. "Ingresar" opens that external destination in a new tab via VITE_LOGIN_URL — never add local auth or campus routes here.
 - Use extracted photographs from supplied references only for the study composition; course thumbnails remain explicitly labeled replaceable placeholders.
-- Campus pages live under src/routes/_authenticated/ and read user data through the shared campus query in src/lib/campus.ts; module access is granted only by admins (role in user_roles) and enforced by database policies, because there are no payments to unlock content.
