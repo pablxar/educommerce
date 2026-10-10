@@ -25,7 +25,7 @@ export function SiteHeader() {
       <div className="site-header">
         <Link to="/" aria-label="Educommerce, inicio"><img className="brand-logo" src={logo.url} alt="Educommerce" /></Link>
         <nav className="nav-links" aria-label="Navegación principal">{nav}</nav>
-        <div className="header-actions"><Destination url={destinations.login} variant="link" label="Ingresar">Ingresar</Destination><Button asChild><Link to="/" hash="cursos">Explorar cursos</Link></Button></div>
+        <div className="header-actions"><Destination url={destinations.login} variant="link" label="Ingresar">Ingresar</Destination><Button asChild><Link to="/" hash="cursos">Explorar módulos</Link></Button></div>
         <Button ref={menuButton} variant="ghost" size="icon" className="menu-toggle" aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
       </div>
       {menuOpen && <div ref={menuRef} id="mobile-navigation"><nav className="mobile-menu" aria-label="Navegación móvil">{nav}<Destination url={destinations.login} variant="link" label="Ingresar" onSelect={() => setMenuOpen(false)}>Ingresar</Destination><Button asChild><Link to="/" hash="cursos" onClick={() => setMenuOpen(false)}>Explorar cursos</Link></Button></nav></div>}
