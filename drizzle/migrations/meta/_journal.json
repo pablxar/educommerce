@@ -8,6 +8,13 @@
       "when": 1791594538756,
       "tag": "0000_create_lista_espera",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791604272861,
+      "tag": "0001_campus_real",
+      "breakpoints": true
     }
   ]
 }
