@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Instagram, Menu, Twitter, X, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { destinations } from "@/lib/educommerce";
 import logo from "@/assets/logo_educommerce.png.asset.json";
 import Velaris from "@/components/ui/velaris";
 
