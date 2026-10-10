@@ -154,7 +154,7 @@
 .modules-grid .course-link { margin-top: auto; align-self: flex-start; }
 .teacher-section { padding-top: 42px; }
 .teacher-card { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 25px; align-items: stretch; margin-top: 27px; background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 25px; }
-.teacher-photo-frame { aspect-ratio: 3 / 4; width: 100%; border-radius: 12px; overflow: hidden; }
+.teacher-photo-frame { aspect-ratio: 1 / 1; width: 100%; border-radius: 12px; overflow: hidden; }
 .teacher-photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .teacher-copy { padding: 6px 0; }
 .teacher-copy h3 { font-size: 23px; line-height: 1.2; font-weight: 750; }
