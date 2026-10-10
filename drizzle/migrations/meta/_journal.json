@@ -15,6 +15,13 @@
       "when": 1791604272861,
       "tag": "0001_campus_real",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791605821578,
+      "tag": "0002_drop_lista_espera",
+      "breakpoints": true
     }
   ]
 }

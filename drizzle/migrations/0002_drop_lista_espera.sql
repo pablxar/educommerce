@@ -1,0 +1,1 @@
+COMMENT ON TABLE public.lista_espera IS 'DEPRECATED: la lista de espera fue eliminada del producto; ya no se usa en la aplicación.';
