@@ -90,7 +90,8 @@ export default function Velaris() {
     gl.enableVertexAttribArray(position); gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
     const styles = getComputedStyle(panel);
     for (const name of ["brand", "shade", "light"]) {
-      const hex = styles.getPropertyValue(`--auth-motion-${name}`).trim().replace("#", "");
+      const token = styles.getPropertyValue(`--auth-motion-${name}`).trim().replace("#", "");
+      const hex = token.length === 3 ? token.split("").map(char => char + char).join("") : token;
       const rgb = [0, 2, 4].map(offset => parseInt(hex.slice(offset, offset + 2), 16) / 255);
       gl.uniform3fv(gl.getUniformLocation(program, `u_${name}`), rgb);
     }
