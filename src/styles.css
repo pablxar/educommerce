@@ -40,10 +40,11 @@
   --auth-motion-brand: #1ea180;
   --auth-motion-shade: #0b0d0c;
   --auth-motion-light: #ffffff;
-  --nav-glass: color-mix(in oklab, var(--foreground) 18%, transparent);
-  --nav-glass-border: color-mix(in oklab, var(--background) 26%, transparent);
+  --nav-glass: color-mix(in oklab, var(--background) 12%, transparent);
+  --nav-glass-border: color-mix(in oklab, var(--background) 34%, transparent);
   --nav-glass-hover: color-mix(in oklab, var(--background) 12%, transparent);
   --nav-glass-shadow: 0 8px 24px color-mix(in oklab, var(--foreground) 8%, transparent);
+  --nav-surface: color-mix(in oklab, var(--primary) 72%, transparent);
 }
 @layer base {
   * { border-color: var(--border); }
@@ -57,13 +58,13 @@
 }
 .shell { width: min(1140px, calc(100% - 80px)); margin-inline: auto; }
 .top-strip { background: var(--primary); color: var(--background); text-align: center; padding: 9px 20px; font-size: 12px; font-weight: 550; }
-.floating-header { position: sticky; top: 14px; z-index: 40; margin-top: 18px; margin-bottom: 16px; border: 1px solid var(--nav-glass-border); border-radius: 24px; color: var(--background); background: var(--primary); box-shadow: var(--nav-glass-shadow); isolation: isolate; }
-.header-glass-surface { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; z-index: -1; background: var(--primary); }
-.header-glass-surface .velaris-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; filter: blur(12px); transform: scale(1.08); }
-.header-glass-surface::after { content: ""; position: absolute; inset: 0; background: var(--nav-glass); backdrop-filter: blur(18px) saturate(120%); }
-.site-header { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 32px; align-items: center; min-height: 82px; padding: 12px 24px; }
-.floating-header .brand-logo { width: 190px; filter: brightness(0) invert(1); }
-.floating-header .nav-links a { color: var(--background); border-radius: 8px; padding-block: 10px; }
+.floating-header { position: sticky; top: 14px; z-index: 40; margin-top: 18px; margin-bottom: 16px; border: 1px solid var(--nav-glass-border); border-radius: 24px; color: var(--background); background: var(--nav-surface); box-shadow: var(--nav-glass-shadow); isolation: isolate; }
+.header-glass-surface { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; z-index: -1; background: var(--nav-surface); }
+.header-glass-surface .velaris-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.5; filter: blur(14px); transform: scale(1.08); }
+.header-glass-surface::after { content: ""; position: absolute; inset: 0; background: var(--nav-glass); backdrop-filter: blur(22px) saturate(130%); }
+.site-header { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 32px; align-items: center; min-height: 64px; padding: 8px 22px; }
+.floating-header .brand-logo { width: 168px; filter: brightness(0) invert(1); }
+.floating-header .nav-links a { color: var(--background); border-radius: 8px; padding-block: 8px; }
 .floating-header .nav-links a:hover { color: var(--background); }
 .floating-header .header-actions > a:first-child { color: var(--background); background: var(--nav-glass-hover); border: 1px solid var(--nav-glass-border); border-radius: 10px; padding-inline: 18px; text-decoration: none; }
 .floating-header .header-actions > a:last-child, .floating-header .mobile-menu > a:last-child { background: var(--background); color: var(--primary); border-radius: 10px; }
