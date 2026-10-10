@@ -111,6 +111,20 @@ function Index() {
         ["02", "Aprende a tu ritmo", "Clases grabadas, claras y paso a paso."],
         ["03", "Llévalo a la práctica", "Aplica lo aprendido a tus proyectos."],
       ].map(([number,title,description]) => <div className="step" key={number}><span className="step-number">{number}</span><div><h3>{title}</h3><p>{description}</p></div></div>)}</div></section>
+      <section id="quien-te-ensena" className="teacher-section" aria-labelledby="teacher-title">
+        <h2 id="teacher-title" className="section-heading">Quién te enseña</h2>
+        <div className="teacher-card">
+          <div className="teacher-photo-placeholder" role="img" aria-label="Espacio reservado para una foto vertical pendiente de reemplazar">
+            <ImageIcon aria-hidden="true" />
+            <span>Foto vertical · Reemplazar</span>
+          </div>
+          <div className="teacher-copy">
+            <h3>Benjamín, Pablo y Martín</h3>
+            <p className="teacher-role">Docentes y fundadores de Educommerce</p>
+            <p className="teacher-bio">Enseñamos esto porque lo vivimos todos los días: creamos tiendas, campañas y contenido para nuestros propios proyectos, y cada clase nace de esos aciertos y errores reales. Queremos que aprendas paso a paso, sin rodeos, y que lo apliques desde el primer día.</p>
+          </div>
+        </div>
+      </section>
       <section className="final-panel"><div><h2>El siguiente paso lo das tú.</h2><p>Empieza a desarrollar tus habilidades digitales hoy.</p></div><Button variant="inverse" size="lg" asChild><Link to="/" hash="cursos">Explorar cursos <ArrowRight /></Link></Button></section>
     </main>
     <footer id="contacto" className="site-footer shell"><div className="footer-brand"><Link to="/" aria-label="Educommerce, inicio"><img src={logo.url} alt="Educommerce" /></Link><p>Habilidades para el mundo digital.</p></div><nav className="footer-links" aria-label="Navegación del pie de página"><Link to="/" hash="cursos">Cursos</Link><Link to="/" hash="academia">Academia</Link><Link to="/" hash="contacto">Contacto</Link></nav>{destinations.contact && <a href={destinations.contact} aria-label="Contactar a Educommerce">Contacto</a>}</footer>

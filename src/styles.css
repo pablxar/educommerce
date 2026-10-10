@@ -126,6 +126,15 @@
 .step-number { font-size: 35px; font-weight: 650; color: var(--primary); line-height: 1.2; }
 .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 7px; }
 .step p { font-size: 13px; line-height: 1.5; }
+.teacher-section { padding-top: 42px; }
+.teacher-card { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 25px; align-items: stretch; margin-top: 27px; background: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 25px; }
+.teacher-photo-placeholder { aspect-ratio: 3 / 4; width: 100%; border: 1px dashed var(--muted-foreground); border-radius: 12px; background: var(--background); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 11px; color: var(--muted-foreground); text-align: center; padding: 12px; }
+.teacher-photo-placeholder svg { width: 28px; height: 28px; stroke-width: 1.2; }
+.teacher-photo-placeholder span { font-size: 11px; }
+.teacher-copy { padding: 6px 0; }
+.teacher-copy h3 { font-size: 23px; line-height: 1.2; font-weight: 750; }
+.teacher-role { font-size: 12px; font-weight: 650; color: var(--primary); margin-top: 7px; }
+.teacher-bio { font-size: 14px; line-height: 1.6; margin-top: 14px; max-width: 620px; }
 .final-panel { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 30px; align-items: center; background: var(--primary); color: var(--background); border-radius: 8px; padding: 31px 60px; margin-top: 42px; }
 .final-panel h2 { font-size: 31px; line-height: 1.2; font-weight: 750; }
 .final-panel p { margin-top: 7px; font-size: 15px; }
