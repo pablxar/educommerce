@@ -72,11 +72,29 @@ function AuthPage() {
   }
 
   const titles: Record<Mode, string> = { ingresar: "Ingresa a tu campus", crear: "Crea tu cuenta", recuperar: "Recupera tu contraseña" };
+  const subtitles: Record<Mode, string> = {
+    ingresar: "Ingresa tus credenciales para acceder a tus módulos.",
+    crear: "Crea tu cuenta y empieza a aprender hoy.",
+    recuperar: "Te enviaremos un enlace para crear una nueva contraseña.",
+  };
   return (
     <main className="auth-page">
+      <div className="auth-panel">
+        <Link to="/" aria-label="Educommerce, inicio"><img className="auth-panel-logo" src={logo.url} alt="Educommerce" /></Link>
+        <div className="auth-panel-copy">
+          <h2>¿Qué quieres <span>aprender hoy?</span></h2>
+          <p>Diez módulos prácticos de e-commerce, ads y contenido, listos para aplicar desde la primera clase.</p>
+        </div>
+        <ul className="auth-panel-points">
+          <li>Clases prácticas, paso a paso</li>
+          <li>Acceso de por vida a tus módulos</li>
+          <li>Actualizaciones incluidas</li>
+        </ul>
+      </div>
       <div className="auth-card">
         <Link to="/" aria-label="Educommerce, inicio"><img className="campus-logo" src={logo.url} alt="Educommerce" /></Link>
         <h1>{titles[mode]}</h1>
+        <p className="auth-subtitle">{subtitles[mode]}</p>
         {mode !== "recuperar" && <>
           <div className="auth-tabs" role="group" aria-label="Elegir acción">
             <Button variant="filter" aria-pressed={mode === "ingresar"} onClick={() => setMode("ingresar")}>Ingresar</Button>
@@ -95,6 +113,7 @@ function AuthPage() {
         </form>
         {mode === "ingresar" && <button type="button" className="text-button" onClick={() => setMode("recuperar")}>¿Olvidaste tu contraseña?</button>}
         {mode === "recuperar" && <button type="button" className="text-button" onClick={() => setMode("ingresar")}>Volver a ingresar</button>}
+        <p className="auth-legal">Al continuar aceptas nuestros términos y la política de protección de datos.</p>
       </div>
     </main>
   );
