@@ -4,7 +4,7 @@ import { destinations } from "@/lib/educommerce";
 import { Destination } from "@/components/destination";
 
 export function ProgramSection() {
-  return <section className="program-section" aria-labelledby="program-title">
+  return <section id="programa" className="program-section" aria-labelledby="program-title">
     <div className="program-card">
       <p className="eyebrow">PROGRAMA COMPLETO</p>
       <h2 id="program-title">Todos los módulos de Educommerce</h2>
