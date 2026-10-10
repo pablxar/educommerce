@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { categories, filterModules, externalUrl, type Category } from "@/lib/educommerce";
+import { categories, filterModules, externalUrl, type Category , formatPrice } from "@/lib/educommerce";
 import { Destination } from "@/components/destination";
 import { ProgramSection } from "@/components/program-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -32,7 +32,8 @@ function ModulosPage() {
       </section>
       <section className="catalog" aria-label="Catálogo de módulos">
         <div className="filters" role="group" aria-label="Filtrar módulos por categoría">{categories.map(value => <Button key={value} variant="filter" aria-pressed={category === value} onClick={() => setCategory(value)}>{value}</Button>)}</div>
-        <div className="modules-grid">{visible.map(m => <article className="course-card" key={m.id} aria-label={`Módulo ${m.number}: ${m.title}`}><div className="course-placeholder" aria-label={`Miniatura pendiente: ${m.title}`}><ImageIcon aria-hidden="true" /><span>Miniatura · Módulo {m.number}</span></div><div className="course-body"><div className="module-meta"><span className="module-number">{String(m.number).padStart(2, "0")}</span><span className="module-tag">{m.category}</span></div><h3>{m.title}</h3><p className="course-description">{m.description}</p><Destination url={externalUrl(m.url)} variant="link" className="course-link" label={`Ver módulo ${m.title}`}>Ver módulo <ArrowRight /></Destination></div></article>)}</div>
+        <div className="modules-grid">{visible.map(m => <article className="course-card" key={m.id} aria-label={`Módulo ${m.number}: ${m.title}`}><div className="course-placeholder" aria-label={`Miniatura pendiente: ${m.title}`}><ImageIcon aria-hidden="true" /><span>Miniatura · Módulo {m.number}</span></div><div className="course-body"><div className="module-meta"><span className="module-number">{String(m.number).padStart(2, "0")}</span><span className="module-tag">{m.category}</span></div><h3>{m.title}</h3><p className="course-description">{m.description}</p>
+<p className="module-price">{formatPrice(m.price)}</p><Destination url={externalUrl(m.url)} variant="link" className="course-link" label={`Ver módulo ${m.title}`}>Ver módulo <ArrowRight /></Destination></div></article>)}</div>
       </section>
       <ProgramSection />
     </main>

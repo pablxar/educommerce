@@ -12,7 +12,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { categories, filterModules, destinations, type Category } from "@/lib/educommerce";
+import { categories, filterModules, destinations, type Category , formatPrice } from "@/lib/educommerce";
 import { Destination } from "@/components/destination";
 import { ProgramSection } from "@/components/program-section";
 import { WaitlistSection } from "@/components/waitlist-section";
@@ -277,6 +277,7 @@ function Index() {
                   </div>
                   <h3>{m.title}</h3>
                   <p className="course-description">{m.description}</p>
+<p className="module-price">{formatPrice(m.price)}</p>
                   <Button variant="link" asChild className="course-link">
                     <Link to="/modulos" aria-label={`Ver módulo ${m.title}`}>
                       Ver módulo <ArrowRight />

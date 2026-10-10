@@ -12,3 +12,4 @@
 - Keep homepage catalog data and category filtering in a browser-safe module; the page must function without a backend.
 - Configure external login, academy, contact and course destinations through VITE_* environment variables; missing destinations show accessible pending-resource states rather than invented links.
 - Use extracted photographs from supplied references only for the study composition; course thumbnails remain explicitly labeled replaceable placeholders.
+- Campus pages live under src/routes/_authenticated/ and read user data through the shared campus query in src/lib/campus.ts; module access is granted only by admins (role in user_roles) and enforced by database policies, because there are no payments to unlock content.
