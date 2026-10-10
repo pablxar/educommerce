@@ -32,14 +32,14 @@ import lovableLogo from "@/assets/lovable-wordmark.png.asset.json";
 import manychat from "@/assets/manychat-wordmark.png.asset.json";
 
 const toolLogos = [
-  { src: shopify.url, alt: "Shopify" },
-  { src: meta.url, alt: "Meta Ads" },
-  { src: klaviyo.url, alt: "Klaviyo" },
-  { src: canva.url, alt: "Canva" },
-  { src: capcut.url, alt: "CapCut" },
-  { src: googleads.url, alt: "Google Ads" },
-  { src: lovableLogo.url, alt: "Lovable" },
-  { src: manychat.url, alt: "ManyChat" },
+  { src: shopify.url, alt: "Shopify", cls: "tool-shopify" },
+  { src: meta.url, alt: "Meta Ads", cls: "tool-meta" },
+  { src: klaviyo.url, alt: "Klaviyo", cls: "tool-klaviyo" },
+  { src: canva.url, alt: "Canva", cls: "tool-canva" },
+  { src: capcut.url, alt: "CapCut", cls: "tool-capcut" },
+  { src: googleads.url, alt: "Google Ads", cls: "tool-googleads" },
+  { src: lovableLogo.url, alt: "Lovable", cls: "tool-lovable" },
+  { src: manychat.url, alt: "ManyChat", cls: "tool-manychat" },
 ];
 
 export const Route = createFileRoute("/")({
@@ -193,10 +193,10 @@ function Index() {
           <div className="tools-marquee">
             <div className="tools-track">
               {toolLogos.map((tool, index) => (
-                <img key={index} src={tool.src} alt={tool.alt} />
+                <img key={index} src={tool.src} alt={tool.alt} className={tool.cls} />
               ))}
               {toolLogos.map((tool, index) => (
-                <img key={`dup-${index}`} src={tool.src} alt="" aria-hidden="true" />
+                <img key={`dup-${index}`} src={tool.src} alt="" aria-hidden="true" className={tool.cls} />
               ))}
             </div>
           </div>
