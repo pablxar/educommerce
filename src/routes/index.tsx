@@ -125,7 +125,6 @@ function Index() {
                 <svg className="underline-swoosh" viewBox="0 0 220 30" preserveAspectRatio="none" aria-hidden="true">
                   <path className="swoosh-main" d="M3 20 C 45 26, 80 25, 100 16 C 108 11, 116 10, 118 14 C 120 18, 114 21, 108 19 C 104 17.5, 104 13, 108 11 C 130 2, 185 8, 217 13" pathLength="1" fill="none" strokeLinecap="round" />
                   <path className="swoosh-soft" d="M10 25 C 60 30, 150 26, 205 17" pathLength="1" fill="none" strokeLinecap="round" />
-                  <path className="swoosh-glint" d="M3 20 C 45 26, 80 25, 100 16 C 108 11, 116 10, 118 14 C 120 18, 114 21, 108 19 C 104 17.5, 104 13, 108 11 C 130 2, 185 8, 217 13" pathLength="1" fill="none" strokeLinecap="round" />
                 </svg>
               </span>
               <span className="green-text mobile-only">habilidades</span>
@@ -134,7 +133,6 @@ function Index() {
                 <svg className="underline-swoosh" viewBox="0 0 220 30" preserveAspectRatio="none" aria-hidden="true">
                   <path className="swoosh-main" d="M3 20 C 45 26, 80 25, 100 16 C 108 11, 116 10, 118 14 C 120 18, 114 21, 108 19 C 104 17.5, 104 13, 108 11 C 130 2, 185 8, 217 13" pathLength="1" fill="none" strokeLinecap="round" />
                   <path className="swoosh-soft" d="M10 25 C 60 30, 150 26, 205 17" pathLength="1" fill="none" strokeLinecap="round" />
-                  <path className="swoosh-glint" d="M3 20 C 45 26, 80 25, 100 16 C 108 11, 116 10, 118 14 C 120 18, 114 21, 108 19 C 104 17.5, 104 13, 108 11 C 130 2, 185 8, 217 13" pathLength="1" fill="none" strokeLinecap="round" />
                 </svg>
               </span>
               <span>Impulsa tus</span>
