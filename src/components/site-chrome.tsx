@@ -2,14 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Instagram, Menu, Twitter, X, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { destinations } from "@/lib/educommerce";
-import { useSessionUser } from "@/hooks/use-session-user";
 import logo from "@/assets/logo_educommerce.png.asset.json";
 import Velaris from "@/components/ui/velaris";
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const user = useSessionUser();
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -65,9 +62,15 @@ export function SiteHeader() {
             {nav}
           </nav>
           <div className="header-actions">
-            <Button asChild variant="secondary">
-              {user ? <Link to="/campus">Mi campus</Link> : <Link to="/auth">Ingresar</Link>}
-            </Button>
+            {destinations.login ? (
+              <Button asChild variant="secondary">
+                <a href={destinations.login} target="_blank" rel="noopener noreferrer">
+                  Ingresar
+                </a>
+              </Button>
+            ) : (
+              <span className="footer-pending" title="Acceso al campus en preparación">Ingresar</span>
+            )}
             <Button asChild>
               <Link to="/" hash="cursos">
                 Explorar módulos
@@ -91,9 +94,15 @@ export function SiteHeader() {
           <div ref={menuRef} id="mobile-navigation">
             <nav className="mobile-menu" aria-label="Navegación móvil">
               {nav}
-              <Button asChild variant="secondary">
-                {user ? <Link to="/campus" onClick={() => setMenuOpen(false)}>Mi campus</Link> : <Link to="/auth" onClick={() => setMenuOpen(false)}>Ingresar</Link>}
-              </Button>
+              {destinations.login ? (
+                <Button asChild variant="secondary">
+                  <a href={destinations.login} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>
+                    Ingresar
+                  </a>
+                </Button>
+              ) : (
+                <span className="footer-pending" title="Acceso al campus en preparación">Ingresar</span>
+              )}
               <Button asChild>
                 <Link to="/" hash="cursos" onClick={() => setMenuOpen(false)}>
                   Explorar módulos
