@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Code2, DollarSign, GraduationCap, Image as ImageIcon, LayoutGrid, Megaphone, PenTool, Play, ShoppingBag, TrendingUp, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { categories, filterModules, externalUrl, type Category , formatPrice } from "@/lib/educommerce";
+import { categories, filterModules, externalUrl, type Category } from "@/lib/educommerce";
 import { Destination } from "@/components/destination";
 import { ProgramSection } from "@/components/program-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
