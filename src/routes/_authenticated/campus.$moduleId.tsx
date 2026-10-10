@@ -41,6 +41,7 @@ function ModulePage() {
   const isDone = done.includes(cap.n);
 
   async function toggle() {
+    if (!cap) return;
     setSaving(true); setError("");
     const res = isDone
       ? await supabase.from("progreso").delete().eq("user_id", data.user.id).eq("module_id", moduleId).eq("capsula", cap.n)
