@@ -34,7 +34,7 @@ function CuentaPage() {
   async function saveProfile(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const parsed = perfil.safeParse(Object.fromEntries(new FormData(e.currentTarget)));
-    if (!parsed.success) return setMsg({ ok: false, text: parsed.error.issues[0].message });
+    if (!parsed.success) return setMsg({ ok: false, text: parsed.error.issues[0]?.message ?? "Revisa los datos." });
     setBusy(true);
     const { error } = await supabase.from("profiles").update(parsed.data).eq("id", data.user.id);
     setBusy(false);

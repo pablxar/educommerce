@@ -36,7 +36,7 @@ function ModulePage() {
   if (!mod) return <><CampusNav isAdmin={data.isAdmin} /><main className="campus-main"><div className="campus-panel campus-empty"><p>Este módulo no existe.</p><Button asChild variant="outline"><Link to="/campus">Volver a mi campus</Link></Button></div></main></>;
   const hasAccess = data.owned.includes(mod.id);
   const pct = moduleProgress(mod.id, done);
-  const cap = capsules.find(c => c.n === current) ?? capsules[0];
+  const cap = capsules.find(c => c.n === current) ?? capsules[0]!;
   const isDone = done.includes(cap.n);
 
   async function toggle() {
