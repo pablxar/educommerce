@@ -6,6 +6,7 @@ import { categories, filterModules, destinations, externalUrl, type Category } f
 import logo from "@/assets/logo_educommerce.png.asset.json";
 import student from "@/assets/student.png.asset.json";
 import teacher from "@/assets/teacher-restored.jpg";
+import founders from "@/assets/founders.jpg.asset.json";
 import individual from "@/assets/individual.png.asset.json";
 import academy from "@/assets/academy.png.asset.json";
 import shopify from "@/assets/shopify.svg.asset.json";
@@ -114,9 +115,8 @@ function Index() {
       <section id="quien-te-ensena" className="teacher-section" aria-labelledby="teacher-title">
         <h2 id="teacher-title" className="section-heading">Quién te enseña</h2>
         <div className="teacher-card">
-          <div className="teacher-photo-placeholder" role="img" aria-label="Espacio reservado para una foto vertical pendiente de reemplazar">
-            <ImageIcon aria-hidden="true" />
-            <span>Foto vertical · Reemplazar</span>
+          <div className="teacher-photo-frame">
+            <img src={founders.url} alt="Benjamín, Pablo y Martín, docentes de Educommerce, trabajando en sus laptops" />
           </div>
           <div className="teacher-copy">
             <h3>Benjamín, Pablo y Martín</h3>
