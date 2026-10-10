@@ -147,7 +147,7 @@
 .program-alternative a { color: var(--primary); font-weight: 650; }
 .modules-hero { padding-top: 42px; }
 .modules-hero h1 { font-size: 44px; line-height: 1.1; font-weight: 750; margin-top: 16px; }
-.modules-hero .section-subtitle { font-size: 15px; line-height: 1.6; margin-top: 12px; max-width: 480px; }
+.modules-hero .section-subtitle { font-size: 15px; line-height: 1.6; margin-top: 12px; max-width: 480px; text-align: left; }
 .modules-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 17px; margin-top: 0; }
 .modules-grid .course-card { display: flex; flex-direction: column; }
 .modules-grid .course-body { flex: 1; display: flex; flex-direction: column; }
