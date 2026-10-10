@@ -14,6 +14,18 @@ import klaviyo from "@/assets/klaviyo.png.asset.json";
 import canva from "@/assets/canva.png.asset.json";
 import capcut from "@/assets/capcut.png.asset.json";
 
+const toolLogos = [
+  { src: shopify.url, alt: "Shopify" },
+  { src: meta.url, alt: "Meta Ads" },
+  { src: klaviyo.url, alt: "Klaviyo" },
+  { src: canva.url, alt: "Canva" },
+  { src: capcut.url, alt: "CapCut" },
+  { src: "/tools/googleads.svg", alt: "Google Ads" },
+  { src: "/tools/chatgpt.svg", alt: "ChatGPT" },
+  { src: "/tools/lovable.png", alt: "Lovable" },
+  { src: "/tools/manychat.png", alt: "ManyChat" },
+];
+
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
     { title: "Educommerce | Aprende habilidades digitales" },
@@ -79,7 +91,7 @@ function Index() {
           <div className="class-preview" role="img" aria-label="Vista previa de una clase grabada: Crea tu tienda en Shopify"><img className="teacher-photo" src={teacher} alt="Docente explicando una clase grabada" /><div className="class-syllabus"><h3>Crea tu tienda en Shopify</h3><ol><li>1. Introducción</li><li>2. Configuración de tienda</li><li>3. Productos y colecciones</li><li>4. Medios de pago</li><li>5. Lanzamiento</li></ol></div></div>
         </div>
       </section>
-      <section className="tools-band" aria-label="Herramientas de aprendizaje"><p className="tools-intro">Aprende a trabajar con herramientas como:</p><div className="tools-list"><div className="tool"><img className="tool-icon" src={shopify.url} alt="" />Shopify</div><div className="tool"><img className="tool-icon" src={meta.url} alt="" />Meta Ads</div><img className="tool-logo" src={klaviyo.url} alt="Klaviyo" /><img className="tool-logo" src={canva.url} alt="Canva" /><img className="tool-logo" src={capcut.url} alt="CapCut" /></div></section>
+      <section className="tools-band" aria-label="Herramientas de aprendizaje"><p className="tools-intro">Aprende a trabajar con herramientas como:</p><div className="tools-marquee"><div className="tools-track">{toolLogos.map((tool, index) => <img key={index} src={tool.src} alt={tool.alt} />)}{toolLogos.map((tool, index) => <img key={`dup-${index}`} src={tool.src} alt="" aria-hidden="true" />)}</div></div></section>
       <section id="cursos" className="catalog" aria-labelledby="catalog-title">
         <h2 id="catalog-title" className="section-heading">¿Qué quieres aprender hoy?</h2><p className="section-subtitle">Elige una habilidad y comienza a construir.</p>
         <div className="filters" role="group" aria-label="Filtrar cursos por categoría">{categories.map(value => <Button key={value} variant="filter" aria-pressed={category === value} onClick={() => selectCategory(value)}>{value}</Button>)}</div>
