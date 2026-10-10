@@ -44,7 +44,7 @@
   --nav-glass-border: color-mix(in oklab, var(--background) 34%, transparent);
   --nav-glass-hover: color-mix(in oklab, var(--background) 12%, transparent);
   --nav-glass-shadow: 0 8px 24px color-mix(in oklab, var(--foreground) 8%, transparent);
-  --nav-surface: color-mix(in oklab, var(--primary) 72%, transparent);
+  --nav-surface: color-mix(in oklab, var(--primary) 46%, transparent);
 }
 @layer base {
   * { border-color: var(--border); }
