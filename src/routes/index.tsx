@@ -34,9 +34,9 @@ const toolLogos = [
   { src: klaviyo.url, alt: "Klaviyo" },
   { src: canva.url, alt: "Canva" },
   { src: capcut.url, alt: "CapCut" },
-  { src: "/tools/googleads.svg", alt: "Google Ads" },
+  { src: googleads.url, alt: "Google Ads" },
+  { src: lovableLogo.url, alt: "Lovable" },
   { src: "/tools/chatgpt.svg", alt: "ChatGPT" },
-  { src: "/tools/lovable.png", alt: "Lovable" },
   { src: "/tools/manychat.png", alt: "ManyChat" },
 ];
 
