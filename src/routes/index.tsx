@@ -134,7 +134,7 @@ function Index() {
       </section>
       <section className="program-section" aria-labelledby="program-title">
         <div className="program-card">
-          <p className="eyebrow">Programa completo</p>
+          <p className="eyebrow">PROGRAMA COMPLETO</p>
           <h2 id="program-title">Todos los módulos de Educommerce</h2>
           <ul className="program-list">
             <li><Check aria-hidden="true" /> Acceso a los 10 módulos</li>
