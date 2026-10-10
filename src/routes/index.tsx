@@ -61,7 +61,7 @@ function Index() {
           <div className="eyebrow"><span className="desktop-only">APRENDE A TU RITMO</span><span className="mobile-only">100% ONLINE · CLASES GRABADAS</span></div>
           <h1 id="hero-title"><span>Aprende</span><span className="green-text">habilidades digitales.</span><span>Impulsa tus</span><span>proyectos.</span></h1>
           <p className="hero-description"><span className="desktop-only">Cursos online y prácticos de e-commerce, marketing y creación de contenido. Aprende paso a paso, cuando quieras.</span><span className="mobile-only">Cursos prácticos de e-commerce, marketing y contenido. Aprende paso a paso, cuando quieras.</span></p>
-          <div className="hero-actions"><Button size="lg" asChild><Link to="/" hash="cursos">Explorar cursos <ArrowRight /></Link></Button><Button size="lg" variant="outline" asChild><Link to="/" hash="academia">Conocer la academia <ArrowRight className="mobile-only" /></Link></Button></div>
+          <div className="hero-actions"><Button size="lg" asChild><Link to="/" hash="cursos">Explorar módulos <ArrowRight /></Link></Button><Button size="lg" variant="outline" asChild><Link to="/" hash="academia">Conocer la academia <ArrowRight className="mobile-only" /></Link></Button></div>
           <p className="support-line">100% online · Clases grabadas · Enfoque práctico</p>
         </div>
         <div className="hero-visual">
