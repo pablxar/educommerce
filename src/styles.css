@@ -45,6 +45,7 @@
   --nav-glass-hover: color-mix(in oklab, var(--background) 12%, transparent);
   --nav-glass-shadow: 0 8px 24px color-mix(in oklab, var(--foreground) 8%, transparent);
   --nav-surface: color-mix(in oklab, var(--primary) 46%, transparent);
+  --nav-expanded-radius: 28px;
   --button-radius: 999px;
   --button-primary-surface: color-mix(in oklab, var(--primary) 86%, var(--foreground));
   --button-primary-hover: color-mix(in oklab, var(--primary) 80%, var(--foreground));
@@ -93,7 +94,11 @@
 }
 @media (max-width: 860px) {
   .floating-header.shell { width: calc(100% - 24px); top: 10px; margin-top: 12px; margin-bottom: 12px; border-radius: var(--button-radius); }
+  .floating-header.shell.is-menu-open { border-radius: var(--nav-expanded-radius); }
+  .floating-header.is-menu-open #mobile-navigation { max-height: calc(100dvh - 110px); overflow-y: auto; overscroll-behavior: contain; }
   .floating-header .site-header { min-height: 54px; padding: 6px 16px; }
+  .floating-header .site-header > a { min-width: 0; }
+  .floating-header .menu-toggle { flex-shrink: 0; }
   .floating-header .brand-logo { width: 148px; }
 }
 .brand-logo { display: block; width: 222px; height: auto; }

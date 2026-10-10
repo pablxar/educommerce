@@ -53,7 +53,7 @@ export function SiteHeader() {
         <span className="desktop-only">Habilidades digitales para aplicar desde el primer día</span>
         <span className="mobile-only">Aprende a tu ritmo</span>
       </div>
-      <header className="shell floating-header">
+      <header className={`shell floating-header${menuOpen ? " is-menu-open" : ""}`}>
         <div className="header-glass-surface" aria-hidden="true"><Velaris /></div>
         <div className="site-header">
           <Link to="/" aria-label="Educommerce, inicio">
