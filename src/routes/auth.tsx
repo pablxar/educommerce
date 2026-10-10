@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo_educommerce.png.asset.json";
+import Velaris from "@/components/ui/velaris";
 
 const search = z.object({ redirect: z.string().optional() });
 
@@ -84,6 +85,7 @@ function AuthPage() {
   return (
     <main className="auth-page">
       <div className="auth-panel">
+        <Velaris />
         <Link to="/" aria-label="Educommerce, inicio"><img className="auth-panel-logo" src={logo.url} alt="Educommerce" /></Link>
         <div className="auth-panel-copy">
           <h2>¿Qué quieres <span>aprender hoy?</span></h2>

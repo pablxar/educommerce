@@ -37,6 +37,9 @@
   --brand-google-green: #34a853;
   --brand-google-yellow: #fbbc05;
   --brand-google-red: #ea4335;
+  --auth-motion-brand: #1ea180;
+  --auth-motion-shade: #0b0d0c;
+  --auth-motion-light: #ffffff;
 }
 @layer base {
   * { border-color: var(--border); }
@@ -240,6 +243,8 @@
 /* Acceso */
 .auth-page { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); background: var(--background); }
 .auth-panel { position: relative; background: var(--primary); color: var(--background); display: flex; flex-direction: column; justify-content: space-between; gap: 40px; padding: 48px 56px; overflow: hidden; }
+.auth-panel > a { position: relative; z-index: 1; align-self: flex-start; }
+.auth-panel .velaris-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .auth-panel-logo { width: 190px; height: auto; filter: brightness(0) invert(1); }
 .auth-panel-copy { position: relative; z-index: 1; max-width: 480px; }
 .auth-panel-copy h2 { font-size: 60px; line-height: 1.04; font-weight: 800; letter-spacing: 0; }
@@ -256,6 +261,7 @@
   .auth-page { grid-template-columns: 1fr; }
   .auth-panel { padding: 34px 24px; gap: 0; align-items: center; justify-content: center; }
   .auth-panel-logo { width: 150px; }
+  .auth-panel > a { align-self: center; }
   .auth-panel-copy { display: none; }
   .auth-panel-points { display: none; }
   .auth-card { padding: 32px 20px 40px; }
