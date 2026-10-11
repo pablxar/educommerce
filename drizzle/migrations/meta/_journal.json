@@ -22,6 +22,13 @@
       "when": 1791605821578,
       "tag": "0002_drop_lista_espera",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791692457333,
+      "tag": "0003_newsletter_contact",
+      "breakpoints": true
     }
   ]
 }
