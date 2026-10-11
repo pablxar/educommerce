@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { Instagram, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader, socialLinks } from "@/components/site-chrome";
-import { supabase } from "@/integrations/supabase/client";
+import { submitContact } from "@/lib/contact.functions";
 
 const title = "Contacto | Educommerce";
 const description = "Escríbenos tus dudas sobre los módulos, el campus o tu compra en Educommerce.";
