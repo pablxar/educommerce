@@ -111,7 +111,7 @@ function Index() {
   return (
     <>
       <SiteHeader />
-      <main className="shell">
+      <main className="shell homepage">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
 
