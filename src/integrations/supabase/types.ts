@@ -83,21 +83,59 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_name_receipts: {
+        Row: {
+          created_at: string
+          subscriber_id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          subscriber_id: string
+          token?: string
+        }
+        Update: {
+          created_at?: string
+          subscriber_id?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "newsletter_name_receipts_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "newsletter_subscribers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       newsletter_subscribers: {
         Row: {
           created_at: string
           email: string
           id: string
+          name: string | null
+          source: string
+          sync_revision: string
+          synced_at: string | null
         }
         Insert: {
           created_at?: string
           email: string
           id?: string
+          name?: string | null
+          source?: string
+          sync_revision?: string
+          synced_at?: string | null
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
+          name?: string | null
+          source?: string
+          sync_revision?: string
+          synced_at?: string | null
         }
         Relationships: []
       }

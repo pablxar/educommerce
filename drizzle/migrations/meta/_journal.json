@@ -29,6 +29,13 @@
       "when": 1791692457333,
       "tag": "0003_newsletter_contact",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791728923183,
+      "tag": "0004_newsletter_lead_sync",
+      "breakpoints": true
     }
   ]
 }

@@ -24,7 +24,7 @@ function Privacidad() {
       <p>En Educommerce respetamos tu privacidad. Esta política explica qué datos recopilamos, para qué los usamos y qué derechos tienes, conforme a la Ley N° 19.628 sobre Protección de la Vida Privada de Chile y sus modificaciones.</p>
       <h2>1. Datos que recopilamos</h2>
       <ul>
-        <li><strong>Newsletter:</strong> tu correo electrónico.</li>
+        <li><strong>Newsletter:</strong> tu correo electrónico, nombre si decides indicarlo, fecha y origen de la suscripción. Estos datos se guardan también en el panel privado de Educommerce para gestionar los contactos del newsletter.</li>
         <li><strong>Formulario de contacto:</strong> nombre, correo, asunto y mensaje.</li>
         <li><strong>Cuenta del campus:</strong> nombre, correo, progreso en los módulos y accesos adquiridos.</li>
         <li><strong>Compras:</strong> datos de facturación procesados por el proveedor de pagos; no guardamos datos de tarjetas.</li>

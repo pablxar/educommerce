@@ -16,3 +16,4 @@
 - This project is the public landing only; the campus and its sign-in live in a separate project served at app.educommerce.cl. "Ingresar" opens that external destination in a new tab via VITE_LOGIN_URL — never add local auth or campus routes here.
 - Use extracted photographs from supplied references only for the study composition; course thumbnails remain explicitly labeled replaceable placeholders.
 - Keep the catalog program offer in a dedicated presentation component and its commercial values in the browser-safe catalog module so its two-column grid placement and terms stay consistent without backend reads.
+- Newsletter mutations use validated server functions, with local durable pending-delivery rows and bounded retry on subsequent submissions; private campus credentials stay server-only, and optional-name updates require a short-lived database receipt rather than an arbitrary email.
