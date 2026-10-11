@@ -26,15 +26,20 @@ export async function storeContactSubmission(input: ContactInput): Promise<{ id:
   if (error || !data) throw new Error('No pudimos guardar tu mensaje.')
 
   // Owner notification — fixed recipient and template, defined server-side.
-  await sendTemplateEmail('contact-notification', 'educommerce.admin@gmail.com', {
-    templateData: {
-      name: input.name,
-      email: input.email,
-      subject: input.subject ?? undefined,
-      message: input.message,
-    },
-    idempotencyKey: `contact-notification-${data.id}`,
-  })
+  // A failed send (e.g. domain still verifying) must not lose the submission.
+  try {
+    await sendTemplateEmail('contact-notification', 'educommerce.admin@gmail.com', {
+      templateData: {
+        name: input.name,
+        email: input.email,
+        subject: input.subject ?? undefined,
+        message: input.message,
+      },
+      idempotencyKey: `contact-notification-${data.id}`,
+    })
+  } catch (error) {
+    console.error('Contact notification email failed:', error)
+  }
 
   return { id: data.id }
 }
