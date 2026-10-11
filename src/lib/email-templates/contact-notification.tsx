@@ -37,7 +37,7 @@ const ContactNotification = ({ name, email, subject, message }: Props) => (
 export const template = {
   component: ContactNotification,
   subject: (data: Record<string, any>) =>
-    `Contacto web: ${data.subject || 'Nuevo mensaje'} — ${data.name ?? ''}`.trim(),
+    `Contacto web: ${data['subject'] || 'Nuevo mensaje'} — ${data['name'] ?? ''}`.trim(),
   displayName: 'Notificación de contacto',
   previewData: {
     name: 'María González',

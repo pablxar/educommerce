@@ -12,7 +12,7 @@ import path from "node:path";
 
 // Load all env vars into process.env for server-side code (server routes and
 // server functions). VITE_* vars for the client are handled by the wrapper.
-const serverEnv = loadEnv(process.env.NODE_ENV ?? "development", process.cwd(), "");
+const serverEnv = loadEnv(process.env["NODE_ENV"] ?? "development", process.cwd(), "");
 Object.assign(process.env, serverEnv);
 
 export default defineConfig({
