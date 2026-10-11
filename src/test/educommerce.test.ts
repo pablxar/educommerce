@@ -12,9 +12,15 @@ describe("Homepage module filter rules", () => {
   it("External destinations reject unsafe protocols", () => { expect(externalUrl("javascript:alert(1)")).toBeUndefined(); expect(externalUrl("https://example.com/login")).toBe("https://example.com/login"); });
 });
 
-import { modules, formatPrice, moduleProgress } from "@/lib/educommerce";
+import { modules, formatPrice, moduleProgress, fullProgram } from "@/lib/educommerce";
+describe("Full program offer", () => {
+  it("costs 297 USD", () => { expect(fullProgram.price).toBe(297); });
+  it("shows the 670 USD reference price", () => { expect(fullProgram.originalPrice).toBe(670); });
+  it("has a 7-day refund guarantee", () => { expect(fullProgram.guaranteeDays).toBe(7); });
+  it("includes 10 modules", () => { expect(fullProgram.moduleCount).toBe(10); });
+});
 describe("Module prices", () => {
-  const price = (id: string) => modules.find(m => m.id === id)!.price;
+  const price = (id: string) => modules.find(m => m.id === id)?.price;
   it("Shopify costs 99 USD", () => { expect(price("shopify")).toBe(99); expect(formatPrice(99)).toBe("$99 USD"); });
   it("Meta Ads and Google Ads cost 79 USD", () => { expect(price("meta")).toBe(79); expect(price("google")).toBe(79); });
   it("Klaviyo costs 69 USD", () => { expect(price("klaviyo")).toBe(69); });

@@ -26,6 +26,13 @@ export const destinations = {
   program: externalUrl(import.meta.env['VITE_PROGRAM_URL']),
 };
 
+export const fullProgram = {
+  price: 297,
+  originalPrice: 670,
+  guaranteeDays: 7,
+  moduleCount: 10,
+} as const;
+
 export function formatPrice(price: number) {
   return `$${price} USD`;
 }

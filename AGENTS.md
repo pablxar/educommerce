@@ -15,3 +15,4 @@
 - Configure external login, academy, contact and course destinations through VITE_* environment variables; missing destinations show accessible pending-resource states rather than invented links.
 - This project is the public landing only; the campus and its sign-in live in a separate project served at app.educommerce.cl. "Ingresar" opens that external destination in a new tab via VITE_LOGIN_URL — never add local auth or campus routes here.
 - Use extracted photographs from supplied references only for the study composition; course thumbnails remain explicitly labeled replaceable placeholders.
+- Keep the catalog program offer in a dedicated presentation component and its commercial values in the browser-safe catalog module so its two-column grid placement and terms stay consistent without backend reads.
