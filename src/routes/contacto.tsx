@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { Instagram, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader, socialLinks } from "@/components/site-chrome";
-import { supabase } from "@/integrations/supabase/client";
+import { submitContact } from "@/lib/contact.functions";
 
 const title = "Contacto | Educommerce";
 const description = "Escríbenos tus dudas sobre los módulos, el campus o tu compra en Educommerce.";
@@ -31,6 +32,7 @@ const schema = z.object({
 });
 
 function Contacto() {
+  const send = useServerFn(submitContact);
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [error, setError] = useState("");
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -40,8 +42,12 @@ function Contacto() {
     if (!parsed.success) return setError(parsed.error.issues[0]?.message ?? "Revisa los datos");
     setError("");
     setStatus("sending");
-    const { error: dbError } = await supabase.from("contact_submissions").insert({ ...parsed.data, subject: parsed.data.subject || null });
-    if (dbError) { setStatus("idle"); return setError("No pudimos enviar tu mensaje. Inténtalo de nuevo."); }
+    try {
+      await send({ data: parsed.data });
+    } catch {
+      setStatus("idle");
+      return setError("No pudimos enviar tu mensaje. Inténtalo de nuevo.");
+    }
     form.reset();
     setStatus("sent");
   }
