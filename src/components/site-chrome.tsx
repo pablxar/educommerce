@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Instagram, Menu, Twitter, X, Youtube } from "lucide-react";
+import { Instagram, Menu, X, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { destinations } from "@/lib/educommerce";
 import logo from "@/assets/logo_educommerce.png.asset.json";
 import Velaris from "@/components/ui/velaris";
+import { NewsletterForm } from "@/components/newsletter-form";
+
+export const socialLinks = {
+  instagram: "https://www.instagram.com/educommerce.cl",
+  youtube: "https://youtube.com/@educommercecl",
+};
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -150,34 +156,28 @@ export function SiteFooter() {
           <Link to="/" hash="quien-te-ensena">
             Acerca de
           </Link>
-          <FooterPending>Términos y condiciones</FooterPending>
-          <FooterPending>Política de privacidad</FooterPending>
+          <Link to="/terminos">Términos y condiciones</Link>
+          <Link to="/privacidad">Política de privacidad</Link>
         </nav>
         <nav className="footer-col" aria-label="Recursos">
           <h3>Recursos</h3>
           <FooterPending>Blog</FooterPending>
-          {destinations.contact ? (
-            <a href={destinations.contact}>Contacto</a>
-          ) : (
-            <FooterPending>Contacto</FooterPending>
-          )}
+          <Link to="/contacto">Contacto</Link>
           <Link to="/" hash="preguntas-frecuentes">Preguntas frecuentes</Link>
         </nav>
         <div className="footer-col footer-social">
           <h3>Redes sociales</h3>
           <div className="footer-social-icons">
-            <span className="footer-icon" title="Instagram · enlace pendiente" aria-label="Instagram, enlace pendiente">
+            <a className="footer-icon" href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram de Educommerce">
               <Instagram />
-            </span>
-            <span className="footer-icon" title="YouTube · enlace pendiente" aria-label="YouTube, enlace pendiente">
+            </a>
+            <a className="footer-icon" href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube de Educommerce">
               <Youtube />
-            </span>
-            <span className="footer-icon" title="X · enlace pendiente" aria-label="X, enlace pendiente">
-              <Twitter />
-            </span>
+            </a>
           </div>
         </div>
       </div>
+      <div className="shell"><NewsletterForm /></div>
       <div className="footer-bottom">
         <div className="shell footer-bottom-inner">
           <p>© 2026 Educommerce. Todos los derechos reservados.</p>
