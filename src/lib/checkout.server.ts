@@ -28,6 +28,7 @@ export async function startCheckout(input: { productId: string; email: string; n
   if (error || !order) { console.error("order insert failed", error); return { ok: false as const, error: "No pudimos iniciar tu compra. Inténtalo de nuevo." }; }
 
   const origin = siteOrigin();
+  const isPublic = origin.startsWith("https://") && !/localhost|127\.0\.0\.1/.test(origin);
   const result = `${origin}/checkout/resultado?orden=${order.id}`;
   const res = await fetch(`${MP}/checkout/preferences`, {
     method: "POST",
@@ -37,8 +38,8 @@ export async function startCheckout(input: { productId: string; email: string; n
       payer: { email: input.email, name: input.name },
       external_reference: order.id,
       back_urls: { success: result, pending: result, failure: result },
-      auto_return: origin.startsWith("https://") ? "approved" : undefined,
-      notification_url: origin.startsWith("https://") ? `${origin}/api/public/mercadopago/webhook` : undefined,
+      auto_return: isPublic ? "approved" : undefined,
+      notification_url: isPublic ? `${origin}/api/public/mercadopago/webhook` : undefined,
       payment_methods: { installments: fullProgram.installments },
       statement_descriptor: "EDUCOMMERCE",
       metadata: { order_id: order.id, product_id: product.id },
