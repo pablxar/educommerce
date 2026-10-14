@@ -18,3 +18,5 @@
 - Keep the catalog program offer in a dedicated presentation component and its commercial values in the browser-safe catalog module so its two-column grid placement and terms stay consistent without backend reads.
 - Newsletter mutations use validated server functions, with local durable pending-delivery rows and bounded retry on subsequent submissions; private campus credentials stay server-only, and optional-name updates require a short-lived database receipt rather than an arbitrary email.
 - Mount public support once in the root layout; reuse the validated contact action and fixed owner notification so panel messages have the same durable storage as the contact page, while WhatsApp is an outbound link only.
+- Checkout prices are resolved server-side from src/lib/products.ts; Mercado Pago webhooks re-fetch the payment before updating orders, so client data is never trusted.
+- Paid orders sync to the campus by email (guest checkout) with durable pending rows and retry on later notifications.
