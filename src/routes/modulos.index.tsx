@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Code2, DollarSign, GraduationCap, Image as ImageIcon, LayoutGrid, Megaphone, PenTool, Play, ShoppingBag, TrendingUp, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { categories, filterModules, formatPrice, type Category } from "@/lib/educommerce";
-import { Link } from "@tanstack/react-router";
 import { moduleImages } from "@/lib/module-images";
 import { ProgramSection } from "@/components/program-section";
 import { ProgramOffer } from "@/components/program-offer";

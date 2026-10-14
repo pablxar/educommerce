@@ -392,9 +392,9 @@ function Index() {
                   </span>
                   <span className="mobile-only">Conecta las habilidades para potenciar tu negocio digital.</span>
                 </p>
-                <Destination url={destinations.academy} label="Conocer la academia">
-                  Conocer la academia <ArrowRight />
-                </Destination>
+                <Button asChild>
+                  <Link to="/checkout" search={{ producto: "pack-completo" }}>Ver el Pack Completo <ArrowRight /></Link>
+                </Button>
               </div>
               <img className="path-image" src={academy.url} alt="Alumna de la Academia Educommerce" />
             </article>
