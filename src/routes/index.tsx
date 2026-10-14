@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { categories, filterModules, destinations, type Category , formatPrice } from "@/lib/educommerce";
 import { Destination } from "@/components/destination";
+import { moduleImages } from "@/lib/module-images";
 import { FaqSection } from "@/components/faq-section";
 import { ProgramSection } from "@/components/program-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -320,10 +321,11 @@ function Index() {
           >
             {visibleCourses.map((m) => (
               <article className="course-card" key={m.id} aria-label={`Módulo ${m.number}: ${m.title}`}>
-                <div className="course-placeholder" aria-label={`Miniatura pendiente: ${m.title}`}>
+                {moduleImages[m.id] ? <img className="course-thumb" src={moduleImages[m.id]} alt="" width={1280} height={800} loading="lazy" /> : (
+                <div className="course-placeholder">
                   <ImageIcon aria-hidden="true" />
-                  <span>Miniatura · Módulo {m.number}</span>
-                </div>
+                  <span>Incluido en el Pack</span>
+                </div>)}
                 <div className="course-body">
                   <div className="module-meta">
                     <span className="module-number">{String(m.number).padStart(2, "0")}</span>
@@ -331,9 +333,9 @@ function Index() {
                   </div>
                   <h3>{m.title}</h3>
                   <p className="course-description">{m.description}</p>
-<p className="module-price">{formatPrice(m.price)}</p>
+<p className="module-price">{m.price ? formatPrice(m.price) : "Solo en el Pack Completo"}</p>
                   <Button variant="default" asChild className="course-link course-cta">
-                    <Link to="/modulos" aria-label={`Ver módulo ${m.title}`}>
+                    <Link to="/modulos/$moduleId" params={{ moduleId: m.id }} aria-label={`Ver módulo ${m.title}`}>
                       Ver módulo <ArrowRight />
                     </Link>
                   </Button>

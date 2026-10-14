@@ -56,7 +56,7 @@ function ResultPage() {
       </> : <>
         <p className="eyebrow">PAGO EN PROCESO</p>
         <h1>Estamos confirmando tu pago</h1>
-        <p>Mercado Pago está procesando tu compra. Te avisaremos por correo y el acceso se activará apenas se confirme.</p>
+        <p>Mercado Pago está procesando tu compra. El acceso se activará apenas se confirme; puedes dejar esta página abierta.</p>
       </>}
     </main>
     <SiteFooter />
