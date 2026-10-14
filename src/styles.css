@@ -64,7 +64,49 @@
   --button-gloss: linear-gradient(180deg, var(--button-highlight) 0%, var(--button-highlight-soft) 38%, var(--button-clear) 52%, var(--button-clear) 76%, var(--button-highlight-soft) 100%);
   --button-secondary-gloss: linear-gradient(180deg, var(--background), var(--muted));
   --button-danger-surface: var(--foreground);
+  --support-header: linear-gradient(150deg, var(--foreground), var(--primary) 75%);
+  --support-shadow: 0 12px 48px color-mix(in oklab, var(--foreground) 16%, transparent);
 }
+.support-widget { position: fixed; right: 24px; bottom: max(24px, env(safe-area-inset-bottom)); z-index: 60; }
+.support-launcher.edu-button { width: 58px; height: 58px; border-radius: var(--button-radius); }
+.support-launcher.edu-button svg { width: 25px; height: 25px; }
+.support-panel { z-index: 70; width: min(390px, calc(100vw - 24px)); padding: 0; border-radius: 24px; overflow: hidden; background: var(--dialog-glass); box-shadow: var(--support-shadow); display: flex; flex-direction: column; max-height: min(690px, calc(100dvh - 110px)); }
+.support-header { position: relative; padding: 30px 26px 28px; background: var(--support-header); color: var(--background); flex-shrink: 0; }
+.support-header img { width: 146px; filter: brightness(0) invert(1); margin-bottom: 30px; }
+.support-header p { font-size: 14px; margin-bottom: 7px; }
+.support-header h2 { font-size: 28px; line-height: 1.15; font-weight: 700; max-width: 290px; }
+.support-close.edu-button { position: absolute; right: 15px; top: 18px; color: var(--background); }
+.support-body { min-height: 230px; padding: 20px; overflow-y: auto; overscroll-behavior: contain; flex: 1; }
+.support-choice.edu-button { width: 100%; height: auto; min-height: 74px; justify-content: flex-start; border-radius: 8px; padding: 17px 16px; margin-bottom: 12px; white-space: normal; text-align: left; gap: 12px; }
+.support-choice span { flex: 1; min-width: 0; font-weight: 650; }
+.support-choice small { display: block; font-size: 12px; font-weight: 400; margin-top: 4px; color: var(--muted-foreground); }
+.support-note { margin-top: 22px; padding: 0 4px; }
+.support-note span { color: var(--primary); font-size: 12px; font-weight: 650; }
+.support-note p { margin-top: 7px; font-size: 14px; line-height: 1.5; }
+.support-nav { flex-shrink: 0; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); border-top: 1px solid var(--border); padding: 10px 14px; background: var(--background); }
+.support-nav .edu-button { flex-direction: column; gap: 5px; height: 57px; padding: 6px 0; font-size: 12px; color: var(--muted-foreground); }
+.support-nav .edu-button svg { width: 21px; height: 21px; }
+.support-nav .edu-button[aria-pressed=true] { color: var(--primary); }
+.support-form { display: grid; gap: 13px; margin-top: 12px; }
+.support-form label { display: grid; gap: 5px; font-size: 12px; font-weight: 550; }
+.support-form input, .support-form textarea { width: 100%; border: 1px solid var(--border); border-radius: 8px; background: var(--background); color: var(--foreground); padding: 10px 12px; font: inherit; font-size: 16px; }
+.support-form textarea { resize: vertical; min-height: 80px; }
+.support-form input:focus, .support-form textarea:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
+.support-privacy { font-size: 11px; color: var(--muted-foreground); }
+.support-privacy a { color: var(--primary); text-decoration: underline; }
+.support-success { text-align: center; padding: 20px 0; display: grid; justify-items: center; gap: 14px; }
+.support-success > svg { color: var(--primary); width: 34px; height: 34px; }
+.support-success h3 { font-size: 18px; }
+.support-success p, .support-help p { font-size: 14px; line-height: 1.5; }
+.support-help { display: grid; gap: 14px; }
+@media (max-width: 600px) {
+  .support-widget { right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); }
+  .support-panel { max-height: calc(100dvh - 100px); }
+  .support-header { padding: 22px 24px; }
+  .support-header img { margin-bottom: 20px; }
+  .support-header h2 { font-size: 25px; }
+}
+@media (prefers-reduced-motion: reduce) { .support-panel { animation: none; transition: none; } }
 @layer base {
   * { border-color: var(--border); }
   html { scroll-behavior: smooth; scroll-padding-top: 24px; }
