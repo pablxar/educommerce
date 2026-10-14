@@ -11,9 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactoRouteImport } from './routes/contacto'
-import { Route as ModulosRouteImport } from './routes/modulos'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as TerminosRouteImport } from './routes/terminos'
+import { Route as ModulosIndexRouteImport } from './routes/modulos.index'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -28,11 +28,6 @@ const ContactoRoute = ContactoRouteImport.update({
   path: '/contacto',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ModulosRoute = ModulosRouteImport.update({
-  id: '/modulos',
-  path: '/modulos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PrivacidadRoute = PrivacidadRouteImport.update({
   id: '/privacidad',
   path: '/privacidad',
@@ -41,6 +36,11 @@ const PrivacidadRoute = PrivacidadRouteImport.update({
 const TerminosRoute = TerminosRouteImport.update({
   id: '/terminos',
   path: '/terminos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModulosIndexRoute = ModulosIndexRouteImport.update({
+  id: '/modulos/',
+  path: '/modulos/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
@@ -63,9 +63,9 @@ const LovableEmailTransactionalPreviewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
-  '/modulos': typeof ModulosRoute
   '/privacidad': typeof PrivacidadRoute
   '/terminos': typeof TerminosRoute
+  '/modulos/': typeof ModulosIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -73,9 +73,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
-  '/modulos': typeof ModulosRoute
   '/privacidad': typeof PrivacidadRoute
   '/terminos': typeof TerminosRoute
+  '/modulos': typeof ModulosIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -84,9 +84,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
-  '/modulos': typeof ModulosRoute
   '/privacidad': typeof PrivacidadRoute
   '/terminos': typeof TerminosRoute
+  '/modulos/': typeof ModulosIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -96,9 +96,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contacto'
-    | '/modulos'
     | '/privacidad'
     | '/terminos'
+    | '/modulos/'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -106,9 +106,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contacto'
-    | '/modulos'
     | '/privacidad'
     | '/terminos'
+    | '/modulos'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -116,9 +116,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contacto'
-    | '/modulos'
     | '/privacidad'
     | '/terminos'
+    | '/modulos/'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -127,9 +127,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactoRoute: typeof ContactoRoute
-  ModulosRoute: typeof ModulosRoute
   PrivacidadRoute: typeof PrivacidadRoute
   TerminosRoute: typeof TerminosRoute
+  ModulosIndexRoute: typeof ModulosIndexRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -151,13 +151,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/modulos': {
-      id: '/modulos'
-      path: '/modulos'
-      fullPath: '/modulos'
-      preLoaderRoute: typeof ModulosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/privacidad': {
       id: '/privacidad'
       path: '/privacidad'
@@ -170,6 +163,13 @@ declare module '@tanstack/react-router' {
       path: '/terminos'
       fullPath: '/terminos'
       preLoaderRoute: typeof TerminosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modulos/': {
+      id: '/modulos/'
+      path: '/modulos'
+      fullPath: '/modulos/'
+      preLoaderRoute: typeof ModulosIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lovable/email/auth/preview': {
@@ -199,9 +199,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactoRoute: ContactoRoute,
-  ModulosRoute: ModulosRoute,
   PrivacidadRoute: PrivacidadRoute,
   TerminosRoute: TerminosRoute,
+  ModulosIndexRoute: ModulosIndexRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
