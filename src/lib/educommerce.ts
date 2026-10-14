@@ -27,14 +27,18 @@ export const destinations = {
 };
 
 export const fullProgram = {
-  price: 297,
-  originalPrice: 670,
+  price: 297000,
+  originalPrice: 499920,
+  installments: 6,
   guaranteeDays: 7,
   moduleCount: 10,
 } as const;
 
 export function formatPrice(price: number) {
-  return `$${price} USD`;
+  return `$${price.toLocaleString("es-CL").replace(/,/g, ".")}`;
+}
+export function installmentPrice(price: number, installments = 6) {
+  return Math.ceil(price / installments);
 }
 export type ModuleId = (typeof modules)[number]["id"];
 export function getModule(id: string) {
