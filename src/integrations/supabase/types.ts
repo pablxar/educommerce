@@ -139,6 +139,60 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          amount: number
+          attribution: Json
+          campus_synced_at: string | null
+          created_at: string
+          currency: string
+          email: string
+          id: string
+          module_ids: string[]
+          mp_payment_id: string | null
+          mp_preference_id: string | null
+          name: string
+          paid_at: string | null
+          product_id: string
+          product_title: string
+          status: string
+        }
+        Insert: {
+          amount: number
+          attribution?: Json
+          campus_synced_at?: string | null
+          created_at?: string
+          currency?: string
+          email: string
+          id?: string
+          module_ids?: string[]
+          mp_payment_id?: string | null
+          mp_preference_id?: string | null
+          name?: string
+          paid_at?: string | null
+          product_id: string
+          product_title: string
+          status?: string
+        }
+        Update: {
+          amount?: number
+          attribution?: Json
+          campus_synced_at?: string | null
+          created_at?: string
+          currency?: string
+          email?: string
+          id?: string
+          module_ids?: string[]
+          mp_payment_id?: string | null
+          mp_preference_id?: string | null
+          name?: string
+          paid_at?: string | null
+          product_id?: string
+          product_title?: string
+          status?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           apellido: string
