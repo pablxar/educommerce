@@ -37,7 +37,7 @@ export async function startCheckout(input: { productId: string; email: string; n
       payer: { email: input.email, name: input.name },
       external_reference: order.id,
       back_urls: { success: result, pending: result, failure: result },
-      auto_return: "approved",
+      auto_return: origin.startsWith("https://") ? "approved" : undefined,
       notification_url: origin.startsWith("https://") ? `${origin}/api/public/mercadopago/webhook` : undefined,
       payment_methods: { installments: fullProgram.installments },
       statement_descriptor: "EDUCOMMERCE",

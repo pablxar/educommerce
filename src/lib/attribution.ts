@@ -16,7 +16,7 @@ export function captureAttribution() {
   const found = pickAttribution(window.location.search);
   let stored: { first?: Attribution; last?: Attribution } = {};
   try { stored = JSON.parse(localStorage.getItem(STORAGE) ?? "{}"); } catch { /* ignore */ }
-  const touch: Attribution = { ...found, landing_page: window.location.pathname, referrer: document.referrer.slice(0, 300) || undefined, first_seen: new Date().toISOString() };
+  const touch: Attribution = { ...found, landing_page: window.location.pathname, ...(document.referrer ? { referrer: document.referrer.slice(0, 300) } : {}), first_seen: new Date().toISOString() };
   if (!stored.first) stored.first = touch;
   if (Object.keys(found).length) stored.last = touch;
   try { localStorage.setItem(STORAGE, JSON.stringify(stored)); } catch { /* ignore */ }
