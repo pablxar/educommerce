@@ -13,3 +13,6 @@
 - [ ] Supply final thumbnails and external URLs — waiting for the user's assets and destinations.- [x] Contact form ("Hablemos") sends structured owner notification to educommerce.admin@gmail.com via server-side send; submission stored first, email failure never loses it.
 - [x] Confirm owner notification email send from notify.educommerce.cl through the support form.
 - [ ] Publish landing to activate contact email notifications on the live site.
+- [x] CLP prices, module pages with combos (20%) and Pack upsell, Mercado Pago checkout with UTM attribution; verified redirect to Mercado Pago.
+- [ ] Campus must expose POST /api/public/purchases (Bearer LEADS_SYNC_SECRET) to attach paid orders by email — done from the campus project.
+- [ ] Switch to production Mercado Pago token and publish.

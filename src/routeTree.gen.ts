@@ -11,9 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactoRouteImport } from './routes/contacto'
-import { Route as ModulosRouteImport } from './routes/modulos'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as TerminosRouteImport } from './routes/terminos'
+import { Route as CheckoutIndexRouteImport } from './routes/checkout.index'
+import { Route as CheckoutResultadoRouteImport } from './routes/checkout.resultado'
+import { Route as ModulosIndexRouteImport } from './routes/modulos.index'
+import { Route as ModulosModuleIdRouteImport } from './routes/modulos.$moduleId'
+import { Route as ApiPublicMercadopagoWebhookRouteImport } from './routes/api/public/mercadopago/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -28,11 +32,6 @@ const ContactoRoute = ContactoRouteImport.update({
   path: '/contacto',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ModulosRoute = ModulosRouteImport.update({
-  id: '/modulos',
-  path: '/modulos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PrivacidadRoute = PrivacidadRouteImport.update({
   id: '/privacidad',
   path: '/privacidad',
@@ -43,6 +42,32 @@ const TerminosRoute = TerminosRouteImport.update({
   path: '/terminos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutIndexRoute = CheckoutIndexRouteImport.update({
+  id: '/checkout/',
+  path: '/checkout/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutResultadoRoute = CheckoutResultadoRouteImport.update({
+  id: '/checkout/resultado',
+  path: '/checkout/resultado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModulosIndexRoute = ModulosIndexRouteImport.update({
+  id: '/modulos/',
+  path: '/modulos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModulosModuleIdRoute = ModulosModuleIdRouteImport.update({
+  id: '/modulos/$moduleId',
+  path: '/modulos/$moduleId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicMercadopagoWebhookRoute =
+  ApiPublicMercadopagoWebhookRouteImport.update({
+    id: '/api/public/mercadopago/webhook',
+    path: '/api/public/mercadopago/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -63,9 +88,13 @@ const LovableEmailTransactionalPreviewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
-  '/modulos': typeof ModulosRoute
   '/privacidad': typeof PrivacidadRoute
   '/terminos': typeof TerminosRoute
+  '/checkout/resultado': typeof CheckoutResultadoRoute
+  '/modulos/$moduleId': typeof ModulosModuleIdRoute
+  '/checkout/': typeof CheckoutIndexRoute
+  '/modulos/': typeof ModulosIndexRoute
+  '/api/public/mercadopago/webhook': typeof ApiPublicMercadopagoWebhookRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -73,9 +102,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
-  '/modulos': typeof ModulosRoute
   '/privacidad': typeof PrivacidadRoute
   '/terminos': typeof TerminosRoute
+  '/checkout/resultado': typeof CheckoutResultadoRoute
+  '/modulos/$moduleId': typeof ModulosModuleIdRoute
+  '/checkout': typeof CheckoutIndexRoute
+  '/modulos': typeof ModulosIndexRoute
+  '/api/public/mercadopago/webhook': typeof ApiPublicMercadopagoWebhookRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -84,9 +117,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
-  '/modulos': typeof ModulosRoute
   '/privacidad': typeof PrivacidadRoute
   '/terminos': typeof TerminosRoute
+  '/checkout/resultado': typeof CheckoutResultadoRoute
+  '/modulos/$moduleId': typeof ModulosModuleIdRoute
+  '/checkout/': typeof CheckoutIndexRoute
+  '/modulos/': typeof ModulosIndexRoute
+  '/api/public/mercadopago/webhook': typeof ApiPublicMercadopagoWebhookRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -96,9 +133,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contacto'
-    | '/modulos'
     | '/privacidad'
     | '/terminos'
+    | '/checkout/resultado'
+    | '/modulos/$moduleId'
+    | '/checkout/'
+    | '/modulos/'
+    | '/api/public/mercadopago/webhook'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -106,9 +147,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contacto'
-    | '/modulos'
     | '/privacidad'
     | '/terminos'
+    | '/checkout/resultado'
+    | '/modulos/$moduleId'
+    | '/checkout'
+    | '/modulos'
+    | '/api/public/mercadopago/webhook'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -116,9 +161,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contacto'
-    | '/modulos'
     | '/privacidad'
     | '/terminos'
+    | '/checkout/resultado'
+    | '/modulos/$moduleId'
+    | '/checkout/'
+    | '/modulos/'
+    | '/api/public/mercadopago/webhook'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/transactional/preview'
@@ -127,9 +176,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactoRoute: typeof ContactoRoute
-  ModulosRoute: typeof ModulosRoute
   PrivacidadRoute: typeof PrivacidadRoute
   TerminosRoute: typeof TerminosRoute
+  CheckoutResultadoRoute: typeof CheckoutResultadoRoute
+  ModulosModuleIdRoute: typeof ModulosModuleIdRoute
+  CheckoutIndexRoute: typeof CheckoutIndexRoute
+  ModulosIndexRoute: typeof ModulosIndexRoute
+  ApiPublicMercadopagoWebhookRoute: typeof ApiPublicMercadopagoWebhookRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -151,13 +204,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/modulos': {
-      id: '/modulos'
-      path: '/modulos'
-      fullPath: '/modulos'
-      preLoaderRoute: typeof ModulosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/privacidad': {
       id: '/privacidad'
       path: '/privacidad'
@@ -170,6 +216,41 @@ declare module '@tanstack/react-router' {
       path: '/terminos'
       fullPath: '/terminos'
       preLoaderRoute: typeof TerminosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/': {
+      id: '/checkout/'
+      path: '/checkout'
+      fullPath: '/checkout/'
+      preLoaderRoute: typeof CheckoutIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/resultado': {
+      id: '/checkout/resultado'
+      path: '/checkout/resultado'
+      fullPath: '/checkout/resultado'
+      preLoaderRoute: typeof CheckoutResultadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modulos/': {
+      id: '/modulos/'
+      path: '/modulos'
+      fullPath: '/modulos/'
+      preLoaderRoute: typeof ModulosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modulos/$moduleId': {
+      id: '/modulos/$moduleId'
+      path: '/modulos/$moduleId'
+      fullPath: '/modulos/$moduleId'
+      preLoaderRoute: typeof ModulosModuleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/mercadopago/webhook': {
+      id: '/api/public/mercadopago/webhook'
+      path: '/api/public/mercadopago/webhook'
+      fullPath: '/api/public/mercadopago/webhook'
+      preLoaderRoute: typeof ApiPublicMercadopagoWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lovable/email/auth/preview': {
@@ -199,9 +280,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactoRoute: ContactoRoute,
-  ModulosRoute: ModulosRoute,
   PrivacidadRoute: PrivacidadRoute,
   TerminosRoute: TerminosRoute,
+  CheckoutResultadoRoute: CheckoutResultadoRoute,
+  ModulosModuleIdRoute: ModulosModuleIdRoute,
+  CheckoutIndexRoute: CheckoutIndexRoute,
+  ModulosIndexRoute: ModulosIndexRoute,
+  ApiPublicMercadopagoWebhookRoute: ApiPublicMercadopagoWebhookRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,

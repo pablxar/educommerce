@@ -36,6 +36,13 @@
       "when": 1791728923183,
       "tag": "0004_newsletter_lead_sync",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792010467030,
+      "tag": "0005_checkout_orders",
+      "breakpoints": true
     }
   ]
 }

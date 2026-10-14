@@ -13,19 +13,26 @@ describe("Homepage module filter rules", () => {
 });
 
 import { modules, formatPrice, moduleProgress, fullProgram } from "@/lib/educommerce";
-describe("Full program offer", () => {
-  it("costs 297 USD", () => { expect(fullProgram.price).toBe(297); });
-  it("shows the 670 USD reference price", () => { expect(fullProgram.originalPrice).toBe(670); });
-  it("has a 7-day refund guarantee", () => { expect(fullProgram.guaranteeDays).toBe(7); });
-  it("includes 10 modules", () => { expect(fullProgram.moduleCount).toBe(10); });
+import { getProduct, bundlePrice, isPurchasable, PACK_ID } from "@/lib/products";
+describe("Full pack offer", () => {
+  it("costs $297.000 CLP", () => { expect(fullProgram.price).toBe(297000); expect(formatPrice(297000)).toBe("$297.000"); });
+  it("shows the $499.920 individual sum", () => { expect(fullProgram.originalPrice).toBe(499920); });
+  it("individual sum matches sellable module prices", () => { expect(modules.reduce((t, m) => t + (m.price ?? 0), 0)).toBe(499920); });
+  it("allows up to 6 installments", () => { expect(fullProgram.installments).toBe(6); });
+  it("pack product is purchasable at 297000", () => { expect(getProduct(PACK_ID)?.price).toBe(297000); });
 });
-describe("Module prices", () => {
+describe("Module prices CLP", () => {
   const price = (id: string) => modules.find(m => m.id === id)?.price;
-  it("Shopify costs 99 USD", () => { expect(price("shopify")).toBe(99); expect(formatPrice(99)).toBe("$99 USD"); });
-  it("Meta Ads and Google Ads cost 79 USD", () => { expect(price("meta")).toBe(79); expect(price("google")).toBe(79); });
-  it("Klaviyo costs 69 USD", () => { expect(price("klaviyo")).toBe(69); });
-  it("Mentalidad and Gráficas cost 49 USD", () => { expect(price("mentalidad")).toBe(49); expect(price("graficas")).toBe(49); });
-  it("Guiones, CapCut, Lovable and Monetiza cost 59 USD", () => { for (const id of ["guiones","capcut","lovable","monetiza"]) expect(price(id)).toBe(59); });
+  it("Meta Ads and Shopify cost 89990", () => { expect(price("meta")).toBe(89990); expect(price("shopify")).toBe(89990); });
+  it("Google Ads costs 79990", () => { expect(price("google")).toBe(79990); });
+  it("Guiones costs 39990", () => { expect(price("guiones")).toBe(39990); });
+  it("Gráficas costs 29990", () => { expect(price("graficas")).toBe(29990); });
+  it("Klaviyo costs 69990", () => { expect(price("klaviyo")).toBe(69990); });
+  it("CapCut and Lovable cost 49990", () => { expect(price("capcut")).toBe(49990); expect(price("lovable")).toBe(49990); });
+  it("Mentalidad cannot be bought alone", () => { expect(isPurchasable("mentalidad")).toBe(false); expect(getProduct("mentalidad")).toBeUndefined(); });
+});
+describe("Bundles", () => {
+  it("Shopify + Klaviyo get 20% off", () => { expect(bundlePrice("shopify", "klaviyo")).toBe(Math.round((89990 + 69990) * 0.8 / 10) * 10); });
 });
 describe("Module progress", () => {
   it("2 of 4 capsules is 50%", () => { expect(moduleProgress("shopify", [1, 2])).toBe(50); });

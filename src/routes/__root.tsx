@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { SupportWidget } from "@/components/support-widget";
+import { captureAttribution } from "@/lib/attribution";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -112,6 +113,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => { captureAttribution(); }, []);
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}

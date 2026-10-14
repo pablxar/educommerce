@@ -1,16 +1,16 @@
 export const categories = ["Todos", "E-commerce", "Ads", "Creatividad", "Web", "Negocio"] as const;
 export type Category = (typeof categories)[number];
 export const modules = [
-  { id: "mentalidad", price: 49, number: 1, category: "Negocio", title: "Intro y mentalidad emprendedora", description: "Desarrolla la mentalidad, claridad y hábitos para emprender con éxito.", url: import.meta.env['VITE_MODULE_1_URL'] },
-  { id: "shopify", price: 99, number: 2, category: "E-commerce", title: "Lanza tu e-commerce con Shopify", description: "Crea tu tienda en Shopify desde cero y empieza a vender online.", url: import.meta.env['VITE_MODULE_2_URL'] },
-  { id: "meta", price: 79, number: 3, category: "Ads", title: "Meta Ads", description: "Anuncia en Facebook e Instagram para escalar tus ventas.", url: import.meta.env['VITE_MODULE_3_URL'] },
-  { id: "google", price: 79, number: 4, category: "Ads", title: "Google Ads", description: "Atrae clientes con campañas que convierten en Google.", url: import.meta.env['VITE_MODULE_4_URL'] },
-  { id: "klaviyo", price: 69, number: 5, category: "E-commerce", title: "Email marketing con Klaviyo", description: "Convierte y fideliza clientes con automatizaciones que venden.", url: import.meta.env['VITE_MODULE_5_URL'] },
-  { id: "guiones", price: 59, number: 6, category: "Creatividad", title: "Estrategia y guiones", description: "Define tu oferta, mensajes y guiones que convierten.", url: import.meta.env['VITE_MODULE_6_URL'] },
-  { id: "capcut", price: 59, number: 7, category: "Creatividad", title: "Edición high-ticket con CapCut", description: "Edita videos que venden y cobra proyectos de alto valor.", url: import.meta.env['VITE_MODULE_7_URL'] },
-  { id: "graficas", price: 49, number: 8, category: "Creatividad", title: "Gráficas publicitarias", description: "Diseña creatividades y piezas que convierten.", url: import.meta.env['VITE_MODULE_8_URL'] },
-  { id: "lovable", price: 59, number: 9, category: "Web", title: "Crea tu web con IA (Lovable)", description: "Diseña y publica sitios web profesionales sin escribir código.", url: import.meta.env['VITE_MODULE_9_URL'] },
-  { id: "monetiza", price: 59, number: 10, category: "Negocio", title: "Monetiza tus skills", description: "Convierte tus habilidades en ingresos con negocios digitales.", url: import.meta.env['VITE_MODULE_10_URL'] },
+  { id: "mentalidad", price: null, number: 1, category: "Negocio", title: "Intro y mentalidad emprendedora", description: "Desarrolla la mentalidad, claridad y hábitos para emprender con éxito." },
+  { id: "shopify", price: 89990, number: 2, category: "E-commerce", title: "Lanza tu e-commerce con Shopify", description: "Crea tu tienda en Shopify desde cero y empieza a vender online." },
+  { id: "meta", price: 89990, number: 3, category: "Ads", title: "Meta Ads", description: "Anuncia en Facebook e Instagram para escalar tus ventas." },
+  { id: "google", price: 79990, number: 4, category: "Ads", title: "Google Ads", description: "Atrae clientes con campañas que convierten en Google." },
+  { id: "klaviyo", price: 69990, number: 5, category: "E-commerce", title: "Email marketing con Klaviyo", description: "Convierte y fideliza clientes con automatizaciones que venden." },
+  { id: "guiones", price: 39990, number: 6, category: "Creatividad", title: "Estrategia y guiones", description: "Define tu oferta, mensajes y guiones que convierten." },
+  { id: "capcut", price: 49990, number: 7, category: "Creatividad", title: "Edición high-ticket con CapCut", description: "Edita videos que venden y cobra proyectos de alto valor." },
+  { id: "graficas", price: 29990, number: 8, category: "Creatividad", title: "Gráficas publicitarias", description: "Diseña creatividades y piezas que convierten." },
+  { id: "lovable", price: 49990, number: 9, category: "Web", title: "Crea tu web con IA (Lovable)", description: "Diseña y publica sitios web profesionales sin escribir código." },
+  { id: "monetiza", price: null, number: 10, category: "Negocio", title: "Monetiza tus skills", description: "Convierte tus habilidades en ingresos con negocios digitales." },
 ] as const;
 export function filterModules(category: Category) {
   return modules.filter(m => category === "Todos" || m.category === category);
@@ -27,14 +27,18 @@ export const destinations = {
 };
 
 export const fullProgram = {
-  price: 297,
-  originalPrice: 670,
+  price: 297000,
+  originalPrice: 499920,
+  installments: 6,
   guaranteeDays: 7,
   moduleCount: 10,
 } as const;
 
 export function formatPrice(price: number) {
-  return `$${price} USD`;
+  return `$${price.toLocaleString("es-CL").replace(/,/g, ".")}`;
+}
+export function installmentPrice(price: number, installments = 6) {
+  return Math.ceil(price / installments);
 }
 export type ModuleId = (typeof modules)[number]["id"];
 export function getModule(id: string) {
