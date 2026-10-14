@@ -1,4 +1,5 @@
 # Educommerce homepage
+- [x] Add floating support panel with stored email consultations and outbound WhatsApp; verified form, owner email send, and desktop/mobile layout.
 - [x] Connect newsletter to campus Leads, add optional-name dialog, and verify local storage and successful campus reception.
 - [ ] Confirm the test lead in the other workspace's admin Leads tab and remove it there — requires access from that project's chat.
 - [x] Compact homepage program proportions and integrate section surfaces; verify desktop and mobile.
@@ -10,5 +11,5 @@
 - [x] Identify pending imagery and configurable outbound destinations.
 - [x] Verify filtering rules and desktop/mobile interactions.
 - [ ] Supply final thumbnails and external URLs — waiting for the user's assets and destinations.- [x] Contact form ("Hablemos") sends structured owner notification to educommerce.admin@gmail.com via server-side send; submission stored first, email failure never loses it.
-- [ ] Emails start sending once DNS for notify.educommerce.cl verifies (TXT _lovable-email.educommerce.cl + NS ns3/ns4.lovable.cloud) — user completes in Project Settings → Email; monitor in Cloud → Emails.
+- [x] Confirm owner notification email send from notify.educommerce.cl through the support form.
 - [ ] Publish landing to activate contact email notifications on the live site.
