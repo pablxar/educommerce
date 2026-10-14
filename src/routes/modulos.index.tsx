@@ -26,7 +26,7 @@ const heroTiles: { Icon: LucideIcon; label: string }[] = [
 
 const heroBullets = ["Clases prácticas", "Proyectos reales", "Acceso de por vida", "Actualizaciones incluidas"];
 
-export const Route = createFileRoute("/modulos")({
+export const Route = createFileRoute("/modulos/")({
   head: () => ({ meta: [
     { title: "Módulos | Educommerce" },
     { name: "description", content: "Explora los 10 módulos de Educommerce: e-commerce, publicidad, creatividad, web y negocio. Cada habilidad por separado o el programa completo." },
