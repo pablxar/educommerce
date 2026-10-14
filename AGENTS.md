@@ -17,3 +17,4 @@
 - Use extracted photographs from supplied references only for the study composition; course thumbnails remain explicitly labeled replaceable placeholders.
 - Keep the catalog program offer in a dedicated presentation component and its commercial values in the browser-safe catalog module so its two-column grid placement and terms stay consistent without backend reads.
 - Newsletter mutations use validated server functions, with local durable pending-delivery rows and bounded retry on subsequent submissions; private campus credentials stay server-only, and optional-name updates require a short-lived database receipt rather than an arbitrary email.
+- Mount public support once in the root layout; reuse the validated contact action and fixed owner notification so panel messages have the same durable storage as the contact page, while WhatsApp is an outbound link only.

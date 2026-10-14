@@ -1,4 +1,5 @@
 # Educommerce homepage
+- [ ] Add floating support panel with stored email consultations and outbound WhatsApp; verify form and layout.
 - [x] Connect newsletter to campus Leads, add optional-name dialog, and verify local storage and successful campus reception.
 - [ ] Confirm the test lead in the other workspace's admin Leads tab and remove it there — requires access from that project's chat.
 - [x] Compact homepage program proportions and integrate section surfaces; verify desktop and mobile.
