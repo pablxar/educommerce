@@ -20,3 +20,4 @@
 - Mount public support once in the root layout; reuse the validated contact action and fixed owner notification so panel messages have the same durable storage as the contact page, while WhatsApp is an outbound link only.
 - Checkout prices are resolved server-side from src/lib/products.ts; Mercado Pago webhooks re-fetch the payment before updating orders, so client data is never trusted.
 - Paid orders sync to the campus by email (guest checkout) with durable pending rows and retry on later notifications.
+- Module product media is configured in the browser-safe module-media catalog and rendered by ModuleProductMedia; optional native video and photo arrays allow adding real previews without changing product page layout or inventing playback.

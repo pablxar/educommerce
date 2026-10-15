@@ -7,7 +7,7 @@ import box from "@/assets/program-box.png.asset.json";
 
 export function ProgramOffer() {
   return (
-    <article className="program-offer" aria-labelledby="offer-title">
+    <article id="pack-completo" className="program-offer" aria-labelledby="offer-title">
       <div className="program-offer-copy">
         <span className="program-offer-badge">Mejor valor</span>
         <h2 id="offer-title">Pack Completo Educommerce</h2>

@@ -15,6 +15,9 @@ export const modules = [
 export function filterModules(category: Category) {
   return modules.filter(m => category === "Todos" || m.category === category);
 }
+export function catalogShowsPack(moduleId: string) {
+  return moduleId === "mentalidad" || moduleId === "monetiza";
+}
 export function externalUrl(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
   try { const url = new URL(value); return url.protocol === "https:" || url.protocol === "http:" || url.protocol === "mailto:" ? value : undefined; } catch { return undefined; }
