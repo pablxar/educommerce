@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { formatPrice, fullProgram, installmentPrice } from "@/lib/educommerce";
 import { getProduct, PACK_ID, packBenefits } from "@/lib/products";
-import { createCheckout } from "@/lib/checkout.functions";
+import { createCheckout, saveCheckoutLead } from "@/lib/checkout.functions";
 import { readAttribution } from "@/lib/attribution";
 import { productTracking } from "@/lib/purchase-tracking";
 
@@ -35,6 +35,20 @@ function CheckoutPage() {
   const start = useServerFn(createCheckout);
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
+  const saveLead = useServerFn(saveCheckoutLead);
+  const leadId = useRef<string | null>(null);
+  const lastSaved = useRef("");
+
+  function captureLead(form: HTMLFormElement) {
+    if (!product) return;
+    const parsed = schema.safeParse(Object.fromEntries(new FormData(form)));
+    if (!parsed.success) return;
+    const key = `${product.id}|${parsed.data.email.toLowerCase()}|${parsed.data.name}`;
+    if (key === lastSaved.current) return;
+    lastSaved.current = key;
+    leadId.current ??= crypto.randomUUID();
+    saveLead({ data: { leadId: leadId.current, productId: product.id, ...parsed.data, attribution: readAttribution() as never } }).catch(() => { lastSaved.current = ""; });
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -43,7 +57,7 @@ function CheckoutPage() {
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Revisa tus datos"); return; }
     setError(""); setSending(true);
     try {
-      const res = await start({ data: { productId: product.id, ...parsed.data, attribution: readAttribution() as never } });
+      const res = await start({ data: { productId: product.id, ...parsed.data, attribution: readAttribution() as never, leadId: leadId.current ?? undefined } });
       if (!res.ok) { setError(res.error); setSending(false); return; }
       window.location.href = res.url;
     } catch { setError("No pudimos conectar con Mercado Pago. Inténtalo de nuevo."); setSending(false); }
@@ -72,9 +86,9 @@ function CheckoutPage() {
               </div>
             )}
           </section>
-          <form className="checkout-form" onSubmit={onSubmit} noValidate>
+          <form className="checkout-form" onSubmit={onSubmit} onBlur={e => captureLead(e.currentTarget)} noValidate>
             <h2>Tus datos</h2>
-            <p>Usa el correo con el que entrarás al campus. Si aún no tienes cuenta, la creas después con ese mismo correo y tu compra aparecerá sola.</p>
+            <p>Usa el correo con el que entrarás al campus. Si aún no tienes cuenta, la creas después con ese mismo correo y tu compra aparecerá sola. Guardamos estos datos para ayudarte si no terminas tu compra.</p>
             <label>Nombre<input name="name" autoComplete="name" required maxLength={100} /></label>
             <label>Correo<input name="email" type="email" autoComplete="email" required maxLength={255} /></label>
             {error && <p className="form-error" role="alert">{error}</p>}
