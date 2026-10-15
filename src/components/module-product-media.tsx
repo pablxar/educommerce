@@ -3,7 +3,7 @@ import { Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ModuleMedia } from "@/lib/module-media";
 
-export function ModuleProductMedia({ media, title }: { media?: ModuleMedia; title: string }) {
+export function ModuleProductMedia({ media, title }: { media?: ModuleMedia | undefined; title: string }) {
   const [selected, setSelected] = useState(0);
   const [videoFailed, setVideoFailed] = useState(false);
   const photos = media?.photos ?? [];
