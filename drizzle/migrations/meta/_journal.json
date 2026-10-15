@@ -50,6 +50,13 @@
       "when": 1792060988025,
       "tag": "0006_order_product_promotions",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792100995483,
+      "tag": "0007_checkout_leads",
+      "breakpoints": true
     }
   ]
 }

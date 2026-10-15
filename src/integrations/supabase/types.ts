@@ -35,6 +35,54 @@ export type Database = {
         }
         Relationships: []
       }
+      checkout_leads: {
+        Row: {
+          amount: number | null
+          attribution: Json
+          created_at: string
+          email: string
+          id: string
+          name: string
+          order_id: string | null
+          product_id: string
+          product_name: string | null
+          stage: string
+          sync_revision: string
+          synced_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount?: number | null
+          attribution?: Json
+          created_at?: string
+          email: string
+          id: string
+          name?: string
+          order_id?: string | null
+          product_id: string
+          product_name?: string | null
+          stage?: string
+          sync_revision?: string
+          synced_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number | null
+          attribution?: Json
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          order_id?: string | null
+          product_id?: string
+          product_name?: string | null
+          stage?: string
+          sync_revision?: string
+          synced_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           created_at: string
