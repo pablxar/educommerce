@@ -1,6 +1,7 @@
 import { getRequest } from "@tanstack/react-start/server";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { getProduct } from "@/lib/products";
+import { markCheckoutLeadStage, syncCheckoutLeads } from "@/lib/checkout-leads.server";
 import { fullProgram } from "@/lib/educommerce";
 import { productTracking, campusPurchasePayload, reportedCouponAmount } from "@/lib/purchase-tracking";
 
@@ -15,7 +16,7 @@ function siteOrigin() {
   return `${proto}://${host}`;
 }
 
-export async function startCheckout(input: { productId: string; email: string; name: string; attribution?: unknown }) {
+export async function startCheckout(input: { productId: string; email: string; name: string; attribution?: unknown; leadId?: string }) {
   const token = process.env["MERCADOPAGO_ACCESS_TOKEN"];
   if (!token) return { ok: false as const, error: "El pago aún no está disponible. Escríbenos por WhatsApp." };
   const product = getProduct(input.productId);
@@ -53,6 +54,7 @@ export async function startCheckout(input: { productId: string; email: string; n
   }
   const pref = (await res.json()) as { id: string; init_point: string };
   await supabaseAdmin.from("orders").update({ mp_preference_id: pref.id }).eq("id", order.id);
+  if (input.leadId) { await markCheckoutLeadStage({ leadId: input.leadId, orderId: order.id }, "pago_iniciado"); await syncCheckoutLeads(); }
   return { ok: true as const, url: pref.init_point, orderId: order.id };
 }
 
@@ -75,7 +77,9 @@ export async function handlePaymentNotification(paymentId: string) {
   const status = p.status === "approved" && !valid ? "amount_mismatch" : p.status;
   if (order.status === "approved" && status !== "refunded" && status !== "charged_back") return syncPurchasesToCampus();
   await supabaseAdmin.from("orders").update({ status, mp_payment_id: String(p.id), mp_coupon_amount: reportedCouponAmount(p.coupon_amount), paid_at: status === "approved" ? new Date().toISOString() : null }).eq("id", order.id);
+  if (status === "approved") await markCheckoutLeadStage({ orderId: order.id }, "pagado");
   await syncPurchasesToCampus();
+  await syncCheckoutLeads();
 }
 
 /** Sends approved purchases to the campus so they attach to the student's account by email. */
