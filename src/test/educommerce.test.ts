@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { filterModules, externalUrl } from "@/lib/educommerce";
+import { filterModules, externalUrl, catalogShowsPack } from "@/lib/educommerce";
 
 const ids = (c: Parameters<typeof filterModules>[0]) => filterModules(c).map(m => m.number);
 describe("Homepage module filter rules", () => {
+  it("module 1 directs to the full pack", () => { expect(catalogShowsPack(modules[0].id)).toBe(true); });
+  it("module 10 directs to the full pack", () => { expect(catalogShowsPack(modules[9].id)).toBe(true); });
+  it("individual sellable modules retain their product pages", () => { expect(modules.filter(m => catalogShowsPack(m.id)).map(m => m.number)).toEqual([1, 10]); });
   it("Todos shows all 10 modules in order", () => { expect(ids("Todos")).toEqual([1,2,3,4,5,6,7,8,9,10]); });
   it("E-commerce shows Shopify and Klaviyo", () => { expect(ids("E-commerce")).toEqual([2,5]); });
   it("Ads shows Meta Ads and Google Ads", () => { expect(ids("Ads")).toEqual([3,4]); });

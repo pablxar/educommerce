@@ -1,4 +1,5 @@
 # Educommerce homepage
+- [ ] Redirect module 1 and 10 catalog actions to the full-pack offer; restructure module product pages with reusable preview video and photo gallery support, and verify both flows.
 - [x] Add floating support panel with stored email consultations and outbound WhatsApp; verified form, owner email send, and desktop/mobile layout.
 - [x] Connect newsletter to campus Leads, add optional-name dialog, and verify local storage and successful campus reception.
 - [ ] Confirm the test lead in the other workspace's admin Leads tab and remove it there — requires access from that project's chat.
