@@ -2,6 +2,7 @@ import { getRequest } from "@tanstack/react-start/server";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { getProduct } from "@/lib/products";
 import { fullProgram } from "@/lib/educommerce";
+import { productTracking, campusPurchasePayload, reportedCouponAmount } from "@/lib/purchase-tracking";
 
 const MP = "https://api.mercadopago.com";
 const CAMPUS_PURCHASES_URL = "https://app.educommerce.cl/api/public/purchases";
@@ -19,10 +20,11 @@ export async function startCheckout(input: { productId: string; email: string; n
   if (!token) return { ok: false as const, error: "El pago aún no está disponible. Escríbenos por WhatsApp." };
   const product = getProduct(input.productId);
   if (!product) return { ok: false as const, error: "Este producto no está disponible." };
+  const tracking = productTracking(product);
 
   const { data: order, error } = await supabaseAdmin
     .from("orders")
-    .insert({ email: input.email, name: input.name, product_id: product.id, product_title: product.title, module_ids: product.moduleIds, amount: product.price, attribution: (input.attribution ?? {}) as never })
+    .insert({ email: input.email, name: input.name, product_id: product.id, product_title: product.title, module_ids: product.moduleIds, amount: product.price, ...tracking, attribution: (input.attribution ?? {}) as never })
     .select("id")
     .single();
   if (error || !order) { console.error("order insert failed", error); return { ok: false as const, error: "No pudimos iniciar tu compra. Inténtalo de nuevo." }; }
@@ -42,7 +44,7 @@ export async function startCheckout(input: { productId: string; email: string; n
       notification_url: isPublic ? `${origin}/api/public/mercadopago/webhook` : undefined,
       payment_methods: { installments: fullProgram.installments },
       statement_descriptor: "EDUCOMMERCE",
-      metadata: { order_id: order.id, product_id: product.id },
+      metadata: { order_id: order.id, product_id: product.id, module_ids: product.moduleIds, ...tracking },
     }),
   });
   if (!res.ok) {
@@ -65,14 +67,14 @@ export async function handlePaymentNotification(paymentId: string) {
   if (!token) return;
   const res = await fetch(`${MP}/v1/payments/${encodeURIComponent(paymentId)}`, { headers: { Authorization: `Bearer ${token}` } });
   if (!res.ok) { console.error(`MP payment fetch failed [${res.status}]: ${await res.text()}`); return; }
-  const p = (await res.json()) as { id: number; status: string; external_reference?: string; transaction_amount: number; currency_id: string };
+  const p = (await res.json()) as { id: number; status: string; external_reference?: string; transaction_amount: number; currency_id: string; coupon_amount?: unknown };
   if (!p.external_reference) return;
   const { data: order } = await supabaseAdmin.from("orders").select("id, amount, status").eq("id", p.external_reference).maybeSingle();
   if (!order) return;
   const valid = p.currency_id === "CLP" && Math.round(p.transaction_amount) >= order.amount;
   const status = p.status === "approved" && !valid ? "amount_mismatch" : p.status;
   if (order.status === "approved" && status !== "refunded" && status !== "charged_back") return syncPurchasesToCampus();
-  await supabaseAdmin.from("orders").update({ status, mp_payment_id: String(p.id), paid_at: status === "approved" ? new Date().toISOString() : null }).eq("id", order.id);
+  await supabaseAdmin.from("orders").update({ status, mp_payment_id: String(p.id), mp_coupon_amount: reportedCouponAmount(p.coupon_amount), paid_at: status === "approved" ? new Date().toISOString() : null }).eq("id", order.id);
   await syncPurchasesToCampus();
 }
 
@@ -80,13 +82,13 @@ export async function handlePaymentNotification(paymentId: string) {
 export async function syncPurchasesToCampus() {
   const secret = process.env["LEADS_SYNC_SECRET"];
   if (!secret) return;
-  const { data: rows } = await supabaseAdmin.from("orders").select("id, email, name, product_id, module_ids, amount, currency, mp_payment_id, paid_at, attribution").eq("status", "approved").is("campus_synced_at", null).limit(20);
+  const { data: rows } = await supabaseAdmin.from("orders").select("id, email, name, product_id, product_title, product_name, product_kind, module_ids, amount, currency, mp_payment_id, paid_at, attribution, list_amount, discount_code, discount_percent, discount_amount, mp_coupon_amount").eq("status", "approved").is("campus_synced_at", null).limit(20);
   for (const row of rows ?? []) {
     try {
       const r = await fetch(CAMPUS_PURCHASES_URL, {
         method: "POST",
         headers: { Authorization: `Bearer ${secret}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ order_id: row.id, email: row.email, name: row.name, product_id: row.product_id, module_ids: row.module_ids, amount: row.amount, currency: row.currency, payment_id: row.mp_payment_id, paid_at: row.paid_at, attribution: row.attribution }),
+        body: JSON.stringify(campusPurchasePayload(row)),
         signal: AbortSignal.timeout(5000),
       });
       if (r.ok) await supabaseAdmin.from("orders").update({ campus_synced_at: new Date().toISOString() }).eq("id", row.id);

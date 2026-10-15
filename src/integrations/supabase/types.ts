@@ -146,14 +146,21 @@ export type Database = {
           campus_synced_at: string | null
           created_at: string
           currency: string
+          discount_amount: number | null
+          discount_code: string | null
+          discount_percent: number | null
           email: string
           id: string
+          list_amount: number | null
           module_ids: string[]
+          mp_coupon_amount: number | null
           mp_payment_id: string | null
           mp_preference_id: string | null
           name: string
           paid_at: string | null
           product_id: string
+          product_kind: string | null
+          product_name: string | null
           product_title: string
           status: string
         }
@@ -163,14 +170,21 @@ export type Database = {
           campus_synced_at?: string | null
           created_at?: string
           currency?: string
+          discount_amount?: number | null
+          discount_code?: string | null
+          discount_percent?: number | null
           email: string
           id?: string
+          list_amount?: number | null
           module_ids?: string[]
+          mp_coupon_amount?: number | null
           mp_payment_id?: string | null
           mp_preference_id?: string | null
           name?: string
           paid_at?: string | null
           product_id: string
+          product_kind?: string | null
+          product_name?: string | null
           product_title: string
           status?: string
         }
@@ -180,14 +194,21 @@ export type Database = {
           campus_synced_at?: string | null
           created_at?: string
           currency?: string
+          discount_amount?: number | null
+          discount_code?: string | null
+          discount_percent?: number | null
           email?: string
           id?: string
+          list_amount?: number | null
           module_ids?: string[]
+          mp_coupon_amount?: number | null
           mp_payment_id?: string | null
           mp_preference_id?: string | null
           name?: string
           paid_at?: string | null
           product_id?: string
+          product_kind?: string | null
+          product_name?: string | null
           product_title?: string
           status?: string
         }

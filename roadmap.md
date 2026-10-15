@@ -1,4 +1,6 @@
 # Educommerce homepage
+- [x] Persist product names and automatic bundle promotion codes/amounts and include them in campus delivery; verified real preference creation and stored Shopify/Klaviyo price 127980 with COMBO20-SHOPIFY-KLAVIYO; tests cover outgoing payload. Checkout Pro has no documented auto-fill merchant coupon parameter.
+- [ ] Confirm a real paid purchase shows product_name and discount_code in the campus admin; requires a paid order and verification in the campus project. Extra analysis fields may need campus receiver/UI support.
 - [x] Redirect module 1 and 10 catalog actions to the full-pack offer; restructure module product pages with reusable preview video and photo gallery support; verified pack links, filters, purchase destination and layouts at 1280/390/320px. Real videos and additional photos await user assets.
 - [x] Add floating support panel with stored email consultations and outbound WhatsApp; verified form, owner email send, and desktop/mobile layout.
 - [x] Connect newsletter to campus Leads, add optional-name dialog, and verify local storage and successful campus reception.

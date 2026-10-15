@@ -9,6 +9,7 @@ import { formatPrice, fullProgram, installmentPrice } from "@/lib/educommerce";
 import { getProduct, PACK_ID, packBenefits } from "@/lib/products";
 import { createCheckout } from "@/lib/checkout.functions";
 import { readAttribution } from "@/lib/attribution";
+import { productTracking } from "@/lib/purchase-tracking";
 
 export const Route = createFileRoute("/checkout/")({
   validateSearch: (s: Record<string, unknown>) => ({ producto: typeof s["producto"] === "string" ? s["producto"] : PACK_ID }),
@@ -59,6 +60,8 @@ function CheckoutPage() {
             <p className="eyebrow">TU COMPRA</p>
             <h1 id="summary">{product.title}</h1>
             <p className="checkout-price">{product.listPrice > product.price && <del>{formatPrice(product.listPrice)}</del>} <strong>{formatPrice(product.price)}</strong></p>
+            {product.kind === "bundle" && <p className="my-3 text-sm text-primary"><strong>20% de descuento aplicado</strong><br /><span className="text-foreground">Promoción: {productTracking(product).discount_code} · Ahorras {formatPrice(product.listPrice - product.price)}</span></p>}
+            {product.kind === "bundle" && <ul className="checkout-list mb-5">{product.moduleIds.map(id => <li key={id}><Check aria-hidden="true" />{getProduct(id)?.title}</li>)}</ul>}
             <p className="checkout-installments">Hasta {fullProgram.installments} cuotas sin interés de {formatPrice(installmentPrice(product.price))}</p>
             {product.kind === "pack" ? (
               <ul className="checkout-list">{packBenefits.map(b => <li key={b.title}><Check aria-hidden="true" />{b.title}</li>)}</ul>
