@@ -19,3 +19,4 @@
 - [x] CLP prices, module pages with combos (20%) and Pack upsell, Mercado Pago checkout with UTM attribution; verified redirect to Mercado Pago.
 - [ ] Campus must expose POST /api/public/purchases (Bearer LEADS_SYNC_SECRET) to attach paid orders by email — done from the campus project.
 - [ ] Switch to production Mercado Pago token and publish.
+- [ ] Campus: crear receptor POST /api/public/checkout-leads (Bearer LEADS_SYNC_SECRET; upsert por lead_id; etapas datos/pago_iniciado/pagado) — bloqueado: se construye en el proyecto campus

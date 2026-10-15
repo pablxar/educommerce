@@ -22,3 +22,4 @@
 - Snapshot product names, module IDs and promotion terms on each order before redirecting to payment; share purchase-tracking mappings between checkout metadata and campus delivery, and keep provider coupons separate from already-discounted bundle prices to avoid double discounts.
 - Paid orders sync to the campus by email (guest checkout) with durable pending rows and retry on later notifications.
 - Module product media is configured in the browser-safe module-media catalog and rendered by ModuleProductMedia; optional native video and photo arrays allow adding real previews without changing product page layout or inventing playback.
+- Checkout leads are recorded on form blur (stage datos → pago_iniciado → pagado) in durable pending rows and synced to the campus with bounded retry, so abandoned checkouts survive campus outages.
