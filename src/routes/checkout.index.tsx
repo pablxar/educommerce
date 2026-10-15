@@ -88,7 +88,7 @@ function CheckoutPage() {
           </section>
           <form className="checkout-form" onSubmit={onSubmit} onBlur={e => captureLead(e.currentTarget)} noValidate>
             <h2>Tus datos</h2>
-            <p>Usa el correo con el que entrarás al campus. Si aún no tienes cuenta, la creas después con ese mismo correo y tu compra aparecerá sola.</p>
+            <p>Usa el correo con el que entrarás al campus. Si aún no tienes cuenta, la creas después con ese mismo correo y tu compra aparecerá sola. Guardamos estos datos para ayudarte si no terminas tu compra.</p>
             <label>Nombre<input name="name" autoComplete="name" required maxLength={100} /></label>
             <label>Correo<input name="email" type="email" autoComplete="email" required maxLength={255} /></label>
             {error && <p className="form-error" role="alert">{error}</p>}
