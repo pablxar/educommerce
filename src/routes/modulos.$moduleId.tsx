@@ -1,12 +1,13 @@
-import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowRight, Check, Gift, Hammer, Lock, Sparkles, Target, Wrench } from "lucide-react";
+import { ArrowRight, Check, Gift, Hammer, Lock, Target, Wrench, Video, Infinity, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { PackUpsell } from "@/components/pack-upsell";
 import { formatPrice, getModule, installmentPrice, fullProgram } from "@/lib/educommerce";
 import { bundlesFor, moduleDetails, PACK_ID } from "@/lib/products";
 import { moduleImages } from "@/lib/module-images";
+import { moduleMedia } from "@/lib/module-media";
+import { ModuleProductMedia } from "@/components/module-product-media";
 
 export const Route = createFileRoute("/modulos/$moduleId")({
   loader: ({ params }) => {
@@ -29,17 +30,18 @@ export const Route = createFileRoute("/modulos/$moduleId")({
 
 function ModulePage() {
   const { id } = Route.useLoaderData();
-  const m = getModule(id)!;
-  const d = moduleDetails[id]!;
+  const m = getModule(id);
+  const d = moduleDetails[id];
   const img = moduleImages[id];
+  if (!m || !d) throw notFound();
   const combos = m.price ? bundlesFor(id) : [];
-  const [learnOpen, setLearnOpen] = useState(0);
 
   return <>
     <SiteHeader />
     <main className="shell module-page">
       <nav className="module-crumbs" aria-label="Ruta"><Link to="/modulos">Módulos</Link> / <span>{m.title}</span></nav>
       <section className="module-hero">
+        <ModuleProductMedia key={id} media={moduleMedia[id]} title={m.title} />
         <div className="module-hero-copy">
           <p className="eyebrow">MÓDULO {String(m.number).padStart(2, "0")} · {m.category.toUpperCase()}</p>
           <h1>{m.title}</h1>
@@ -60,28 +62,45 @@ function ModulePage() {
               <Button asChild size="lg"><Link to="/checkout" search={{ producto: PACK_ID }}>Obtener el Pack Completo <ArrowRight aria-hidden="true" /></Link></Button>
             </div>
           )}
+          <p className="product-payment-note"><CreditCard aria-hidden="true" /> Pago seguro con Mercado Pago · Precios en CLP</p>
         </div>
-        {img ? <img className="module-hero-image" src={img} alt={`Ilustración del módulo ${m.title}`} width={1280} height={800} /> : <div className="module-hero-image module-hero-placeholder" aria-label={`Ilustración pendiente: ${m.title}`}><Sparkles aria-hidden="true" /><span>Incluido en el Pack</span></div>}
       </section>
 
-      <section className="module-section module-forwho" aria-labelledby="forwho">
-        <h2 id="forwho"><Target aria-hidden="true" /> ¿Es para ti?</h2>
-        <ul>{d.forWho.map(f => <li key={f}><Check aria-hidden="true" />{f}</li>)}</ul>
-      </section>
+      <ul className="product-inclusions" aria-label="Formato y acceso">
+        <li><Video aria-hidden="true" /><div><strong>Clases grabadas</strong><span>100% online, a tu ritmo</span></div></li>
+        <li><Hammer aria-hidden="true" /><div><strong>Aprendizaje práctico</strong><span>Aplicado a tu propio proyecto</span></div></li>
+        <li><Infinity aria-hidden="true" /><div><strong>Acceso de por vida</strong><span>Actualizaciones incluidas</span></div></li>
+      </ul>
 
-      <section className="module-section" aria-labelledby="learn">
-        <h2 id="learn"><Wrench aria-hidden="true" /> Lo que vas a dominar</h2>
+      <nav className="product-section-nav" aria-label="Información del módulo">
+        <Link to="/modulos/$moduleId" params={{ moduleId: id }} hash="learn">Contenido</Link>
+        <Link to="/modulos/$moduleId" params={{ moduleId: id }} hash="project">Proyecto final</Link>
+        <Link to="/modulos/$moduleId" params={{ moduleId: id }} hash="forwho">¿Es para ti?</Link>
+        <Link to="/modulos/$moduleId" params={{ moduleId: id }} hash="product-pack">Pack Completo</Link>
+      </nav>
+
+      <div className="product-detail-grid">
+      <section id="learn" className="module-section" aria-labelledby="learn-title">
+        <p className="eyebrow">CONTENIDO DEL MÓDULO</p>
+        <h2 id="learn-title"><Wrench aria-hidden="true" /> Lo que vas a dominar</h2>
         <ol className="module-learn">
-          {d.learn.map((l, i) => (
-            <li key={l}><button type="button" aria-pressed={learnOpen === i} onClick={() => setLearnOpen(i)}><span>{String(i + 1).padStart(2, "0")}</span>{l}</button></li>
-          ))}
+          {d.learn.map((l, i) => <li key={l}><span>{String(i + 1).padStart(2, "0")}</span><p>{l}</p></li>)}
         </ol>
-        <p className="module-learn-note">Paso {learnOpen + 1} de {d.learn.length}: lo practicas en clase y lo aplicas en tu propio proyecto.</p>
       </section>
 
-      <section className="module-section module-project" aria-labelledby="project">
-        <h2 id="project"><Hammer aria-hidden="true" /> Terminas con algo hecho</h2>
+      <section id="project" className="module-section module-project" aria-labelledby="project-title">
+        <p className="eyebrow">DE LA CLASE A LA PRÁCTICA</p>
+        <h2 id="project-title">Tu proyecto final</h2>
         <p>{d.project}</p>
+        <div className="product-project-tools"><span>Herramientas que usarás</span><strong>{d.tools.join(" · ")}</strong></div>
+        <Button asChild variant="secondary"><Link to="/checkout" search={{ producto: m.price ? id : PACK_ID }}>{m.price ? "Quiero aprender esta habilidad" : "Ver el Pack Completo"}<ArrowRight aria-hidden="true" /></Link></Button>
+      </section>
+      </div>
+
+      <section id="forwho" className="module-section module-forwho" aria-labelledby="forwho-title">
+        <p className="eyebrow">TU SIGUIENTE HABILIDAD</p>
+        <h2 id="forwho-title"><Target aria-hidden="true" /> Este módulo es para ti si…</h2>
+        <ul>{d.forWho.map(f => <li key={f}><Check aria-hidden="true" />{f}</li>)}</ul>
       </section>
 
       {combos.length > 0 && (
@@ -89,8 +108,10 @@ function ModulePage() {
           <h2 id="combos"><Gift aria-hidden="true" /> Combínalo y ahorra 20%</h2>
           <div className="combo-grid">
             {combos.map(c => {
-              const otherId = c.moduleIds.find(x => x !== id)!;
-              const other = getModule(otherId)!;
+               const otherId = c.moduleIds.find(x => x !== id);
+               if (!otherId) return null;
+               const other = getModule(otherId);
+               if (!other) return null;
               const otherImg = moduleImages[otherId];
               return (
                 <article className="combo-card" key={c.id}>
@@ -113,7 +134,7 @@ function ModulePage() {
         </section>
       )}
 
-      <PackUpsell />
+      <div id="product-pack"><PackUpsell /></div>
     </main>
     <SiteFooter />
   </>;
