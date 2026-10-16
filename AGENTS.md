@@ -23,4 +23,3 @@
 - Paid orders sync to the campus by email (guest checkout) with durable pending rows and retry on later notifications.
 - Module product media is configured in the browser-safe module-media catalog and rendered by ModuleProductMedia; optional native video and photo arrays allow adding real previews without changing product page layout or inventing playback.
 - Checkout leads are recorded on form blur (stage datos → pago_iniciado → pagado) in durable pending rows and synced to the campus with bounded retry, so abandoned checkouts survive campus outages.
-- Keep the homepage certificate presentation in a standalone browser-safe component with CDN-backed artwork, so the sample can be replaced without changing the surrounding page.

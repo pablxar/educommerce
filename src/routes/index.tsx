@@ -16,7 +16,6 @@ import { categories, filterModules, destinations, type Category , formatPrice } 
 import { Destination } from "@/components/destination";
 import { moduleImages } from "@/lib/module-images";
 import { FaqSection } from "@/components/faq-section";
-import { CertificateSection } from "@/components/certificate-section";
 import { ProgramSection } from "@/components/program-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import student from "@/assets/student.png.asset.json";
@@ -425,7 +424,6 @@ function Index() {
             ))}
           </div>
         </section>
-        <CertificateSection />
         <section id="quien-te-ensena" className="teacher-section" aria-labelledby="teacher-title">
           <h2 id="teacher-title" className="section-heading">
             Quién te enseña
