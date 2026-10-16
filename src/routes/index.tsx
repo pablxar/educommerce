@@ -31,6 +31,7 @@ import capcut from "@/assets/capcut-wordmark.png.asset.json";
 import googleads from "@/assets/googleads-wordmark.png.asset.json";
 import lovableLogo from "@/assets/lovable-wordmark.png.asset.json";
 import manychat from "@/assets/manychat-wordmark.png.asset.json";
+import certificate from "@/assets/certificado.png.asset.json";
 
 const toolLogos = [
   { src: shopify.url, alt: "Shopify", cls: "tool-shopify" },
@@ -422,6 +423,18 @@ function Index() {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+        <section id="certificado" className="certificate-section" aria-labelledby="certificate-title">
+          <div className="certificate-copy">
+            <div className="eyebrow">CERTIFICADO</div>
+            <h2 id="certificate-title" className="section-heading">Obtén tu certificado al terminar cada módulo</h2>
+            <p className="section-subtitle">
+              Súmalo a tu CV y LinkedIn, y demuestra lo que aprendiste con proyectos reales.
+            </p>
+          </div>
+          <div className="certificate-visual">
+            <img src={certificate.url} alt="Ejemplo de certificado de finalización Educommerce" loading="lazy" />
           </div>
         </section>
         <section id="quien-te-ensena" className="teacher-section" aria-labelledby="teacher-title">
