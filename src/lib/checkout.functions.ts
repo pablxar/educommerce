@@ -15,7 +15,8 @@ export const createCheckout = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const { startCheckout } = await import("./checkout.server");
-    return startCheckout(data);
+    const { leadId, ...input } = data;
+    return startCheckout({ ...input, ...(leadId ? { leadId } : {}) });
   });
 
 export const getOrderStatus = createServerFn({ method: "GET" })
