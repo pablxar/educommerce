@@ -851,7 +851,8 @@ a.footer-icon { color: var(--foreground); }
 
 /* Certificado */
 .certificate-section { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 48px; margin: 0 0 76px; padding: 48px 56px 0; border: 1px solid var(--border); border-radius: 28px; background: color-mix(in oklab, var(--primary) 5%, var(--background)); overflow: hidden; }
-.certificate-copy { padding-bottom: 48px; }
+.certificate-copy { padding-bottom: 48px; text-align: left; }
+.certificate-copy .section-heading, .certificate-copy .section-subtitle { text-align: left; margin-left: 0; }
 .certificate-copy .section-heading { margin-top: 16px; }
 .certificate-visual { align-self: end; display: flex; justify-content: center; height: 340px; }
 .certificate-visual img { width: 78%; max-width: 360px; height: auto; align-self: flex-start; border-radius: 14px; border: 1px solid var(--border); transform: rotate(-6deg) translateY(8px); transition: transform .5s ease; }
