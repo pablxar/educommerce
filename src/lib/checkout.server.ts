@@ -16,7 +16,7 @@ function siteOrigin() {
   return `${proto}://${host}`;
 }
 
-export async function startCheckout(input: { productId: string; email: string; name: string; attribution?: unknown; leadId?: string }) {
+export async function startCheckout(input: { productId: string; email: string; name: string; attribution?: unknown; leadId?: string | undefined }) {
   const token = process.env["MERCADOPAGO_ACCESS_TOKEN"];
   if (!token) return { ok: false as const, error: "El pago aún no está disponible. Escríbenos por WhatsApp." };
   const product = getProduct(input.productId);
