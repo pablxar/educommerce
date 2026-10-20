@@ -10,9 +10,7 @@ import {
   Clapperboard,
   Hammer,
   TrendingUp,
-  BadgeCheck,
 } from "lucide-react";
-import certificado from "@/assets/certificado.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { categories, filterModules, destinations, type Category , formatPrice } from "@/lib/educommerce";
 import { Destination } from "@/components/destination";
