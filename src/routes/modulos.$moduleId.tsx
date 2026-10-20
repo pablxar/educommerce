@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { PackUpsell } from "@/components/pack-upsell";
 import { formatPrice, getModule, installmentPrice, fullProgram } from "@/lib/educommerce";
-import { bundlesFor, moduleDetails, PACK_ID } from "@/lib/products";
+import { bundlesFor, moduleDetails } from "@/lib/products";
 import { moduleImages } from "@/lib/module-images";
 import { moduleMedia } from "@/lib/module-media";
 import { ModuleProductMedia } from "@/components/module-product-media";
@@ -69,7 +69,7 @@ function ModulePage() {
       <ul className="product-inclusions" aria-label="Formato y acceso">
         <li><Video aria-hidden="true" /><div><strong>Clases grabadas</strong><span>100% online, a tu ritmo</span></div></li>
         <li><Hammer aria-hidden="true" /><div><strong>Aprendizaje práctico</strong><span>Aplicado a tu propio proyecto</span></div></li>
-        <li><Infinity aria-hidden="true" /><div><strong>Acceso de por vida</strong><span>Actualizaciones incluidas</span></div></li>
+        <li><Infinity aria-hidden="true" /><div><strong>{m.price ? "Acceso de por vida" : "Acceso según tu plan Plus"}</strong><span>{m.price ? "Actualizaciones incluidas" : "Un año o de por vida"}</span></div></li>
       </ul>
 
       <nav className="product-section-nav" aria-label="Información del módulo">
@@ -93,7 +93,7 @@ function ModulePage() {
         <h2 id="project-title">Tu proyecto final</h2>
         <p>{d.project}</p>
         <div className="product-project-tools"><span>Herramientas que usarás</span><strong>{d.tools.join(" · ")}</strong></div>
-        <Button asChild variant="secondary"><Link to="/checkout" search={{ producto: m.price ? id : PACK_ID }}>{m.price ? "Quiero aprender esta habilidad" : "Ver el Educommerce Plus"}<ArrowRight aria-hidden="true" /></Link></Button>
+        <Button asChild variant="secondary">{m.price ? <Link to="/checkout" search={{ producto: id }}>Quiero aprender esta habilidad<ArrowRight aria-hidden="true" /></Link> : <Link to="/educommerce-plus">Ver Educommerce Plus<ArrowRight aria-hidden="true" /></Link>}</Button>
       </section>
       </div>
 

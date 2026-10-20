@@ -1,4 +1,4 @@
-import { fullProgram, modules } from "@/lib/educommerce";
+import { modules } from "@/lib/educommerce";
 
 export const BUNDLE_DISCOUNT = 0.2;
 
