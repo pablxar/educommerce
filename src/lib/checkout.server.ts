@@ -3,7 +3,7 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { getProduct } from "@/lib/products";
 import { markCheckoutLeadStage, syncCheckoutLeads } from "@/lib/checkout-leads.server";
 import { fullProgram } from "@/lib/educommerce";
-import { productTracking, campusPurchasePayload, reportedCouponAmount } from "@/lib/purchase-tracking";
+import { productTracking, campusPurchasePayload, reportedCouponAmount, purchaseTerms } from "@/lib/purchase-tracking";
 
 const MP = "https://api.mercadopago.com";
 const CAMPUS_PURCHASES_URL = "https://app.educommerce.cl/api/public/purchases";
@@ -22,10 +22,12 @@ export async function startCheckout(input: { productId: string; email: string; n
   const product = getProduct(input.productId);
   if (!product) return { ok: false as const, error: "Este producto no está disponible." };
   const tracking = productTracking(product);
+  const terms = purchaseTerms(product);
+  const attribution = { ...(input.attribution && typeof input.attribution === "object" && !Array.isArray(input.attribution) ? input.attribution : {}), ...(terms ? { purchase_terms: terms } : {}) };
 
   const { data: order, error } = await supabaseAdmin
     .from("orders")
-    .insert({ email: input.email, name: input.name, product_id: product.id, product_title: product.title, module_ids: product.moduleIds, amount: product.price, ...tracking, attribution: (input.attribution ?? {}) as never })
+    .insert({ email: input.email, name: input.name, product_id: product.id, product_title: product.title, module_ids: product.moduleIds, amount: product.price, ...tracking, attribution: attribution as never })
     .select("id")
     .single();
   if (error || !order) { console.error("order insert failed", error); return { ok: false as const, error: "No pudimos iniciar tu compra. Inténtalo de nuevo." }; }
@@ -45,7 +47,7 @@ export async function startCheckout(input: { productId: string; email: string; n
       notification_url: isPublic ? `${origin}/api/public/mercadopago/webhook` : undefined,
       payment_methods: { installments: fullProgram.installments },
       statement_descriptor: "EDUCOMMERCE",
-      metadata: { order_id: order.id, product_id: product.id, module_ids: product.moduleIds, ...tracking },
+      metadata: { order_id: order.id, product_id: product.id, module_ids: product.moduleIds, ...tracking, ...(terms ? { purchase_terms: terms } : {}) },
     }),
   });
   if (!res.ok) {

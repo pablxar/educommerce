@@ -22,6 +22,8 @@ export type CampusPurchase = {
 };
 
 export function campusPurchasePayload(row: CampusPurchase) {
+  const attribution = row.attribution && typeof row.attribution === "object" && !Array.isArray(row.attribution) ? row.attribution as Record<string, unknown> : {};
+  const terms = attribution["purchase_terms"];
   return {
     order_id: row.id, email: row.email, name: row.name,
     product_id: row.product_id, product_name: row.product_name ?? row.product_title,
@@ -31,7 +33,12 @@ export function campusPurchasePayload(row: CampusPurchase) {
     discount_code: row.discount_code, discount_percent: row.discount_percent,
     discount_amount: row.discount_amount, list_amount: row.list_amount,
     mp_coupon_amount: row.mp_coupon_amount,
+    ...(terms && typeof terms === "object" ? { purchase_terms: terms } : {}),
   };
+}
+
+export function purchaseTerms(product: Product) {
+  return product.kind === "pack" ? { product_id: product.id, product_name: product.title, amount: product.price, access: product.access, benefits: product.benefits ? [...product.benefits] : [] } : undefined;
 }
 
 export function reportedCouponAmount(value: unknown): number | null {

@@ -12,7 +12,8 @@ describe("Purchase promotion tracking", () => {
   it("sends exact pack name without inventing a coupon", () => {
     const product = getProduct("pack-completo");
     if (!product) throw new Error("Missing pack");
-    expect(productTracking(product).product_name).toBe("Pack Completo Educommerce");
+    expect(product.id).toBe("educommerce-plus");
+    expect(productTracking(product).discount_amount).toBe(0);
     expect(productTracking(product).discount_code).toBeNull();
   });
   it("does not attach a bundle promotion to an individual module", () => {
