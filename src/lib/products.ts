@@ -14,7 +14,14 @@ export const bundlePairs: [string, string][] = [
   ["klaviyo", "guiones"],
 ];
 
-export type Product = { id: string; title: string; price: number; listPrice: number; moduleIds: string[]; kind: "module" | "bundle" | "pack" };
+export type Product = { id: string; title: string; price: number; listPrice: number; moduleIds: string[]; kind: "module" | "bundle" | "pack"; access?: "one_year" | "lifetime"; benefits?: string[] };
+
+export const plusPlans = [
+  { id: "educommerce-plus", name: "Plus Anual", title: "Educommerce Plus · 1 año", price: 199990, access: "one_year", benefits: ["Los 10 módulos", "Acceso por un año", "Clases grabadas y prácticas"] },
+  { id: "educommerce-plus-vitalicio", name: "Plus de por vida", title: "Educommerce Plus · De por vida", price: 219990, access: "lifetime", benefits: ["Los 10 módulos", "Acceso de por vida", "Clases grabadas y prácticas"] },
+  { id: "educommerce-plus-asesoria", name: "Plus con asesoría", title: "Educommerce Plus · De por vida + asesoría y WhatsApp", price: 269990, access: "lifetime", benefits: ["Los 10 módulos", "Acceso de por vida", "Clases grabadas y prácticas", "1 asesoría por llamada", "Grupo WhatsApp para dudas pequeñas"] },
+  { id: "educommerce-plus-vip", name: "Plus VIP", title: "Educommerce Plus · VIP + asesoría + clases grupales", price: 349990, access: "lifetime", benefits: ["Los 10 módulos", "Acceso de por vida", "Clases grabadas y prácticas", "1 asesoría por llamada", "Grupo WhatsApp para dudas pequeñas", "1 clase grupal semanal durante 1 mes", "Grupo VIP"] },
+] as const;
 
 export function isPurchasable(moduleId: string) {
   const m = modules.find(x => x.id === moduleId);
@@ -34,22 +41,23 @@ export function bundlePrice(a: string, b: string) {
 export function bundlesFor(moduleId: string) {
   return bundlePairs
     .filter(([a, b]) => a === moduleId || b === moduleId)
-    .map(([a, b]) => getProduct(bundleId(a, b))!)
-    .filter(Boolean);
+    .flatMap(([a, b]) => { const product = getProduct(bundleId(a, b)); return product ? [product] : []; });
 }
 
-export const PACK_ID = "pack-completo";
+export const PACK_ID = "educommerce-plus";
 
 export function getProduct(id: string): Product | undefined {
-  if (id === PACK_ID) {
-    return { id, kind: "pack", title: "Pack Completo Educommerce", price: fullProgram.price, listPrice: fullProgram.originalPrice, moduleIds: modules.map(m => m.id) };
+  const plan = plusPlans.find(p => p.id === (id === "pack-completo" ? PACK_ID : id));
+  if (plan) {
+    return { id: plan.id, kind: "pack", title: plan.title, price: plan.price, listPrice: plan.price, moduleIds: modules.map(m => m.id), access: plan.access, benefits: [...plan.benefits] };
   }
   if (id.startsWith("combo-")) {
     const pair = bundlePairs.find(([a, b]) => bundleId(a, b) === id);
     if (!pair) return undefined;
     const [a, b] = pair;
-    const ma = modules.find(m => m.id === a)!;
-    const mb = modules.find(m => m.id === b)!;
+    const ma = modules.find(m => m.id === a);
+    const mb = modules.find(m => m.id === b);
+    if (!ma || !mb) return undefined;
     return { id, kind: "bundle", title: `Combo ${ma.title} + ${mb.title}`, price: bundlePrice(a, b), listPrice: (ma.price ?? 0) + (mb.price ?? 0), moduleIds: [a, b] };
   }
   const m = modules.find(x => x.id === id);
@@ -59,9 +67,9 @@ export function getProduct(id: string): Product | undefined {
 
 export const packBenefits = [
   { title: "Todos los módulos", text: "Incluye los que no se venden por separado: Mentalidad emprendedora y Monetiza tus skills." },
-  { title: "Grupos VIP", text: "Comunidad privada para resolver dudas y compartir avances con otros alumnos." },
-  { title: "Mentorías 1 a 1", text: "Sesiones personales para revisar tu proyecto y destrabar tu próximo paso." },
-  { title: "Acceso de por vida", text: "Mejoras de cada módulo y nuevas habilidades que sumemos, sin pagar de nuevo." },
+  { title: "Un año de acceso", text: "Aprende a tu ritmo con clases grabadas y prácticas." },
+  { title: "De por vida por $20.000 más", text: "Elige el acceso vitalicio por un total de $219.990." },
+  { title: "Acompañamiento opcional", text: "Planes con asesoría, WhatsApp y clases grupales según la opción elegida." },
 ];
 
 export type ModuleDetail = { tagline: string; forWho: string[]; learn: string[]; project: string; tools: string[]; level: string };

@@ -30,7 +30,7 @@ export const destinations = {
 };
 
 export const fullProgram = {
-  price: 297000,
+  price: 199990,
   originalPrice: 499920,
   installments: 6,
   guaranteeDays: 7,
