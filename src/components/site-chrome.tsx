@@ -45,8 +45,8 @@ export function SiteHeader() {
       <Link to="/modulos" onClick={() => setMenuOpen(false)}>
         Módulos
       </Link>
-      <Link to="/" hash="academia" onClick={() => setMenuOpen(false)}>
-        Academia
+      <Link to="/educommerce-plus" onClick={() => setMenuOpen(false)}>
+        Educommerce Plus
       </Link>
       <Link to="/" hash="como-funciona" onClick={() => setMenuOpen(false)}>
         Cómo funciona
@@ -147,8 +147,8 @@ export function SiteFooter() {
           <Link to="/" hash="como-funciona">
             Cómo funciona
           </Link>
-          <Link to="/" hash="programa">
-            Precios
+          <Link to="/educommerce-plus">
+            Educommerce Plus
           </Link>
         </nav>
         <nav className="footer-col" aria-label="Empresa">

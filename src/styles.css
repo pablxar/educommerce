@@ -382,10 +382,11 @@
 .program-offer-benefits svg { width: 14px; height: 14px; stroke-width: 3; }
 .program-offer-image { width: 100%; height: auto; object-fit: contain; }
 .program-offer-bottom { grid-column: 1 / -1; display: grid; grid-template-columns: auto minmax(0,1fr); gap: 15px; align-items: center; }
-.program-offer-price { display: grid; gap: 3px; white-space: nowrap; }
+.program-offer-price { display: grid; gap: 3px; min-width: 0; }
 .program-offer-price del { font-size: 14px; color: var(--muted-foreground); }
 .program-offer-price strong { font-size: 36px; line-height: 1.1; font-weight: 800; }
 .program-offer-price > span { font-size: 14px; font-weight: 650; }
+.program-offer-price > span > span { display: block; font-size: 12px; line-height: 1.5; margin-top: 6px; }
 .program-offer-action { min-width: 0; }
 .program-offer-cta { width: 100%; font-size: 12px; padding-inline: 12px; min-height: 46px; height: auto; white-space: normal; text-align: center; }
 .program-offer-cta svg { flex-shrink: 0; width: 17px; height: 17px; }
@@ -847,5 +848,103 @@ a.footer-icon { color: var(--foreground); }
   .module-forwho ul, .module-learn, .pack-upsell-benefits { grid-template-columns: minmax(0, 1fr); }
   .pack-upsell { padding: 24px; }
   .module-page { gap: 40px; }
+}
+
+/* Plus uses the same palette and purchase controls as the public catalog. */
+.plus-hero { position: relative; padding-block: 50px 64px; min-height: 490px; isolation: isolate; }
+.plus-hero-copy { max-width: 610px; position: relative; z-index: 1; }
+.plus-hero h1 { font-size: 64px; font-weight: 800; line-height: 1.06; margin-top: 20px; }
+.plus-hero h1 span { color: var(--primary); }
+.plus-hero-description { max-width: 490px; font-size: 20px; line-height: 1.55; margin-top: 18px; }
+.plus-hero-object { position: absolute; width: 410px; height: 410px; object-fit: contain; right: 0; top: 20px; z-index: 0; }
+.plus-launch { margin-top: 26px; font-size: 13px; }
+.plus-launch strong { display: block; margin-top: 6px; font-size: 38px; line-height: 1.15; }
+.plus-launch small { font-size: 14px; font-weight: 500; }
+.plus-launch > span { display: block; margin-top: 6px; font-size: 13px; }
+.plus-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.plus-trust { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 18px; font-size: 12px; }
+.plus-trust svg { width: 16px; height: 16px; color: var(--primary); flex-shrink: 0; }
+.plus-facts { background: var(--muted); border-block: 1px solid var(--border); }
+.plus-facts > div { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; padding-block: 24px; }
+.plus-facts span { font-size: 13px; text-align: center; }
+.plus-facts strong { display: block; font-size: 20px; margin-bottom: 4px; }
+.plus-section { padding-block: 64px; }
+.plus-section h2 { font-size: 36px; line-height: 1.2; font-weight: 750; margin-top: 14px; }
+.plus-section .section-subtitle { text-align: left; line-height: 1.55; max-width: 650px; margin-top: 14px; }
+.plus-curriculum { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 36px; list-style: none; margin: 32px 0 0; padding: 0; }
+.plus-curriculum li { display: flex; align-items: center; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--border); }
+.plus-curriculum li > span { font-size: 20px; color: var(--primary); font-weight: 650; }
+.plus-curriculum li > div { flex: 1; min-width: 0; }
+.plus-curriculum strong { font-size: 15px; line-height: 1.4; }
+.plus-curriculum small { display: block; font-size: 12px; color: var(--muted-foreground); margin-top: 4px; }
+.plus-curriculum svg { width: 17px; height: 17px; flex-shrink: 0; color: var(--primary); }
+.plus-plans-section { background: var(--muted); border-block: 1px solid var(--border); scroll-margin-top: 120px; }
+.plus-plans { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; margin-top: 32px; }
+.plus-plan { min-width: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--background); display: flex; flex-direction: column; padding: 24px 18px; }
+.plus-plan-featured { border: 2px solid var(--primary); padding: 23px 17px; }
+.plus-plan-label { color: var(--primary); font-size: 11px; font-weight: 650; min-height: 34px; }
+.plus-plan h3 { font-size: 19px; line-height: 1.25; min-height: 48px; font-weight: 700; }
+.plus-plan-price { font-size: 30px; font-weight: 750; margin-top: 16px; }
+.plus-plan-price small { display: block; font-size: 12px; font-weight: 400; margin-top: 5px; }
+.plus-plan-installments { font-size: 11px; line-height: 1.6; margin-top: 12px; }
+.plus-plan ul { list-style: none; padding: 0; margin: 22px 0 26px; display: grid; gap: 12px; }
+.plus-plan li { font-size: 13px; display: flex; align-items: flex-start; gap: 7px; line-height: 1.5; }
+.plus-plan li svg { width: 15px; height: 15px; color: var(--primary); flex-shrink: 0; margin-top: 2px; }
+.plus-plan .edu-button { margin-top: auto; width: 100%; height: auto; white-space: normal; text-align: center; padding-inline: 10px; font-size: 12px; }
+.plus-plan-terms { margin-top: 24px; font-size: 12px; line-height: 1.65; max-width: 820px; }
+.plus-questions { max-width: 780px; }
+.plus-questions h2 { margin-bottom: 26px; }
+.plus-questions details { border-bottom: 1px solid var(--border); padding-block: 18px; }
+.plus-questions summary { font-weight: 650; font-size: 15px; cursor: pointer; }
+.plus-questions details p { font-size: 14px; line-height: 1.65; padding-top: 14px; }
+.plus-questions a { text-decoration: underline; }
+.plus-final { background: var(--foreground); color: var(--background); padding-block: 40px; }
+.plus-final > div { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.plus-final h2 { font-size: 30px; font-weight: 750; }
+.plus-checkout-options { display: grid; gap: 9px; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px; }
+.plus-checkout-options h2 { font-size: 16px; font-weight: 650; margin-bottom: 5px; }
+.plus-checkout-option.edu-button { height: auto; border-radius: var(--radius); white-space: normal; justify-content: space-between; text-align: left; padding: 12px 14px; gap: 12px; }
+.plus-checkout-option > span { flex: 1; min-width: 0; }
+.plus-checkout-option small { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; }
+.plus-checkout-option > strong { flex-shrink: 0; }
+.checkout-list svg { flex-shrink: 0; }
+@media (max-width: 1100px) {
+  .plus-hero-copy { max-width: 560px; }
+  .plus-hero h1 { font-size: 56px; }
+  .plus-hero-object { width: 340px; height: 340px; top: 40px; }
+  .plus-hero-description { max-width: 440px; }
+  .plus-plans { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .plus-plan-label, .plus-plan h3 { min-height: 0; }
+}
+@media (max-width: 860px) {
+  .plus-hero { padding-top: 24px; padding-bottom: 34px; }
+  .plus-hero-copy { max-width: none; }
+  .plus-hero h1 { font-size: 44px; }
+  .plus-hero-object { position: static; width: 210px; height: 210px; display: block; margin: 0 auto 14px; }
+  .plus-hero-description { max-width: 560px; font-size: 18px; }
+}
+@media (max-width: 600px) {
+  .plus-hero { display: flex; flex-direction: column; }
+  .plus-hero-object { order: 2; width: 180px; height: 180px; margin-top: 22px; margin-bottom: 0; }
+  .plus-hero h1 { font-size: 38px; }
+  .plus-hero .eyebrow { font-size: 9px; }
+  .plus-hero-description { font-size: 16px; }
+  .plus-launch strong { font-size: 34px; }
+  .plus-hero-actions { display: grid; gap: 10px; }
+  .plus-hero-actions .edu-button { white-space: normal; text-align: center; }
+  .plus-facts > div { grid-template-columns: minmax(0,1fr); gap: 18px; padding-block: 22px; }
+  .plus-facts strong { font-size: 18px; }
+  .plus-section { padding-block: 40px; }
+  .plus-section h2 { font-size: 28px; }
+  .plus-curriculum, .plus-plans { grid-template-columns: minmax(0,1fr); }
+  .plus-plan { padding: 24px; }
+  .plus-plan-featured { padding: 23px; }
+  .plus-plan-label { margin-bottom: 10px; }
+  .plus-plan h3 { font-size: 22px; }
+  .plus-plan .edu-button { font-size: 14px; }
+  .plus-final h2 { font-size: 26px; }
+  .plus-final .edu-button { width: 100%; }
+  .plus-checkout-option.edu-button { font-size: 12px; }
+  .program-offer-price strong { font-size: 30px; }
 }
 
