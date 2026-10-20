@@ -925,7 +925,7 @@ a.footer-icon { color: var(--foreground); }
 }
 @media (max-width: 600px) {
   .plus-hero { display: flex; flex-direction: column; }
-  .plus-hero-object { order: 2; width: 180px; height: 180px; margin-top: 22px; margin-bottom: 0; }
+  .plus-hero-object { order: 2; width: 100px; height: 100px; margin-top: 12px; margin-bottom: 0; }
   .plus-hero h1 { font-size: 38px; }
   .plus-hero .eyebrow { font-size: 9px; }
   .plus-hero-description { font-size: 16px; }
@@ -946,5 +946,6 @@ a.footer-icon { color: var(--foreground); }
   .plus-final .edu-button { width: 100%; }
   .plus-checkout-option.edu-button { font-size: 12px; }
   .program-offer-price strong { font-size: 30px; }
+  .plus-hero { padding-bottom: 20px; }
 }
 
