@@ -18,11 +18,11 @@ describe("Homepage module filter rules", () => {
 import { modules, formatPrice, moduleProgress, fullProgram } from "@/lib/educommerce";
 import { getProduct, bundlePrice, isPurchasable, PACK_ID } from "@/lib/products";
 describe("Full pack offer", () => {
-  it("costs $297.000 CLP", () => { expect(fullProgram.price).toBe(297000); expect(formatPrice(297000)).toBe("$297.000"); });
+  it("launch annual Plus costs $199.990 CLP", () => { expect(fullProgram.price).toBe(199990); expect(formatPrice(fullProgram.price)).toBe("$199.990"); });
   it("shows the $499.920 individual sum", () => { expect(fullProgram.originalPrice).toBe(499920); });
   it("individual sum matches sellable module prices", () => { expect(modules.reduce((t, m) => t + (m.price ?? 0), 0)).toBe(499920); });
   it("allows up to 6 installments", () => { expect(fullProgram.installments).toBe(6); });
-  it("pack product is purchasable at 297000", () => { expect(getProduct(PACK_ID)?.price).toBe(297000); });
+  it("annual Plus product is purchasable at 199990", () => { expect(getProduct(PACK_ID)?.price).toBe(199990); });
 });
 describe("Module prices CLP", () => {
   const price = (id: string) => modules.find(m => m.id === id)?.price;

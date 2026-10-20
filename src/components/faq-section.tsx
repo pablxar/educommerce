@@ -38,7 +38,7 @@ const faqGroups: FaqGroup[] = [
       {
         question: "¿Puedo comprar un módulo por separado o tengo que comprar el programa completo?",
         answer:
-          "Puedes elegir un módulo específico según la habilidad que quieras desarrollar o acceder al Programa Completo para seguir una formación más amplia. En cada opción encontrarás el detalle de los contenidos incluidos.",
+          "Puedes elegir un módulo disponible por separado o acceder a Educommerce Plus, que incluye los 10 módulos. Plus ofrece un año de acceso desde $199.990, acceso de por vida por $219.990 y opciones con asesoría o acompañamiento grupal.",
       },
       {
         question: "¿Qué incluye cada módulo?",

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { PackUpsell } from "@/components/pack-upsell";
 import { formatPrice, getModule, installmentPrice, fullProgram } from "@/lib/educommerce";
-import { bundlesFor, moduleDetails, PACK_ID } from "@/lib/products";
+import { bundlesFor, moduleDetails } from "@/lib/products";
 import { moduleImages } from "@/lib/module-images";
 import { moduleMedia } from "@/lib/module-media";
 import { ModuleProductMedia } from "@/components/module-product-media";
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/modulos/$moduleId")({
   head: ({ loaderData }) => {
     const m = loaderData ? getModule(loaderData.id) : undefined;
     const title = m ? `${m.title} | Educommerce` : "Módulo | Educommerce";
-    const desc = m ? `${m.description} ${m.price ? `Desde ${formatPrice(m.price)} o en el Pack Completo.` : "Incluido en el Pack Completo."}` : "Módulo de Educommerce.";
+    const desc = m ? `${m.description} ${m.price ? `Desde ${formatPrice(m.price)} o en el Educommerce Plus.` : "Incluido en el Educommerce Plus."}` : "Módulo de Educommerce.";
     return { meta: [
       { title }, { name: "description", content: desc },
       { property: "og:title", content: title }, { property: "og:description", content: desc },
@@ -53,13 +53,13 @@ function ModulePage() {
               <p className="module-hero-price"><strong>{formatPrice(m.price)}</strong><span>o {fullProgram.installments} cuotas sin interés de {formatPrice(installmentPrice(m.price))}</span></p>
               <div className="module-hero-actions">
                 <Button asChild size="lg"><Link to="/checkout" search={{ producto: id }}>Comprar módulo <ArrowRight aria-hidden="true" /></Link></Button>
-                <Button asChild size="lg" variant="secondary"><Link to="/checkout" search={{ producto: PACK_ID }}>Mejor el Pack Completo</Link></Button>
+                <Button asChild size="lg" variant="secondary"><Link to="/educommerce-plus">Ver Educommerce Plus</Link></Button>
               </div>
             </div>
           ) : (
             <div className="module-hero-buy module-locked">
-              <p><Lock aria-hidden="true" /> Este módulo no se vende por separado: viene incluido en el Pack Completo.</p>
-              <Button asChild size="lg"><Link to="/checkout" search={{ producto: PACK_ID }}>Obtener el Pack Completo <ArrowRight aria-hidden="true" /></Link></Button>
+              <p><Lock aria-hidden="true" /> Este módulo no se vende por separado: viene incluido en el Educommerce Plus.</p>
+              <Button asChild size="lg"><Link to="/educommerce-plus">Obtener el Educommerce Plus <ArrowRight aria-hidden="true" /></Link></Button>
             </div>
           )}
           <p className="product-payment-note"><CreditCard aria-hidden="true" /> Pago seguro con Mercado Pago · Precios en CLP</p>
@@ -69,14 +69,14 @@ function ModulePage() {
       <ul className="product-inclusions" aria-label="Formato y acceso">
         <li><Video aria-hidden="true" /><div><strong>Clases grabadas</strong><span>100% online, a tu ritmo</span></div></li>
         <li><Hammer aria-hidden="true" /><div><strong>Aprendizaje práctico</strong><span>Aplicado a tu propio proyecto</span></div></li>
-        <li><Infinity aria-hidden="true" /><div><strong>Acceso de por vida</strong><span>Actualizaciones incluidas</span></div></li>
+        <li><Infinity aria-hidden="true" /><div><strong>{m.price ? "Acceso de por vida" : "Acceso según tu plan Plus"}</strong><span>{m.price ? "Actualizaciones incluidas" : "Un año o de por vida"}</span></div></li>
       </ul>
 
       <nav className="product-section-nav" aria-label="Información del módulo">
         <Link to="/modulos/$moduleId" params={{ moduleId: id }} hash="learn">Contenido</Link>
         <Link to="/modulos/$moduleId" params={{ moduleId: id }} hash="project">Proyecto final</Link>
         <Link to="/modulos/$moduleId" params={{ moduleId: id }} hash="forwho">¿Es para ti?</Link>
-        <Link to="/modulos/$moduleId" params={{ moduleId: id }} hash="product-pack">Pack Completo</Link>
+        <Link to="/modulos/$moduleId" params={{ moduleId: id }} hash="product-pack">Educommerce Plus</Link>
       </nav>
 
       <div className="product-detail-grid">
@@ -93,7 +93,7 @@ function ModulePage() {
         <h2 id="project-title">Tu proyecto final</h2>
         <p>{d.project}</p>
         <div className="product-project-tools"><span>Herramientas que usarás</span><strong>{d.tools.join(" · ")}</strong></div>
-        <Button asChild variant="secondary"><Link to="/checkout" search={{ producto: m.price ? id : PACK_ID }}>{m.price ? "Quiero aprender esta habilidad" : "Ver el Pack Completo"}<ArrowRight aria-hidden="true" /></Link></Button>
+        <Button asChild variant="secondary">{m.price ? <Link to="/checkout" search={{ producto: id }}>Quiero aprender esta habilidad<ArrowRight aria-hidden="true" /></Link> : <Link to="/educommerce-plus">Ver Educommerce Plus<ArrowRight aria-hidden="true" /></Link>}</Button>
       </section>
       </div>
 

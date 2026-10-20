@@ -12,7 +12,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { categories, filterModules, destinations, type Category , formatPrice } from "@/lib/educommerce";
+import { categories, filterModules, destinations, type Category , formatPrice, catalogShowsPack } from "@/lib/educommerce";
 import { Destination } from "@/components/destination";
 import { moduleImages } from "@/lib/module-images";
 import { FaqSection } from "@/components/faq-section";
@@ -152,8 +152,8 @@ function Index() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link to="/" hash="academia">
-                  Conocer la academia <ArrowRight className="mobile-only" />
+                <Link to="/educommerce-plus">
+                  Conocer Educommerce Plus <ArrowRight className="mobile-only" />
                 </Link>
               </Button>
             </div>
@@ -324,7 +324,7 @@ function Index() {
                 {moduleImages[m.id] ? <img className="course-thumb" src={moduleImages[m.id]} alt="" width={1280} height={800} loading="lazy" /> : (
                 <div className="course-placeholder">
                   <ImageIcon aria-hidden="true" />
-                  <span>Incluido en el Pack</span>
+                  <span>Incluido en Educommerce Plus</span>
                 </div>)}
                 <div className="course-body">
                   <div className="module-meta">
@@ -333,11 +333,11 @@ function Index() {
                   </div>
                   <h3>{m.title}</h3>
                   <p className="course-description">{m.description}</p>
-<p className="module-price">{m.price ? formatPrice(m.price) : "Solo en el Pack Completo"}</p>
+<p className="module-price">{m.price ? formatPrice(m.price) : "Solo en Educommerce Plus"}</p>
                   <Button variant="default" asChild className="course-link course-cta">
-                    <Link to="/modulos/$moduleId" params={{ moduleId: m.id }} aria-label={`Ver módulo ${m.title}`}>
+                    {catalogShowsPack(m.id) ? <Link to="/educommerce-plus">Ver Educommerce Plus <ArrowRight /></Link> : <Link to="/modulos/$moduleId" params={{ moduleId: m.id }} aria-label={`Ver módulo ${m.title}`}>
                       Ver módulo <ArrowRight />
-                    </Link>
+                    </Link>}
                   </Button>
                 </div>
               </article>
@@ -385,7 +385,7 @@ function Index() {
               <div className="path-copy">
                 <div className="eyebrow desktop-only">FORMACIÓN INTEGRAL</div>
                 <GraduationCap className="mobile-only" aria-hidden="true" />
-                <h3>Academia Educommerce</h3>
+                <h3>Educommerce Plus</h3>
                 <p>
                   <span className="desktop-only">
                     Conecta las habilidades para crear y potenciar tu negocio digital.
@@ -393,7 +393,7 @@ function Index() {
                   <span className="mobile-only">Conecta las habilidades para potenciar tu negocio digital.</span>
                 </p>
                 <Button asChild>
-                  <Link to="/checkout" search={{ producto: "pack-completo" }}>Ver el Pack Completo <ArrowRight /></Link>
+                  <Link to="/educommerce-plus">Ver Educommerce Plus <ArrowRight /></Link>
                 </Button>
               </div>
               <img className="path-image" src={academy.url} alt="Alumna de la Academia Educommerce" />

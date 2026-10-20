@@ -6,7 +6,8 @@ import { ArrowRight, Check, Lock, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { formatPrice, fullProgram, installmentPrice } from "@/lib/educommerce";
-import { getProduct, PACK_ID, packBenefits } from "@/lib/products";
+import { getProduct, PACK_ID } from "@/lib/products";
+import { PlusPlanOptions } from "@/components/plus-plan-options";
 import { createCheckout, saveCheckoutLead } from "@/lib/checkout.functions";
 import { readAttribution } from "@/lib/attribution";
 import { productTracking } from "@/lib/purchase-tracking";
@@ -67,7 +68,7 @@ function CheckoutPage() {
     <SiteHeader />
     <main className="shell checkout-page">
       {!product ? (
-        <section className="checkout-empty"><h1>Este producto no está disponible</h1><p>Algunos módulos solo vienen en el Pack Completo.</p><Button asChild><Link to="/checkout" search={{ producto: PACK_ID }}>Ver Pack Completo</Link></Button></section>
+        <section className="checkout-empty"><h1>Este producto no está disponible</h1><p>Algunos módulos solo vienen en Educommerce Plus.</p><Button asChild><Link to="/educommerce-plus">Ver Educommerce Plus</Link></Button></section>
       ) : (
         <div className="checkout-grid">
           <section className="checkout-summary" aria-labelledby="summary">
@@ -78,11 +79,11 @@ function CheckoutPage() {
             {product.kind === "bundle" && <ul className="checkout-list mb-5">{product.moduleIds.map(id => <li key={id}><Check aria-hidden="true" />{getProduct(id)?.title}</li>)}</ul>}
             <p className="checkout-installments">Hasta {fullProgram.installments} cuotas sin interés de {formatPrice(installmentPrice(product.price))}</p>
             {product.kind === "pack" ? (
-              <ul className="checkout-list">{packBenefits.map(b => <li key={b.title}><Check aria-hidden="true" />{b.title}</li>)}</ul>
+              <><ul className="checkout-list">{product.benefits?.map(b => <li key={b}><Check aria-hidden="true" />{b}</li>)}</ul><p className="my-4 text-sm">Pago único · {product.access === "one_year" ? "Un año de acceso" : "Acceso de por vida"}</p><PlusPlanOptions selectedId={product.id} /></>
             ) : (
               <div className="checkout-upgrade">
-                <p><strong>¿Y si lo tienes todo?</strong> El Pack Completo incluye todos los módulos, grupos VIP, mentorías 1 a 1 y acceso de por vida por {formatPrice(fullProgram.price)}.</p>
-                <Link to="/checkout" search={{ producto: PACK_ID }}>Cambiar al Pack Completo</Link>
+                <p><strong>¿Y si lo tienes todo?</strong> Educommerce Plus incluye los 10 módulos desde {formatPrice(fullProgram.price)} por un año, con opciones de acceso de por vida y acompañamiento.</p>
+                <Button asChild variant="link"><Link to="/educommerce-plus">Ver Educommerce Plus</Link></Button>
               </div>
             )}
           </section>

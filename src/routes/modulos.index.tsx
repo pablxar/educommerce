@@ -29,7 +29,7 @@ const heroBullets = ["Clases prácticas", "Proyectos reales", "Acceso de por vid
 export const Route = createFileRoute("/modulos/")({
   head: () => ({ meta: [
     { title: "Módulos | Educommerce" },
-    { name: "description", content: "Explora los 10 módulos de Educommerce: e-commerce, publicidad, creatividad, web y negocio. Precios en CLP, combos con 20% y Pack Completo en hasta 6 cuotas sin interés." },
+    { name: "description", content: "Explora los 10 módulos de Educommerce: e-commerce, publicidad, creatividad, web y negocio. Precios en CLP, combos con 20% y Educommerce Plus desde $199.990." },
     { property: "og:title", content: "Módulos | Educommerce" },
     { property: "og:description", content: "Explora todos los módulos de Educommerce y elige la habilidad que quieres aprender hoy." },
     { property: "og:type", content: "website" },
@@ -55,8 +55,8 @@ function ModulosPage() {
       </section>
       <section className="catalog" aria-label="Catálogo de módulos">
         <div className="filters" role="group" aria-label="Filtrar módulos por categoría">{categories.map(value => { const Icon = categoryIcons[value]; return <Button key={value} variant="filter" aria-pressed={category === value} onClick={() => setCategory(value)}><Icon aria-hidden="true" />{value}</Button>; })}</div>
-        <div className="modules-grid">{visible.map(m => <article className="course-card" key={m.id} aria-label={`Módulo ${m.number}: ${m.title}`}>{moduleImages[m.id] ? <img className="course-thumb" src={moduleImages[m.id]} alt="" width={1280} height={800} loading="lazy" /> : <div className="course-placeholder"><ImageIcon aria-hidden="true" /><span>Incluido en el Pack</span></div>}<div className="course-body"><div className="module-meta"><span className="module-number">{String(m.number).padStart(2, "0")}</span><span className="module-tag">{m.category}</span></div><h3>{m.title}</h3><p className="course-description">{m.description}</p>
-<p className="module-price module-price-big">{m.price ? <><span className="price-amount">{formatPrice(m.price)}</span> <span className="price-currency">CLP</span></> : <span className="price-currency">Solo en el Pack Completo</span>}</p><Button asChild className="course-cta">{catalogShowsPack(m.id) ? <Link to="/modulos" hash="pack-completo">Ver Pack Completo <ArrowRight /></Link> : <Link to="/modulos/$moduleId" params={{ moduleId: m.id }}>Ver módulo <ArrowRight /></Link>}</Button></div></article>)}{category === "Todos" && <ProgramOffer />}</div>
+        <div className="modules-grid">{visible.map(m => <article className="course-card" key={m.id} aria-label={`Módulo ${m.number}: ${m.title}`}>{moduleImages[m.id] ? <img className="course-thumb" src={moduleImages[m.id]} alt="" width={1280} height={800} loading="lazy" /> : <div className="course-placeholder"><ImageIcon aria-hidden="true" /><span>Incluido en Educommerce Plus</span></div>}<div className="course-body"><div className="module-meta"><span className="module-number">{String(m.number).padStart(2, "0")}</span><span className="module-tag">{m.category}</span></div><h3>{m.title}</h3><p className="course-description">{m.description}</p>
+<p className="module-price module-price-big">{m.price ? <><span className="price-amount">{formatPrice(m.price)}</span> <span className="price-currency">CLP</span></> : <span className="price-currency">Solo en Educommerce Plus</span>}</p><Button asChild className="course-cta">{catalogShowsPack(m.id) ? <Link to="/educommerce-plus">Ver Educommerce Plus <ArrowRight /></Link> : <Link to="/modulos/$moduleId" params={{ moduleId: m.id }}>Ver módulo <ArrowRight /></Link>}</Button></div></article>)}{category === "Todos" && <ProgramOffer />}</div>
       </section>
       {category !== "Todos" && <ProgramSection />}
     </main>

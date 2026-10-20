@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as EducommercePlusRouteImport } from './routes/educommerce-plus'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as CheckoutIndexRouteImport } from './routes/checkout.index'
@@ -30,6 +31,11 @@ const IndexRoute = IndexRouteImport.update({
 const ContactoRoute = ContactoRouteImport.update({
   id: '/contacto',
   path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EducommercePlusRoute = EducommercePlusRouteImport.update({
+  id: '/educommerce-plus',
+  path: '/educommerce-plus',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacidadRoute = PrivacidadRouteImport.update({
@@ -88,6 +94,7 @@ const LovableEmailTransactionalPreviewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/educommerce-plus': typeof EducommercePlusRoute
   '/privacidad': typeof PrivacidadRoute
   '/terminos': typeof TerminosRoute
   '/checkout/resultado': typeof CheckoutResultadoRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/educommerce-plus': typeof EducommercePlusRoute
   '/privacidad': typeof PrivacidadRoute
   '/terminos': typeof TerminosRoute
   '/checkout/resultado': typeof CheckoutResultadoRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/educommerce-plus': typeof EducommercePlusRoute
   '/privacidad': typeof PrivacidadRoute
   '/terminos': typeof TerminosRoute
   '/checkout/resultado': typeof CheckoutResultadoRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contacto'
+    | '/educommerce-plus'
     | '/privacidad'
     | '/terminos'
     | '/checkout/resultado'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contacto'
+    | '/educommerce-plus'
     | '/privacidad'
     | '/terminos'
     | '/checkout/resultado'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contacto'
+    | '/educommerce-plus'
     | '/privacidad'
     | '/terminos'
     | '/checkout/resultado'
@@ -176,6 +188,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactoRoute: typeof ContactoRoute
+  EducommercePlusRoute: typeof EducommercePlusRoute
   PrivacidadRoute: typeof PrivacidadRoute
   TerminosRoute: typeof TerminosRoute
   CheckoutResultadoRoute: typeof CheckoutResultadoRoute
@@ -202,6 +215,13 @@ declare module '@tanstack/react-router' {
       path: '/contacto'
       fullPath: '/contacto'
       preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/educommerce-plus': {
+      id: '/educommerce-plus'
+      path: '/educommerce-plus'
+      fullPath: '/educommerce-plus'
+      preLoaderRoute: typeof EducommercePlusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacidad': {
@@ -280,6 +300,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactoRoute: ContactoRoute,
+  EducommercePlusRoute: EducommercePlusRoute,
   PrivacidadRoute: PrivacidadRoute,
   TerminosRoute: TerminosRoute,
   CheckoutResultadoRoute: CheckoutResultadoRoute,

@@ -18,7 +18,7 @@ export function ModuleProductMedia({ media, title }: { media?: ModuleMedia | und
       <figcaption>{media.video.title}</figcaption>
     </figure> : <figure className="product-preview">
       {photo ? <img src={photo.src} alt={photo.alt} width={1280} height={800} /> : <div className="product-media-empty"><ImageIcon aria-hidden="true" /><span>{title}</span></div>}
-      <figcaption>{videoFailed ? "El video no está disponible en este momento." : photo?.caption ?? "Incluido en el Pack Completo"}</figcaption>
+      <figcaption>{videoFailed ? "El video no está disponible en este momento." : photo?.caption ?? "Incluido en Educommerce Plus"}</figcaption>
     </figure>}
     {photos.length > 1 && <div className="product-photo-picker" role="group" aria-label="Fotos del módulo">
       {photos.map((item, i) => <Button key={`${item.src}-${i}`} variant="ghost" className="product-photo-button" aria-label={`Ver foto ${i + 1}: ${item.alt}`} aria-pressed={selected === i} onClick={() => setSelected(i)}><img src={item.src} alt="" width={160} height={100} /></Button>)}

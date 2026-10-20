@@ -20,16 +20,16 @@ export const Route = createFileRoute("/terminos")({
 
 function Terminos() {
   return (
-    <LegalPage title="Términos y condiciones" updated="11 de octubre de 2026">
+    <LegalPage title="Términos y condiciones" updated="20 de octubre de 2026">
       <p>Estos términos regulan el uso del sitio educommerce.cl y la contratación de los cursos online grabados de Educommerce (en adelante, «Educommerce», «nosotros»). Al navegar el sitio o comprar un módulo aceptas estas condiciones.</p>
       <h2>1. Servicio</h2>
       <p>Educommerce ofrece módulos de formación online en habilidades digitales (e-commerce, publicidad, contenido, web y negocio), compuestos por clases grabadas y recursos descargables, a los que se accede a través del campus en app.educommerce.cl.</p>
       <h2>2. Cuenta de acceso</h2>
       <p>Para acceder al contenido debes crear una cuenta con datos verídicos. La cuenta es personal e intransferible: no puedes compartir tus credenciales ni el contenido con terceros. Podemos suspender cuentas que incumplan esta regla.</p>
       <h2>3. Precios y pagos</h2>
-      <p>Los precios se muestran en dólares estadounidenses (USD) e incluyen el acceso al módulo o programa indicado. Los pagos se procesan mediante proveedores externos; Educommerce no almacena los datos de tu tarjeta.</p>
+      <p>Los precios se muestran en pesos chilenos (CLP). Los pagos se procesan mediante Mercado Pago; Educommerce no almacena los datos de tu tarjeta. Educommerce Plus se compra mediante un pago único: el plan de lanzamiento de $199.990 incluye un año de acceso; por $20.000 adicionales ($219.990 en total) incluye acceso de por vida. El plan de $269.990 incluye acceso de por vida, una asesoría por llamada y grupo WhatsApp para dudas pequeñas. El plan de $349.990 incluye lo anterior, una clase semanal grupal durante un mes y grupo VIP. No incluye clases semanales indefinidas.</p>
       <h2>4. Garantía y retracto</h2>
-      <p>El programa completo cuenta con una garantía de 7 días desde la compra. Si no te convence, escríbenos dentro de ese plazo desde la <Link to="/contacto">página de contacto</Link> y gestionaremos la devolución. Lo anterior se entiende sin perjuicio de los derechos que te otorga la Ley N° 19.496 sobre Protección de los Derechos de los Consumidores.</p>
+      <p>Educommerce Plus cuenta con una garantía de 7 días desde la compra. Si no te convence, escríbenos dentro de ese plazo desde la <Link to="/contacto">página de contacto</Link> y gestionaremos la devolución. Lo anterior se entiende sin perjuicio de los derechos que te otorga la Ley N° 19.496 sobre Protección de los Derechos de los Consumidores.</p>
       <h2>5. Resultados</h2>
       <p>Los cursos entregan conocimientos y herramientas prácticas. Los resultados dependen de la dedicación, el contexto y las decisiones de cada persona; Educommerce no garantiza ingresos, ventas ni resultados económicos específicos.</p>
       <h2>6. Propiedad intelectual</h2>
