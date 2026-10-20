@@ -426,19 +426,6 @@ function Index() {
             ))}
           </div>
         </section>
-        <section className="cert-section" aria-labelledby="cert-title">
-          <div className="cert-copy">
-            <span className="cert-chip"><BadgeCheck aria-hidden="true" />Certificado</span>
-            <h2 id="cert-title" className="section-heading">Obtén tu certificado al finalizar</h2>
-            <p className="section-subtitle">
-              Al completar cada módulo recibes un certificado Educommerce para sumar a tu CV y LinkedIn, y demostrar
-              lo que aprendiste.
-            </p>
-          </div>
-          <div className="cert-visual">
-            <img src={certificado.url} alt="Ejemplo de certificado Educommerce de Gráficas Publicitarias" loading="lazy" />
-          </div>
-        </section>
         <section id="quien-te-ensena" className="teacher-section" aria-labelledby="teacher-title">
           <h2 id="teacher-title" className="section-heading">
             Quién te enseña
