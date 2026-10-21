@@ -12,6 +12,10 @@ import f3 from "@/assets/plus-foto_producto_3.jpg.asset.json";
 import f4 from "@/assets/plus-foto_producto_4.jpg.asset.json";
 import { PlusGallery } from "@/components/plus-gallery";
 import { AlertTriangle, Quote, Rocket, Target, TrendingUp, Users } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { saveSiteActivity } from "@/lib/site-activity.functions";
+import { journeySession } from "@/lib/journey";
+import { readAttribution } from "@/lib/attribution";
 
 const gallery = [
   { src: box.url, alt: "Caja del programa Educommerce Plus con las herramientas de sus módulos" },
@@ -44,6 +48,15 @@ const upsells = [
 function PlusPage() {
   const [tier, setTier] = useState(0);
   const plan = plusPlans[tier] ?? plusPlans[0];
+  const saveActivity = useServerFn(saveSiteActivity);
+  function selectTier(next: number) {
+    setTier(next);
+    const selected = plusPlans[next];
+    if (!selected) return;
+    const data = { id: crypto.randomUUID(), sessionId: journeySession(), event: "upsell_selected" as const,
+      productId: selected.id, path: "/educommerce-plus", attribution: readAttribution() };
+    saveActivity({ data }).catch(() => saveActivity({ data }).catch(() => undefined));
+  }
 
   useEffect(() => {
     document.body.classList.add("plus-product-page");
@@ -71,7 +84,7 @@ function PlusPage() {
         <fieldset className="plus-upsells">
           <legend>Suma a tu programa</legend>
           {upsells.map((upsell, i) => <label key={upsell.label} className="plus-upsell">
-            <input type="checkbox" checked={tier > i} onChange={() => setTier(tier > i ? i : i + 1)} />
+            <input type="checkbox" checked={tier > i} onChange={() => selectTier(tier > i ? i : i + 1)} />
             <span className="plus-upsell-text"><strong>{upsell.label}{i === 1 && <em className="plus-upsell-tag">Más elegido</em>}</strong><small>{upsell.note}</small></span>
             <span className="plus-upsell-price">+{formatPrice(upsell.delta)}</span>
           </label>)}

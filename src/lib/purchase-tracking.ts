@@ -14,6 +14,7 @@ export function productTracking(product: Product) {
 }
 
 export type CampusPurchase = {
+  phone?: string; session_id?: string | null;
   id: string; email: string; name: string; product_id: string; product_title: string;
   product_name: string | null; product_kind: string | null; module_ids: string[];
   amount: number; currency: string; mp_payment_id: string | null; paid_at: string | null;
@@ -25,7 +26,7 @@ export function campusPurchasePayload(row: CampusPurchase) {
   const attribution = row.attribution && typeof row.attribution === "object" && !Array.isArray(row.attribution) ? row.attribution as Record<string, unknown> : {};
   const terms = attribution["purchase_terms"];
   return {
-    order_id: row.id, email: row.email, name: row.name,
+    order_id: row.id, email: row.email, name: row.name, phone: row.phone ?? "", session_id: row.session_id ?? null,
     product_id: row.product_id, product_name: row.product_name ?? row.product_title,
     product_kind: row.product_kind, module_ids: row.module_ids,
     amount: row.amount, currency: row.currency, payment_id: row.mp_payment_id,
