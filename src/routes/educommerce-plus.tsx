@@ -36,8 +36,7 @@ function PlusPage() {
     return () => document.body.classList.remove("plus-product-page");
   }, []);
 
-  return <><SiteHeader /><main className="plus-page">
-    <p className="plus-announce">Lanzamiento · <strong>Educommerce Plus</strong> con los 10 módulos · Hasta 6 cuotas sin interés</p>
+  return <><SiteHeader announcement={<><span className="top-strip-tag">Lanzamiento</span><span className="desktop-only">Educommerce Plus con los 10 módulos · hasta 6 cuotas sin interés</span><span className="mobile-only">10 módulos · 6 cuotas sin interés</span></>} /><main className="plus-page">
     <section className="plus-product shell" aria-labelledby="plus-title">
       <figure className="plus-product-media">
         <img src={box.url} alt="Caja del programa Educommerce Plus con las herramientas de sus módulos" width={768} height={768} fetchPriority="high" />

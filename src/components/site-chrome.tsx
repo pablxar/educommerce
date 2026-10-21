@@ -1,3 +1,4 @@
+import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Instagram, Menu, X, Youtube } from "lucide-react";
@@ -12,7 +13,7 @@ export const socialLinks = {
   youtube: "https://youtube.com/@educommercecl",
 };
 
-export function SiteHeader() {
+export function SiteHeader({ announcement }: { announcement?: React.ReactNode } = {}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -55,9 +56,13 @@ export function SiteHeader() {
   );
   return (
     <>
-      <div className="top-strip">
-        <span className="desktop-only">Habilidades digitales para aplicar desde el primer día</span>
-        <span className="mobile-only">Aprende a tu ritmo</span>
+      <div className={`top-strip${announcement ? " top-strip-offer" : ""}`}>
+        {announcement ?? (
+          <>
+            <span className="desktop-only">Habilidades digitales para aplicar desde el primer día</span>
+            <span className="mobile-only">Aprende a tu ritmo</span>
+          </>
+        )}
       </div>
       <header className={`shell floating-header${menuOpen ? " is-menu-open" : ""}`}>
         <div className="header-glass-surface" aria-hidden="true"><Velaris /></div>
