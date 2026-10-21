@@ -55,7 +55,7 @@ function PlusPage() {
       <PlusGallery images={gallery} />
       <div className="plus-buybox">
         <p className="plus-badge"><Crown aria-hidden="true" /> Educommerce Plus · 10 módulos</p>
-        <h1 id="plus-title">Todo el sistema de e-commerce en <span>un solo programa.</span></h1>
+        <h1 id="plus-title">Educommerce <span>Plus</span></h1>
         <p className="plus-tagline">Crea tu tienda, tus anuncios, tu contenido y tu web con clases grabadas y prácticas, a tu ritmo.</p>
         <div className="plus-chips">
           <span><ShieldCheck aria-hidden="true" /> {fullProgram.guaranteeDays} días de garantía</span>
@@ -92,6 +92,7 @@ function PlusPage() {
         <li><ShieldCheck aria-hidden="true" /><span><strong>{fullProgram.guaranteeDays} días</strong> de garantía</span></li>
       </ul>
     </div></div>
+    <div className="plus-ticker" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>Precio de lanzamiento · Acceso inmediato · 6 cuotas sin interés · Garantía de {fullProgram.guaranteeDays} días · 10 módulos · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-benefits-title">
       <p className="eyebrow">POR QUÉ PLUS</p><h2 id="plus-benefits-title">Todo lo que necesitas para vender online.</h2>
       <div className="plus-benefits">{[
@@ -120,8 +121,9 @@ function PlusPage() {
       <p className="eyebrow">HISTORIAS DE ALUMNOS</p><h2 id="plus-stories-title">Lo que dicen quienes ya lo cursan.</h2>
       <div className="plus-stories">{[1, 2, 3].map(n => <figure key={n} className="plus-story is-placeholder"><Quote aria-hidden="true" /><blockquote>Espacio reservado para el testimonio real de un alumno.</blockquote><figcaption><span className="plus-story-avatar" aria-hidden="true" /><span><strong>Alumno {n}</strong><small>Testimonio pendiente</small></span></figcaption></figure>)}</div>
     </section>
+    <div className="plus-ticker is-alt" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>El precio de lanzamiento sube al terminar el lanzamiento · Asegura tu acceso hoy · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-guarantee-title">
-      <div className="plus-guarantee"><BadgeCheck aria-hidden="true" /><div><h2 id="plus-guarantee-title">Garantía de {fullProgram.guaranteeDays} días.</h2><p>Si el programa no es para ti, pide la devolución completa dentro de {fullProgram.guaranteeDays} días, según nuestros términos. Compras sin riesgo.</p></div></div>
+      <div className="plus-guarantee"><BadgeCheck aria-hidden="true" /><div><h2 id="plus-guarantee-title">Garantía de {fullProgram.guaranteeDays} días.</h2><p>Si el programa no es para ti, pide la devolución completa dentro de {fullProgram.guaranteeDays} días, siempre que hayas visto más del 50% de las cápsulas.</p></div></div>
     </section>
     <section className="shell plus-section" aria-labelledby="plus-content-title">
       <p className="eyebrow">TODO CONECTADO</p><h2 id="plus-content-title">Qué incluye Educommerce Plus.</h2><p className="section-subtitle">Todos los planes incluyen los 10 módulos, también los exclusivos del programa.</p>
@@ -134,18 +136,18 @@ function PlusPage() {
         ["¿Qué incluye el acompañamiento?", "Plus con asesoría incluye una asesoría por llamada y un grupo WhatsApp para dudas pequeñas. Plus VIP incluye lo anterior, una clase semanal grupal durante un mes y un grupo VIP."],
         ["¿Necesito una cuenta para comprar?", "No. Puedes comprar con tu nombre y correo; después ingresa al campus con ese mismo correo para asociar tu compra."],
         ["¿Cómo pago?", "Elige tu plan, completa tus datos y paga de forma segura en Mercado Pago. Los precios están en pesos chilenos, con hasta 6 cuotas sin interés."],
-        ["¿Tengo garantía?", `Tienes ${fullProgram.guaranteeDays} días de garantía o devolución completa, según nuestros términos.`],
+        ["¿Tengo garantía?", `Sí: ${fullProgram.guaranteeDays} días de garantía de devolución completa, válida si has visto más del 50% de las cápsulas.`],
       ].map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}
-      <p className="plus-terms-note"><ShieldCheck aria-hidden="true" /> Garantía de {fullProgram.guaranteeDays} días · <Link to="/terminos">Ver términos</Link></p>
+      <div className="plus-guarantee-card"><span className="plus-guarantee-seal" aria-hidden="true"><strong>{fullProgram.guaranteeDays}</strong><small>días</small></span><div><h3>Garantía de devolución de {fullProgram.guaranteeDays} días</h3><ul><li><Check aria-hidden="true" /> Devolución del 100% de tu pago</li><li><Check aria-hidden="true" /> Válida si has visto más del 50% de las cápsulas</li><li><Check aria-hidden="true" /> Solicítala desde la página de contacto</li></ul><Link to="/terminos">Ver términos completos</Link></div></div>
     </section>
     <section className="shell plus-section plus-final-cta" aria-label="Comprar Educommerce Plus">
-      <h2>Empieza hoy con {plan.name}.</h2><p>{formatPrice(plan.price)} · o 6 cuotas de {formatPrice(installmentPrice(plan.price))} sin interés</p>
+      <p className="plus-alert is-pulse" role="note"><AlertTriangle aria-hidden="true" /> <span><strong>Oferta de lanzamiento:</strong> este precio no se mantendrá.</span></p><h2>Empieza hoy con {plan.name}.</h2><p>{formatPrice(plan.price)} · o 6 cuotas de {formatPrice(installmentPrice(plan.price))} sin interés</p>
       <Button asChild size="lg"><Link to="/checkout" search={{ producto: plan.id }}>Quiero Educommerce Plus <ArrowRight aria-hidden="true" /></Link></Button>
     </section>
     <div className="plus-sticky-bar">
       <div className="plus-sticky-inner">
         <div className="plus-sticky-info">
-          <p className="plus-sticky-name">Educommerce Plus<small>{plan.name}</small></p>
+          <p className="plus-sticky-live"><i aria-hidden="true" /> Precio lanzamiento</p><p className="plus-sticky-name">Educommerce Plus<small>{plan.name}</small></p>
           <p className="plus-sticky-price">{formatPrice(plan.price)}</p>
         </div>
         <Button asChild><Link to="/checkout" search={{ producto: plan.id }}>Agregar al carrito <ArrowRight aria-hidden="true" /></Link></Button>

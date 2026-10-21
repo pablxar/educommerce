@@ -993,3 +993,30 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-final-cta { text-align: center; display: grid; gap: 10px; justify-items: center; } .plus-final-cta p { margin: 0; color: var(--muted-foreground); }
 @media (min-width: 700px) { .plus-benefits { grid-template-columns: repeat(2, 1fr); } .plus-steps, .plus-compare-table { grid-template-columns: repeat(3, 1fr); } .plus-compare-table { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 900px) { .plus-gallery { position: sticky; top: 110px; align-self: start; } .plus-benefits { grid-template-columns: repeat(4, 1fr); } }
+.plus-gallery { align-content: start; align-self: start; }
+.plus-gallery-main { background: var(--background); line-height: 0; }
+.plus-gallery-track { align-items: start; }
+.plus-gallery-count { bottom: 12px; right: 12px; line-height: 1.4; z-index: 2; backdrop-filter: blur(6px); }
+.plus-buybox h1 { font-size: 40px; letter-spacing: -0.02em; }
+.plus-guarantee-card { display: flex; gap: 18px; align-items: center; margin-top: 24px; padding: 22px; border-radius: var(--radius); border: 1px solid color-mix(in oklab, var(--primary) 30%, transparent); background: linear-gradient(135deg, color-mix(in oklab, var(--primary) 10%, var(--background)), var(--background)); }
+.plus-guarantee-seal { flex: 0 0 84px; height: 84px; border-radius: 999px; display: grid; place-content: center; text-align: center; background: var(--primary); color: var(--primary-foreground); box-shadow: 0 0 0 6px color-mix(in oklab, var(--primary) 18%, transparent); }
+.plus-guarantee-seal strong { font-size: 30px; line-height: 1; font-weight: 800; } .plus-guarantee-seal small { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.plus-guarantee-card h3 { margin: 0 0 8px; font-size: 17px; }
+.plus-guarantee-card ul { list-style: none; padding: 0; margin: 0 0 10px; display: grid; gap: 6px; font-size: 14px; }
+.plus-guarantee-card li { display: flex; gap: 8px; align-items: center; } .plus-guarantee-card li svg { width: 16px; height: 16px; color: var(--primary); flex: none; }
+.plus-guarantee-card a { font-size: 13px; color: var(--primary); text-decoration: underline; }
+@media (max-width: 480px) { .plus-guarantee-card { flex-direction: column; align-items: flex-start; } }
+.plus-ticker { overflow: hidden; background: var(--primary); color: var(--primary-foreground); font-weight: 700; font-size: 13px; letter-spacing: .02em; padding: 10px 0; margin-block: 8px; }
+.plus-ticker.is-alt { background: var(--foreground); color: var(--background); }
+.plus-ticker > div { display: flex; width: max-content; white-space: nowrap; animation: plus-ticker 28s linear infinite; }
+@keyframes plus-ticker { to { transform: translateX(-50%); } }
+.plus-alert.is-pulse { animation: plus-pulse 2.4s ease-in-out infinite; }
+@keyframes plus-pulse { 50% { box-shadow: 0 0 0 6px color-mix(in oklab, var(--primary) 15%, transparent); } }
+.plus-sticky-live { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: .04em; }
+.plus-sticky-live i { width: 7px; height: 7px; border-radius: 999px; background: var(--primary); animation: plus-blink 1.4s ease-in-out infinite; }
+@keyframes plus-blink { 50% { opacity: .25; } }
+.plus-buy .edu-button, .plus-buy a { position: relative; overflow: hidden; }
+.plus-buy a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 35%, color-mix(in oklab, var(--primary-foreground) 35%, transparent) 50%, transparent 65%); transform: translateX(-100%); animation: plus-shine 3.2s ease-in-out infinite; pointer-events: none; }
+@keyframes plus-shine { 60%, 100% { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .plus-ticker > div, .plus-alert.is-pulse, .plus-sticky-live i, .plus-buy a::after { animation: none; } }
+.plus-sticky-live { white-space: nowrap; }
