@@ -11,7 +11,7 @@ import f2 from "@/assets/plus-foto_producto_2.jpg.asset.json";
 import f3 from "@/assets/plus-foto_producto_3.jpg.asset.json";
 import f4 from "@/assets/plus-foto_producto_4.jpg.asset.json";
 import { PlusGallery } from "@/components/plus-gallery";
-import { AlertTriangle, BadgeCheck, Quote, Rocket, Target, TrendingUp, Users } from "lucide-react";
+import { AlertTriangle, Quote, Rocket, Target, TrendingUp, Users } from "lucide-react";
 
 const gallery = [
   { src: box.url, alt: "Caja del programa Educommerce Plus con las herramientas de sus módulos" },
@@ -123,7 +123,8 @@ function PlusPage() {
     </section>
     <div className="plus-ticker is-alt" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>El precio de lanzamiento sube al terminar el lanzamiento · Asegura tu acceso hoy · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-guarantee-title">
-      <div className="plus-guarantee"><BadgeCheck aria-hidden="true" /><div><h2 id="plus-guarantee-title">Garantía de {fullProgram.guaranteeDays} días.</h2><p>Si el programa no es para ti, pide la devolución completa dentro de {fullProgram.guaranteeDays} días, siempre que hayas visto más del 50% de las cápsulas.</p></div></div>
+      <h2 id="plus-guarantee-title" className="sr-only">Garantía</h2>
+      <div className="plus-guarantee-card"><span className="plus-guarantee-seal" aria-hidden="true"><strong>{fullProgram.guaranteeDays}</strong><small>días</small></span><div><h3>Garantía de devolución de {fullProgram.guaranteeDays} días</h3><ul><li><Check aria-hidden="true" /> Devolución del 100% de tu pago</li><li><Check aria-hidden="true" /> Válida si has visto más del 50% de las cápsulas</li><li><Check aria-hidden="true" /> Solicítala desde la página de contacto</li></ul><Link to="/terminos">Ver términos completos</Link></div></div>
     </section>
     <section className="shell plus-section" aria-labelledby="plus-content-title">
       <p className="eyebrow">TODO CONECTADO</p><h2 id="plus-content-title">Qué incluye Educommerce Plus.</h2><p className="section-subtitle">Todos los planes incluyen los 10 módulos, también los exclusivos del programa.</p>
@@ -138,7 +139,6 @@ function PlusPage() {
         ["¿Cómo pago?", "Elige tu plan, completa tus datos y paga de forma segura en Mercado Pago. Los precios están en pesos chilenos, con hasta 6 cuotas sin interés."],
         ["¿Tengo garantía?", `Sí: ${fullProgram.guaranteeDays} días de garantía de devolución completa, válida si has visto más del 50% de las cápsulas.`],
       ].map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}
-      <div className="plus-guarantee-card"><span className="plus-guarantee-seal" aria-hidden="true"><strong>{fullProgram.guaranteeDays}</strong><small>días</small></span><div><h3>Garantía de devolución de {fullProgram.guaranteeDays} días</h3><ul><li><Check aria-hidden="true" /> Devolución del 100% de tu pago</li><li><Check aria-hidden="true" /> Válida si has visto más del 50% de las cápsulas</li><li><Check aria-hidden="true" /> Solicítala desde la página de contacto</li></ul><Link to="/terminos">Ver términos completos</Link></div></div>
     </section>
     <section className="shell plus-section plus-final-cta" aria-label="Comprar Educommerce Plus">
       <p className="plus-alert is-pulse" role="note"><AlertTriangle aria-hidden="true" /> <span><strong>Oferta de lanzamiento:</strong> este precio no se mantendrá.</span></p><h2>Empieza hoy con {plan.name}.</h2><p>{formatPrice(plan.price)} · o 6 cuotas de {formatPrice(installmentPrice(plan.price))} sin interés</p>
@@ -147,7 +147,7 @@ function PlusPage() {
     <div className="plus-sticky-bar">
       <div className="plus-sticky-inner">
         <div className="plus-sticky-info">
-          <p className="plus-sticky-live"><i aria-hidden="true" /> Precio lanzamiento</p><p className="plus-sticky-name">Educommerce Plus<small>{plan.name}</small></p>
+          <p className="plus-sticky-live"><i aria-hidden="true" /> Precio lanzamiento</p><p className="plus-sticky-name">{plan.name}</p>
           <p className="plus-sticky-price">{formatPrice(plan.price)}</p>
         </div>
         <Button asChild><Link to="/checkout" search={{ producto: plan.id }}>Agregar al carrito <ArrowRight aria-hidden="true" /></Link></Button>
