@@ -853,6 +853,13 @@ a.footer-icon { color: var(--foreground); }
 /* Plus product page: mobile-first product flow with checkbox upsells. */
 .plus-page { padding-bottom: 110px; }
 .plus-announce { background: var(--foreground); color: var(--background); text-align: center; font-size: 12px; font-weight: 600; letter-spacing: .02em; padding: 10px 16px; }
+.top-strip-offer { position: relative; overflow: hidden; isolation: isolate; background: linear-gradient(100deg, var(--primary), color-mix(in oklab, var(--primary) 78%, var(--foreground)) 50%, var(--primary)); }
+.top-strip-offer::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(110deg, transparent 30%, color-mix(in oklab, var(--background) 32%, transparent) 50%, transparent 70%); transform: translateX(-100%); animation: strip-shimmer 4.5s ease-in-out infinite; }
+.top-strip-offer::after { content: ""; position: absolute; inset: 0 0 auto; height: 1px; background: color-mix(in oklab, var(--background) 40%, transparent); }
+.top-strip-tag { backdrop-filter: blur(10px) saturate(140%); border: 1px solid color-mix(in oklab, var(--background) 45%, transparent); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--background) 35%, transparent); animation: tag-pulse 2.8s ease-in-out infinite; }
+@keyframes strip-shimmer { 0%, 15% { transform: translateX(-100%); } 60%, 100% { transform: translateX(100%); } }
+@keyframes tag-pulse { 0%, 100% { box-shadow: inset 0 1px 0 color-mix(in oklab, var(--background) 35%, transparent), 0 0 0 0 color-mix(in oklab, var(--background) 40%, transparent); } 50% { box-shadow: inset 0 1px 0 color-mix(in oklab, var(--background) 35%, transparent), 0 0 0 5px transparent; } }
+@media (prefers-reduced-motion: reduce) { .top-strip-offer::before, .top-strip-tag { animation: none; } }
 .top-strip-offer { display: flex; align-items: center; justify-content: center; gap: 10px; padding-block: 8px; letter-spacing: .01em; }
 .top-strip-tag { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; background: color-mix(in oklab, var(--background) 20%, transparent); font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 body.plus-product-page .floating-header { margin-bottom: 6px; }
