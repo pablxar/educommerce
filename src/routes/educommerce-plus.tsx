@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Check, CreditCard, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, CreditCard, Crown, GraduationCap, MonitorPlay, ShieldCheck, Timer, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { formatPrice, fullProgram, installmentPrice, modules } from "@/lib/educommerce";
@@ -18,35 +19,71 @@ export const Route = createFileRoute("/educommerce-plus")({
   component: PlusPage,
 });
 
+// Cumulative upsells: each checkbox upgrades to the next plan, prices stay
+// resolved server-side from the same catalog.
+const upsells = [
+  { label: "Acceso de por vida", note: "Tu acceso no vence nunca: olvídate del plazo de un año.", delta: plusPlans[1].price - plusPlans[0].price },
+  { label: "Asesoría 1 a 1 + grupo WhatsApp", note: "Una asesoría por llamada y un grupo de WhatsApp para dudas pequeñas.", delta: plusPlans[2].price - plusPlans[1].price },
+  { label: "Clases grupales + grupo VIP", note: "Una clase grupal semanal durante un mes y acceso al grupo VIP.", delta: plusPlans[3].price - plusPlans[2].price },
+];
+
 function PlusPage() {
+  const [tier, setTier] = useState(0);
+  const plan = plusPlans[tier] ?? plusPlans[0];
+
+  useEffect(() => {
+    document.body.classList.add("plus-product-page");
+    return () => document.body.classList.remove("plus-product-page");
+  }, []);
+
   return <><SiteHeader /><main className="plus-page">
-    <section className="plus-hero shell" aria-labelledby="plus-title">
-      <img className="plus-hero-object" src={box.url} alt="Programa Educommerce y herramientas de aprendizaje" width={768} height={768} fetchPriority="high" />
-      <div className="plus-hero-copy">
-        <p className="eyebrow">10 MÓDULOS · UNA FORMACIÓN INTEGRAL</p>
-        <h1 id="plus-title">Educommerce <span>Plus.</span></h1>
-        <p className="plus-hero-description">Conecta las habilidades para crear tu tienda, tus anuncios, tu contenido y tu web.</p>
-        <p className="plus-launch">Precio de lanzamiento <strong>{formatPrice(fullProgram.price)} <small>CLP</small></strong><span>Un año de acceso · Pago único</span></p>
-        <div className="plus-hero-actions"><Button asChild size="lg"><Link to="/checkout" search={{ producto: "educommerce-plus" }}>Quiero Educommerce Plus <ArrowRight /></Link></Button><Button asChild size="lg" variant="outline"><Link to="/educommerce-plus" hash="planes">Ver opciones de acceso</Link></Button></div>
-        <p className="plus-trust"><CreditCard aria-hidden="true" /> Mercado Pago · Hasta 6 cuotas sin interés</p>
+    <p className="plus-announce">Lanzamiento · <strong>Educommerce Plus</strong> con los 10 módulos · Hasta 6 cuotas sin interés</p>
+    <section className="plus-product shell" aria-labelledby="plus-title">
+      <figure className="plus-product-media">
+        <img src={box.url} alt="Caja del programa Educommerce Plus con las herramientas de sus módulos" width={768} height={768} fetchPriority="high" />
+      </figure>
+      <div className="plus-buybox">
+        <p className="plus-badge"><Crown aria-hidden="true" /> Educommerce Plus · 10 módulos</p>
+        <h1 id="plus-title">Todo el sistema de e-commerce en <span>un solo programa.</span></h1>
+        <p className="plus-tagline">Crea tu tienda, tus anuncios, tu contenido y tu web con clases grabadas y prácticas, a tu ritmo.</p>
+        <div className="plus-chips">
+          <span><ShieldCheck aria-hidden="true" /> {fullProgram.guaranteeDays} días de garantía</span>
+          <span><Zap aria-hidden="true" /> Acceso inmediato</span>
+          <span><CreditCard aria-hidden="true" /> Hasta 6 cuotas sin interés</span>
+        </div>
+        <div className="plus-price-row">
+          <span className="plus-price">{formatPrice(plan.price)}</span>
+          <span className="plus-compare">{formatPrice(fullProgram.originalPrice)}</span>
+          <span className="plus-save">Ahorras {formatPrice(fullProgram.originalPrice - plan.price)}</span>
+        </div>
+        <fieldset className="plus-upsells">
+          <legend>Suma a tu programa</legend>
+          {upsells.map((upsell, i) => <label key={upsell.label} className="plus-upsell">
+            <input type="checkbox" checked={tier > i} onChange={() => setTier(tier > i ? i : i + 1)} />
+            <span className="plus-upsell-text"><strong>{upsell.label}</strong><small>{upsell.note}</small></span>
+            <span className="plus-upsell-price">+{formatPrice(upsell.delta)}</span>
+          </label>)}
+        </fieldset>
+        <p className="plus-total-row"><span>Total · {plan.name}</span><strong>{formatPrice(plan.price)}</strong></p>
+        <div className="plus-buy">
+          <Button asChild size="lg"><Link to="/checkout" search={{ producto: plan.id }}>Agregar al carrito <ArrowRight aria-hidden="true" /></Link></Button>
+        </div>
+        <p className="plus-pay-note"><CreditCard aria-hidden="true" /> Paga en 6 cuotas de {formatPrice(installmentPrice(plan.price))} sin interés con Mercado Pago. Acceso inmediato después del pago.</p>
+        <p className="plus-terms-note">Todos son pagos únicos. El plan anual cubre un año de acceso; los demás incluyen acceso de por vida.</p>
       </div>
     </section>
-    <div className="plus-facts"><div className="shell"><span><strong>10 módulos</strong> en un solo programa</span><span><strong>100% online</strong> clases grabadas</span><span><strong>A tu ritmo</strong> aplicado a tus proyectos</span></div></div>
+    <div className="shell"><div className="plus-facts">
+      <ul>
+        <li><GraduationCap aria-hidden="true" /><span><strong>10 módulos</strong> en un solo programa</span></li>
+        <li><MonitorPlay aria-hidden="true" /><span><strong>100% online</strong> · clases grabadas</span></li>
+        <li><Timer aria-hidden="true" /><span><strong>A tu ritmo</strong> · aplicado a tus proyectos</span></li>
+        <li><ShieldCheck aria-hidden="true" /><span><strong>{fullProgram.guaranteeDays} días</strong> de garantía</span></li>
+      </ul>
+    </div></div>
     <section className="shell plus-section" aria-labelledby="plus-content-title">
-      <p className="eyebrow">TODO CONECTADO</p><h2 id="plus-content-title">De la idea a la práctica.</h2><p className="section-subtitle">Todos los planes incluyen los 10 módulos, también los exclusivos del programa.</p>
+      <p className="eyebrow">TODO CONECTADO</p><h2 id="plus-content-title">Qué incluye Educommerce Plus.</h2><p className="section-subtitle">Todos los planes incluyen los 10 módulos, también los exclusivos del programa.</p>
       <ol className="plus-curriculum">{modules.map(m => <li key={m.id}><span>{String(m.number).padStart(2, "0")}</span><div><strong>{m.title}</strong><small>{m.category}</small></div><Check aria-label="Incluido" /></li>)}</ol>
     </section>
-    <section id="planes" className="plus-plans-section" aria-labelledby="plus-plans-title"><div className="shell plus-section">
-      <p className="eyebrow">TU ACCESO. TU ACOMPAÑAMIENTO.</p><h2 id="plus-plans-title">Elige tu Educommerce Plus.</h2><p className="section-subtitle">Empieza por un año o suma acceso de por vida y acompañamiento. Todos son pagos únicos.</p>
-      <div className="plus-plans">{plusPlans.map((plan, index) => <article key={plan.id} className={`plus-plan${index === 1 ? " plus-plan-featured" : ""}`}>
-        <p className="plus-plan-label">{index === 0 ? "Precio de lanzamiento" : index === 1 ? "Por $20.000 más" : index === 2 ? "Acompañamiento personal" : "Acompañamiento grupal"}</p>
-        <h3>{plan.name}</h3><p className="plus-plan-price">{formatPrice(plan.price)}<small>CLP · Pago único</small></p>
-        <p className="plus-plan-installments">Hasta 6 × {formatPrice(installmentPrice(plan.price))} sin interés</p>
-        <ul>{plan.benefits.map(benefit => <li key={benefit}><Check aria-hidden="true" />{benefit}</li>)}</ul>
-        <Button asChild size="lg" variant={index === 1 ? "default" : "outline"}><Link to="/checkout" search={{ producto: plan.id }}>Elegir {plan.name} <ArrowRight /></Link></Button>
-      </article>)}</div>
-      <p className="plus-plan-terms">El plan anual cubre un año de acceso. Los otros planes incluyen acceso de por vida. Plus VIP suma una clase semanal grupal durante un mes; no son clases semanales indefinidas.</p>
-    </div></section>
     <section className="shell plus-section plus-questions" aria-labelledby="plus-questions-title"><h2 id="plus-questions-title">Antes de empezar.</h2>
       {[
         ["¿Qué incluye Educommerce Plus?", "Los 10 módulos de habilidades digitales de Educommerce, con clases grabadas y aprendizaje práctico. El acceso y el acompañamiento dependen del plan que elijas."],
@@ -56,8 +93,16 @@ function PlusPage() {
         ["¿Cómo pago?", "Elige tu plan, completa tus datos y paga de forma segura en Mercado Pago. Los precios están en pesos chilenos, con hasta 6 cuotas sin interés."],
         ["¿Tengo garantía?", `Tienes ${fullProgram.guaranteeDays} días de garantía o devolución completa, según nuestros términos.`],
       ].map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}
-      <p className="plus-trust"><ShieldCheck aria-hidden="true" /> Garantía de {fullProgram.guaranteeDays} días · <Link to="/terminos">Ver términos</Link></p>
+      <p className="plus-terms-note"><ShieldCheck aria-hidden="true" /> Garantía de {fullProgram.guaranteeDays} días · <Link to="/terminos">Ver términos</Link></p>
     </section>
-    <section className="plus-final"><div className="shell"><h2>Tu próximo paso, con Plus.</h2><Button asChild size="lg"><Link to="/educommerce-plus" hash="planes">Elegir mi plan <ArrowRight /></Link></Button></div></section>
+    <div className="plus-sticky-bar">
+      <div className="plus-sticky-inner">
+        <div className="plus-sticky-info">
+          <p className="plus-sticky-name">Educommerce Plus<small>{plan.name}</small></p>
+          <p className="plus-sticky-price">{formatPrice(plan.price)}</p>
+        </div>
+        <Button asChild><Link to="/checkout" search={{ producto: plan.id }}>Agregar al carrito <ArrowRight aria-hidden="true" /></Link></Button>
+      </div>
+    </div>
   </main><SiteFooter /></>;
 }
