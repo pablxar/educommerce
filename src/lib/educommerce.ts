@@ -33,7 +33,7 @@ export const fullProgram = {
   price: 199990,
   originalPrice: 499920,
   installments: 6,
-  guaranteeDays: 7,
+  guaranteeDays: 30,
   moduleCount: 10,
 } as const;
 
