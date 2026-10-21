@@ -73,7 +73,7 @@ function PlusPage() {
         <div className="plus-chips">
           <span><ShieldCheck aria-hidden="true" /> {fullProgram.guaranteeDays} días de garantía</span>
           <span><Zap aria-hidden="true" /> Acceso inmediato</span>
-          <span><CreditCard aria-hidden="true" /> Hasta 6 cuotas sin interés</span>
+          <span><CreditCard aria-hidden="true" /> 6 cuotas sin interés</span>
         </div>
         <div className="plus-price-row">
           <span className="plus-price">{formatPrice(plan.price)}</span>
