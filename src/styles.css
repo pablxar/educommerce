@@ -954,6 +954,11 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
   .plus-save { font-size: 10px; padding: 3px 8px; }
   .plus-sticky-bar .edu-button { font-size: 12px; padding-inline: 14px; }
 }
+@media (max-width: 380px) {
+  .plus-price { font-size: 27px; }
+  .plus-compare { font-size: 12px; }
+  .plus-save { font-size: 9px; padding: 3px 7px; }
+}
 
 
 /* Plus PDP: gallery carousel + CRO sections */
