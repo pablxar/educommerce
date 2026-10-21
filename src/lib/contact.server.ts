@@ -25,7 +25,7 @@ export async function storeContactSubmission(input: ContactInput): Promise<{ id:
     .single()
   if (error || !data) throw new Error('No pudimos guardar tu mensaje.')
   const { syncSiteActivity } = await import('./site-activity.server')
-  await syncSiteActivity()
+  await syncSiteActivity().catch(() => console.warn('[contact-sync] pending activity retained'))
 
   // Owner notification — fixed recipient and template, defined server-side.
   // A failed send (e.g. domain still verifying) must not lose the submission.

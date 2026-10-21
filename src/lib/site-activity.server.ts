@@ -18,7 +18,7 @@ export async function storeSiteActivity(input: z.infer<typeof activitySchema>) {
       ...(product ? { product_id: product.id, module_ids: product.moduleIds, amount: product.price, ...productTracking(product) } : {}) },
   }, { onConflict: "id", ignoreDuplicates: true });
   if (error) throw new Error("No pudimos registrar la actividad.");
-  await syncSiteActivity(input.id);
+  await syncSiteActivity(input.id).catch(() => console.warn('[activity-sync] pending event retained'));
   return { ok: true };
 }
 
