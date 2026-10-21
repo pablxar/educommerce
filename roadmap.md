@@ -1,4 +1,5 @@
 # Educommerce homepage
+- [ ] Add checkout phone, durable cart/contact capture, journey history and reliable campus delivery; verify reception and identify campus-side blockers.
 - [x] Rename the complete program Educommerce Plus, build /educommerce-plus with four cumulative plans, and connect plan selection to checkout and tracking; all 42 tests pass, desktop/390/320 layouts and all four checkout prices verified, VIP preference and stored purchase terms verified without payment; verification rows removed.
 - [x] Rebuild /educommerce-plus as a mobile-first dropshipping-style product page: box image on top, price with compare/save, cumulative checkbox upsells (+$20.000 / +$50.000 / +$80.000) that resolve to the four server-side plans, "Agregar al carrito" CTA and sticky buy bar; verified at 393px and 1280px with no overflow, cascade totals $219.990/$349.990 and correct checkout links; 42 tests pass.
 - [ ] Verify campus honors Plus one-year/lifetime access and advisory/VIP purchase terms — requires receiver and entitlement checks in the separate campus project; no paid Plus order tested.
