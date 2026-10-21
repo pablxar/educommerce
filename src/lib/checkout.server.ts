@@ -16,7 +16,7 @@ function siteOrigin() {
   return `${proto}://${host}`;
 }
 
-export async function startCheckout(input: { productId: string; email: string; name: string; phone: string; sessionId?: string; attribution?: unknown; leadId: string }) {
+export async function startCheckout(input: { productId: string; email: string; name: string; phone: string; sessionId?: string | undefined; attribution?: unknown; leadId: string }) {
   const lead = await recordCheckoutLead(input);
   if (!lead.ok) return { ok: false as const, error: "No pudimos guardar tus datos. Inténtalo de nuevo." };
   const token = process.env["MERCADOPAGO_ACCESS_TOKEN"];
@@ -29,7 +29,7 @@ export async function startCheckout(input: { productId: string; email: string; n
 
   const { data: order, error } = await supabaseAdmin
     .from("orders")
-    .insert({ email: input.email, name: input.name, phone: input.phone, session_id: input.sessionId, product_id: product.id, product_title: product.title, module_ids: product.moduleIds, amount: product.price, ...tracking, attribution: attribution as never })
+    .insert({ email: input.email, name: input.name, phone: input.phone, session_id: input.sessionId ?? null, product_id: product.id, product_title: product.title, module_ids: product.moduleIds, amount: product.price, ...tracking, attribution: attribution as never })
     .select("id")
     .single();
   if (error || !order) { console.error("order insert failed", error); return { ok: false as const, error: "No pudimos iniciar tu compra. Inténtalo de nuevo." }; }

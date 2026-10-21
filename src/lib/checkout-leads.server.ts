@@ -7,7 +7,7 @@ const CAMPUS_CHECKOUT_LEADS_URL = "https://app.educommerce.cl/api/public/checkou
 type Stage = "datos" | "pago_iniciado" | "pagado";
 
 /** Records name + email as soon as they're typed. Never downgrades a lead that already started payment. */
-export async function recordCheckoutLead(input: { leadId: string; productId: string; email: string; name: string; phone: string; sessionId?: string; attribution?: unknown }) {
+export async function recordCheckoutLead(input: { leadId: string; productId: string; email: string; name: string; phone: string; sessionId?: string | undefined; attribution?: unknown }) {
   const product = getProduct(input.productId);
   if (!product) return { ok: false as const };
   const { error } = await supabaseAdmin.rpc("save_checkout_contact", {
