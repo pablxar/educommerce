@@ -956,9 +956,9 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 }
 @media (max-width: 380px) {
   .plus-price-row { gap: 6px; }
-  .plus-price { font-size: 25px; }
+  .plus-price { font-size: 24px; }
   .plus-compare { font-size: 12px; }
-  .plus-save { font-size: 9px; padding: 3px 7px; }
+  .plus-save { font-size: 9px; padding: 3px 6px; }
 }
 
 
