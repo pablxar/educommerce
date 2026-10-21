@@ -18,7 +18,11 @@ export async function syncPendingLeads(secret: string) {
         signal: AbortSignal.timeout(5000),
         redirect: "error",
       });
-      if (!response.ok) continue;
+      if (!response.ok) {
+        // Status only (no PII) so a rejected key is visible in server logs.
+        console.warn(`[newsletter-sync] campus rejected lead: HTTP ${response.status}`);
+        continue;
+      }
       await supabaseAdmin.from("newsletter_subscribers")
         .update({ synced_at: new Date().toISOString() })
         .eq("id", row.id).eq("sync_revision", row.sync_revision);
