@@ -949,7 +949,9 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 }
 @media (max-width: 600px) {
   .plus-buybox h1 { font-size: 27px; }
-  .plus-price { font-size: 32px; }
+  .plus-price { font-size: 29px; }
+  .plus-compare { font-size: 13px; }
+  .plus-save { font-size: 10px; padding: 3px 8px; }
   .plus-sticky-bar .edu-button { font-size: 12px; padding-inline: 14px; }
 }
 
