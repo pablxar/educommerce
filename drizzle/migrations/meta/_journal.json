@@ -57,6 +57,13 @@
       "when": 1792100995483,
       "tag": "0007_checkout_leads",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792610701924,
+      "tag": "0008_checkout_phone_journey",
+      "breakpoints": true
     }
   ]
 }

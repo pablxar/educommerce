@@ -44,8 +44,10 @@ export type Database = {
           id: string
           name: string
           order_id: string | null
+          phone: string
           product_id: string
           product_name: string | null
+          session_id: string | null
           stage: string
           sync_revision: string
           synced_at: string | null
@@ -59,8 +61,10 @@ export type Database = {
           id: string
           name?: string
           order_id?: string | null
+          phone?: string
           product_id: string
           product_name?: string | null
+          session_id?: string | null
           stage?: string
           sync_revision?: string
           synced_at?: string | null
@@ -74,8 +78,10 @@ export type Database = {
           id?: string
           name?: string
           order_id?: string | null
+          phone?: string
           product_id?: string
           product_name?: string | null
+          session_id?: string | null
           stage?: string
           sync_revision?: string
           synced_at?: string | null
@@ -206,10 +212,12 @@ export type Database = {
           mp_preference_id: string | null
           name: string
           paid_at: string | null
+          phone: string
           product_id: string
           product_kind: string | null
           product_name: string | null
           product_title: string
+          session_id: string | null
           status: string
         }
         Insert: {
@@ -230,10 +238,12 @@ export type Database = {
           mp_preference_id?: string | null
           name?: string
           paid_at?: string | null
+          phone?: string
           product_id: string
           product_kind?: string | null
           product_name?: string | null
           product_title: string
+          session_id?: string | null
           status?: string
         }
         Update: {
@@ -254,10 +264,12 @@ export type Database = {
           mp_preference_id?: string | null
           name?: string
           paid_at?: string | null
+          phone?: string
           product_id?: string
           product_kind?: string | null
           product_name?: string | null
           product_title?: string
+          session_id?: string | null
           status?: string
         }
         Relationships: []
@@ -313,6 +325,45 @@ export type Database = {
         }
         Relationships: []
       }
+      site_activity: {
+        Row: {
+          attempts: number
+          created_at: string
+          event_type: string
+          id: string
+          last_status: number | null
+          next_attempt_at: string
+          payload: Json
+          session_id: string | null
+          source_id: string
+          synced_at: string | null
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          event_type: string
+          id?: string
+          last_status?: number | null
+          next_attempt_at?: string
+          payload: Json
+          session_id?: string | null
+          source_id: string
+          synced_at?: string | null
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          event_type?: string
+          id?: string
+          last_status?: number | null
+          next_attempt_at?: string
+          payload?: Json
+          session_id?: string | null
+          source_id?: string
+          synced_at?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -342,6 +393,20 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      save_checkout_contact: {
+        Args: {
+          p_amount: number
+          p_attribution: Json
+          p_email: string
+          p_id: string
+          p_name: string
+          p_phone: string
+          p_product_id: string
+          p_product_name: string
+          p_session_id: string
+        }
+        Returns: undefined
       }
     }
     Enums: {
