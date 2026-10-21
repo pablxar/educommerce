@@ -147,7 +147,7 @@ function PlusPage() {
     <div className="plus-sticky-bar">
       <div className="plus-sticky-inner">
         <div className="plus-sticky-info">
-          <p className="plus-sticky-live"><i aria-hidden="true" /> Precio de lanzamiento activo</p><p className="plus-sticky-name">Educommerce Plus<small>{plan.name}</small></p>
+          <p className="plus-sticky-live"><i aria-hidden="true" /> Precio lanzamiento</p><p className="plus-sticky-name">Educommerce Plus<small>{plan.name}</small></p>
           <p className="plus-sticky-price">{formatPrice(plan.price)}</p>
         </div>
         <Button asChild><Link to="/checkout" search={{ producto: plan.id }}>Agregar al carrito <ArrowRight aria-hidden="true" /></Link></Button>

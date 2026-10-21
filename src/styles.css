@@ -1019,3 +1019,4 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-buy a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 35%, color-mix(in oklab, var(--primary-foreground) 35%, transparent) 50%, transparent 65%); transform: translateX(-100%); animation: plus-shine 3.2s ease-in-out infinite; pointer-events: none; }
 @keyframes plus-shine { 60%, 100% { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) { .plus-ticker > div, .plus-alert.is-pulse, .plus-sticky-live i, .plus-buy a::after { animation: none; } }
+.plus-sticky-live { white-space: nowrap; }
