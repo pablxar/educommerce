@@ -853,7 +853,9 @@ a.footer-icon { color: var(--foreground); }
 /* Plus product page: mobile-first product flow with checkbox upsells. */
 .plus-page { padding-bottom: 110px; }
 .plus-announce { background: var(--foreground); color: var(--background); text-align: center; font-size: 12px; font-weight: 600; letter-spacing: .02em; padding: 10px 16px; }
-.plus-announce strong { color: var(--primary); }
+.top-strip-offer { display: flex; align-items: center; justify-content: center; gap: 10px; padding-block: 8px; letter-spacing: .01em; }
+.top-strip-tag { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; background: color-mix(in oklab, var(--background) 20%, transparent); font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+body.plus-product-page .floating-header { margin-bottom: 6px; }
 .plus-product { display: grid; gap: 26px; padding-block: 22px 44px; }
 .plus-product-media { border: 1px solid var(--border); border-radius: var(--radius); background: var(--muted); padding: 20px; display: grid; place-items: center; }
 .plus-product-media img { width: 100%; max-width: 430px; height: auto; }
