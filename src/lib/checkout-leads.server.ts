@@ -1,6 +1,7 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { getProduct } from "@/lib/products";
 import { productTracking } from "@/lib/purchase-tracking";
+import { syncSiteActivity } from "@/lib/site-activity.server";
 
 const CAMPUS_CHECKOUT_LEADS_URL = "https://app.educommerce.cl/api/public/checkout-leads";
 
@@ -17,7 +18,7 @@ export async function recordCheckoutLead(input: { leadId: string; productId: str
     p_session_id: input.sessionId ?? input.leadId,
   });
   if (error) { console.error("checkout lead save failed", error.code); return { ok: false as const }; }
-  await syncCheckoutLeads();
+  await Promise.all([syncCheckoutLeads(input.leadId), syncSiteActivity()]);
   return { ok: true as const };
 }
 
@@ -29,12 +30,15 @@ export async function markCheckoutLeadStage(where: { leadId?: string; orderId: s
 }
 
 /** Sends pending lead changes to the campus panel; rows stay pending until accepted. */
-export async function syncCheckoutLeads() {
+export async function syncCheckoutLeads(leadId?: string) {
   const secret = process.env["LEADS_SYNC_SECRET"];
   if (!secret) return;
-  const { data: rows } = await supabaseAdmin.from("checkout_leads")
+  let query = supabaseAdmin.from("checkout_leads")
     .select("id, email, name, phone, session_id, product_id, product_name, amount, attribution, stage, order_id, created_at, updated_at, sync_revision")
-    .is("synced_at", null).order("updated_at").limit(10);
+    .is("synced_at", null);
+  if (leadId) query = query.eq("id", leadId);
+  const { data: rows, error } = await query.order("updated_at").limit(10);
+  if (error) throw new Error("No pudimos consultar los contactos pendientes.");
   for (const row of rows ?? []) {
     try {
       const r = await fetch(CAMPUS_CHECKOUT_LEADS_URL, {
@@ -49,6 +53,7 @@ export async function syncCheckoutLeads() {
         redirect: "error",
       });
       if (r.ok) await supabaseAdmin.from("checkout_leads").update({ synced_at: new Date().toISOString() }).eq("id", row.id).eq("sync_revision", row.sync_revision);
+      else console.warn(`[checkout-sync] campus rejected contact: HTTP ${r.status}`);
     } catch { /* keep pending */ }
   }
 }

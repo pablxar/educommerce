@@ -5,10 +5,12 @@ const campusEndpoint = "https://app.educommerce.cl/api/public/leads";
 
 // Pending rows stay durable when the campus is unavailable. Subsequent
 // subscriptions retry a bounded batch; no provider response or PII is logged.
-export async function syncPendingLeads(secret: string) {
-  const { data: rows } = await supabaseAdmin.from("newsletter_subscribers")
+export async function syncPendingLeads(secret: string, subscriberId?: string) {
+  let query = supabaseAdmin.from("newsletter_subscribers")
     .select("id,email,name,source,sync_revision").is("synced_at", null)
-    .order("created_at").limit(5);
+  if (subscriberId) query = query.eq("id", subscriberId);
+  const { data: rows, error } = await query.order("created_at").limit(5);
+  if (error) throw new Error("No pudimos consultar las suscripciones pendientes.");
   for (const row of rows ?? []) {
     try {
       const response = await fetch(campusEndpoint, {
@@ -42,6 +44,8 @@ export async function storeSubscription(email: string) {
   const { data: receipt } = await supabaseAdmin.from("newsletter_name_receipts")
     .insert({ subscriber_id: subscriber.id }).select("token").single();
   if (!receipt) throw new Error("No se pudo completar la suscripción.");
+  const secret = process.env["LEADS_SYNC_SECRET"];
+  if (secret) await syncPendingLeads(secret, subscriber.id);
   return receipt.token;
 }
 
@@ -56,4 +60,6 @@ export async function storeSubscriberName(receipt: string, name: string) {
     .eq("id", access.subscriber_id);
   if (error) throw new Error("No se pudo guardar el nombre.");
   await supabaseAdmin.from("newsletter_name_receipts").delete().eq("token", receipt);
+  const secret = process.env["LEADS_SYNC_SECRET"];
+  if (secret) await syncPendingLeads(secret, access.subscriber_id);
 }
