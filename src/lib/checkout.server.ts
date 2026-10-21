@@ -1,7 +1,7 @@
 import { getRequest } from "@tanstack/react-start/server";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { getProduct } from "@/lib/products";
-import { markCheckoutLeadStage, syncCheckoutLeads } from "@/lib/checkout-leads.server";
+import { recordCheckoutLead, markCheckoutLeadStage, syncCheckoutLeads } from "@/lib/checkout-leads.server";
 import { fullProgram } from "@/lib/educommerce";
 import { productTracking, campusPurchasePayload, reportedCouponAmount, purchaseTerms } from "@/lib/purchase-tracking";
 
@@ -16,7 +16,9 @@ function siteOrigin() {
   return `${proto}://${host}`;
 }
 
-export async function startCheckout(input: { productId: string; email: string; name: string; attribution?: unknown; leadId?: string | undefined }) {
+export async function startCheckout(input: { productId: string; email: string; name: string; phone: string; sessionId?: string; attribution?: unknown; leadId: string }) {
+  const lead = await recordCheckoutLead(input);
+  if (!lead.ok) return { ok: false as const, error: "No pudimos guardar tus datos. Inténtalo de nuevo." };
   const token = process.env["MERCADOPAGO_ACCESS_TOKEN"];
   if (!token) return { ok: false as const, error: "El pago aún no está disponible. Escríbenos por WhatsApp." };
   const product = getProduct(input.productId);
@@ -27,10 +29,11 @@ export async function startCheckout(input: { productId: string; email: string; n
 
   const { data: order, error } = await supabaseAdmin
     .from("orders")
-    .insert({ email: input.email, name: input.name, product_id: product.id, product_title: product.title, module_ids: product.moduleIds, amount: product.price, ...tracking, attribution: attribution as never })
+    .insert({ email: input.email, name: input.name, phone: input.phone, session_id: input.sessionId, product_id: product.id, product_title: product.title, module_ids: product.moduleIds, amount: product.price, ...tracking, attribution: attribution as never })
     .select("id")
     .single();
   if (error || !order) { console.error("order insert failed", error); return { ok: false as const, error: "No pudimos iniciar tu compra. Inténtalo de nuevo." }; }
+  await markCheckoutLeadStage({ leadId: input.leadId, orderId: order.id }, "pago_iniciado");
 
   const origin = siteOrigin();
   const isPublic = origin.startsWith("https://") && !/localhost|127\.0\.0\.1/.test(origin);
@@ -40,14 +43,14 @@ export async function startCheckout(input: { productId: string; email: string; n
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", "X-Idempotency-Key": order.id },
     body: JSON.stringify({
       items: [{ id: product.id, title: product.title, quantity: 1, unit_price: product.price, currency_id: "CLP", category_id: "learnings" }],
-      payer: { email: input.email, name: input.name },
+      payer: { email: input.email, name: input.name, phone: { number: input.phone } },
       external_reference: order.id,
       back_urls: { success: result, pending: result, failure: result },
       auto_return: isPublic ? "approved" : undefined,
       notification_url: isPublic ? `${origin}/api/public/mercadopago/webhook` : undefined,
       payment_methods: { installments: fullProgram.installments },
       statement_descriptor: "EDUCOMMERCE",
-      metadata: { order_id: order.id, product_id: product.id, module_ids: product.moduleIds, ...tracking, ...(terms ? { purchase_terms: terms } : {}) },
+      metadata: { order_id: order.id, product_id: product.id, module_ids: product.moduleIds, phone: input.phone, session_id: input.sessionId, lead_id: input.leadId, ...tracking, ...(terms ? { purchase_terms: terms } : {}) },
     }),
   });
   if (!res.ok) {
@@ -56,7 +59,7 @@ export async function startCheckout(input: { productId: string; email: string; n
   }
   const pref = (await res.json()) as { id: string; init_point: string };
   await supabaseAdmin.from("orders").update({ mp_preference_id: pref.id }).eq("id", order.id);
-  if (input.leadId) { await markCheckoutLeadStage({ leadId: input.leadId, orderId: order.id }, "pago_iniciado"); await syncCheckoutLeads(); }
+  await syncCheckoutLeads();
   return { ok: true as const, url: pref.init_point, orderId: order.id };
 }
 
@@ -88,7 +91,7 @@ export async function handlePaymentNotification(paymentId: string) {
 export async function syncPurchasesToCampus() {
   const secret = process.env["LEADS_SYNC_SECRET"];
   if (!secret) return;
-  const { data: rows } = await supabaseAdmin.from("orders").select("id, email, name, product_id, product_title, product_name, product_kind, module_ids, amount, currency, mp_payment_id, paid_at, attribution, list_amount, discount_code, discount_percent, discount_amount, mp_coupon_amount").eq("status", "approved").is("campus_synced_at", null).limit(20);
+  const { data: rows } = await supabaseAdmin.from("orders").select("id, email, name, phone, session_id, product_id, product_title, product_name, product_kind, module_ids, amount, currency, mp_payment_id, paid_at, attribution, list_amount, discount_code, discount_percent, discount_amount, mp_coupon_amount").eq("status", "approved").is("campus_synced_at", null).limit(5);
   for (const row of rows ?? []) {
     try {
       const r = await fetch(CAMPUS_PURCHASES_URL, {
@@ -96,6 +99,7 @@ export async function syncPurchasesToCampus() {
         headers: { Authorization: `Bearer ${secret}`, "Content-Type": "application/json" },
         body: JSON.stringify(campusPurchasePayload(row)),
         signal: AbortSignal.timeout(5000),
+        redirect: "error",
       });
       if (r.ok) await supabaseAdmin.from("orders").update({ campus_synced_at: new Date().toISOString() }).eq("id", row.id);
       else console.error(`campus purchase sync failed [${r.status}]`);

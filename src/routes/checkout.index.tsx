@@ -1,7 +1,8 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { z } from "zod";
+import { checkoutContactSchema } from "@/lib/checkout-schema";
+import { journeySession } from "@/lib/journey";
 import { ArrowRight, Check, Lock, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -25,10 +26,7 @@ export const Route = createFileRoute("/checkout/")({
   component: CheckoutPage,
 });
 
-const schema = z.object({
-  name: z.string().trim().min(1, "Escribe tu nombre").max(100),
-  email: z.string().trim().email("Escribe un correo válido").max(255),
-});
+const schema = checkoutContactSchema;
 
 function CheckoutPage() {
   const { producto } = Route.useSearch();
@@ -39,16 +37,35 @@ function CheckoutPage() {
   const saveLead = useServerFn(saveCheckoutLead);
   const leadId = useRef<string | null>(null);
   const lastSaved = useRef("");
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const pending = useRef<Promise<unknown>>(Promise.resolve());
+  const [saveError, setSaveError] = useState(false);
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  function contactId() {
+    if (leadId.current) return leadId.current;
+    try {
+      const key = `edu_checkout_${journeySession()}_${product?.id ?? ""}`;
+      leadId.current = sessionStorage.getItem(key) ?? crypto.randomUUID();
+      sessionStorage.setItem(key, leadId.current);
+    } catch { leadId.current = crypto.randomUUID(); }
+    return leadId.current;
+  }
 
   function captureLead(form: HTMLFormElement) {
+    clearTimeout(timer.current);
     if (!product) return;
     const parsed = schema.safeParse(Object.fromEntries(new FormData(form)));
     if (!parsed.success) return;
-    const key = `${product.id}|${parsed.data.email.toLowerCase()}|${parsed.data.name}`;
+    const key = `${product.id}|${parsed.data.email}|${parsed.data.name}|${parsed.data.phone}`;
     if (key === lastSaved.current) return;
     lastSaved.current = key;
-    leadId.current ??= crypto.randomUUID();
-    saveLead({ data: { leadId: leadId.current, productId: product.id, ...parsed.data, attribution: readAttribution() as never } }).catch(() => { lastSaved.current = ""; });
+    const data = { leadId: contactId(), sessionId: journeySession(), productId: product.id, ...parsed.data, attribution: readAttribution() };
+    pending.current = pending.current.catch(() => undefined).then(async () => {
+      const res = await saveLead({ data });
+      if (!res.ok) throw new Error("Save failed");
+      setSaveError(false);
+    }).catch(() => { lastSaved.current = ""; setSaveError(true); });
   }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -56,9 +73,12 @@ function CheckoutPage() {
     if (!product || sending) return;
     const parsed = schema.safeParse(Object.fromEntries(new FormData(e.currentTarget)));
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Revisa tus datos"); return; }
+    if (!parsed.data.phone) { setError("Escribe tu teléfono con código de país"); return; }
+    clearTimeout(timer.current);
     setError(""); setSending(true);
     try {
-      const res = await start({ data: { productId: product.id, ...parsed.data, attribution: readAttribution() as never, leadId: leadId.current ?? undefined } });
+      await pending.current;
+      const res = await start({ data: { productId: product.id, ...parsed.data, sessionId: journeySession(), attribution: readAttribution(), leadId: contactId() } });
       if (!res.ok) { setError(res.error); setSending(false); return; }
       window.location.href = res.url;
     } catch { setError("No pudimos conectar con Mercado Pago. Inténtalo de nuevo."); setSending(false); }
@@ -87,11 +107,17 @@ function CheckoutPage() {
               </div>
             )}
           </section>
-          <form className="checkout-form" onSubmit={onSubmit} onBlur={e => captureLead(e.currentTarget)} noValidate>
+          <form className="checkout-form" onSubmit={onSubmit} onBlur={e => captureLead(e.currentTarget)} onChange={e => {
+            const form = e.currentTarget;
+            clearTimeout(timer.current);
+            timer.current = setTimeout(() => captureLead(form), 700);
+          }} noValidate>
             <h2>Tus datos</h2>
-            <p>Usa el correo con el que entrarás al campus. Si aún no tienes cuenta, la creas después con ese mismo correo y tu compra aparecerá sola. Guardamos estos datos para ayudarte si no terminas tu compra.</p>
+            <p>Usa el correo con el que entrarás al campus. Si aún no tienes cuenta, la creas después con ese mismo correo. Guardamos tu nombre, correo y teléfono para gestionar tu compra y ayudarte si no la terminas; esto no te suscribe al newsletter. <Link to="/privacidad">Ver privacidad</Link>.</p>
             <label>Nombre<input name="name" autoComplete="name" required maxLength={100} /></label>
             <label>Correo<input name="email" type="email" autoComplete="email" required maxLength={255} /></label>
+            <label>Teléfono<input name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="+56 9 1234 5678" required maxLength={30} /></label>
+            {saveError && <p className="form-error" role="status">No pudimos guardar tus datos todavía. Volveremos a intentarlo al pagar.</p>}
             {error && <p className="form-error" role="alert">{error}</p>}
             <Button type="submit" size="lg" disabled={sending}>{sending ? "Conectando con Mercado Pago…" : <>Pagar con Mercado Pago <ArrowRight aria-hidden="true" /></>}</Button>
             <p className="checkout-trust"><Lock aria-hidden="true" /> Pago seguro en Mercado Pago · <ShieldCheck aria-hidden="true" /> Garantía {fullProgram.guaranteeDays} días</p>
