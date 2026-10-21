@@ -6,6 +6,20 @@ import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { formatPrice, fullProgram, installmentPrice, modules } from "@/lib/educommerce";
 import { plusPlans } from "@/lib/products";
 import box from "@/assets/program-box.png.asset.json";
+import f1 from "@/assets/plus-foto_producto_1.jpg.asset.json";
+import f2 from "@/assets/plus-foto_producto_2.jpg.asset.json";
+import f3 from "@/assets/plus-foto_producto_3.jpg.asset.json";
+import f4 from "@/assets/plus-foto_producto_4.jpg.asset.json";
+import { PlusGallery } from "@/components/plus-gallery";
+import { AlertTriangle, BadgeCheck, Quote, Rocket, Target, TrendingUp, Users } from "lucide-react";
+
+const gallery = [
+  { src: box.url, alt: "Caja del programa Educommerce Plus con las herramientas de sus módulos" },
+  { src: f1.url, alt: "Educommerce Plus: todo conectado en un solo programa" },
+  { src: f2.url, alt: "Educommerce Plus: foto de producto 2" },
+  { src: f3.url, alt: "Educommerce Plus: foto de producto 3" },
+  { src: f4.url, alt: "Educommerce Plus: foto de producto 4" },
+];
 
 const title = "Educommerce Plus | 10 módulos desde $199.990 CLP";
 const description = "Aprende e-commerce, publicidad, contenido y web con Educommerce Plus. Elige un año, acceso de por vida o acompañamiento. Pago con Mercado Pago.";
@@ -38,9 +52,7 @@ function PlusPage() {
 
   return <><SiteHeader announcement={<><span className="top-strip-tag">Lanzamiento</span><span className="desktop-only">Educommerce Plus con los 10 módulos · hasta 6 cuotas sin interés</span><span className="mobile-only">10 módulos · 6 cuotas sin interés</span></>} /><main className="plus-page">
     <section className="plus-product shell" aria-labelledby="plus-title">
-      <figure className="plus-product-media">
-        <img src={box.url} alt="Caja del programa Educommerce Plus con las herramientas de sus módulos" width={768} height={768} fetchPriority="high" />
-      </figure>
+      <PlusGallery images={gallery} />
       <div className="plus-buybox">
         <p className="plus-badge"><Crown aria-hidden="true" /> Educommerce Plus · 10 módulos</p>
         <h1 id="plus-title">Todo el sistema de e-commerce en <span>un solo programa.</span></h1>
@@ -55,11 +67,12 @@ function PlusPage() {
           <span className="plus-compare">{formatPrice(fullProgram.originalPrice)}</span>
           <span className="plus-save">Ahorras {formatPrice(fullProgram.originalPrice - plan.price)}</span>
         </div>
+        <p className="plus-alert" role="note"><AlertTriangle aria-hidden="true" /> <span><strong>Precio de lanzamiento para early adopters.</strong> Sube cuando termine el lanzamiento.</span></p>
         <fieldset className="plus-upsells">
           <legend>Suma a tu programa</legend>
           {upsells.map((upsell, i) => <label key={upsell.label} className="plus-upsell">
             <input type="checkbox" checked={tier > i} onChange={() => setTier(tier > i ? i : i + 1)} />
-            <span className="plus-upsell-text"><strong>{upsell.label}</strong><small>{upsell.note}</small></span>
+            <span className="plus-upsell-text"><strong>{upsell.label}{i === 1 && <em className="plus-upsell-tag">Más elegido</em>}</strong><small>{upsell.note}</small></span>
             <span className="plus-upsell-price">+{formatPrice(upsell.delta)}</span>
           </label>)}
         </fieldset>
@@ -79,6 +92,37 @@ function PlusPage() {
         <li><ShieldCheck aria-hidden="true" /><span><strong>{fullProgram.guaranteeDays} días</strong> de garantía</span></li>
       </ul>
     </div></div>
+    <section className="shell plus-section" aria-labelledby="plus-benefits-title">
+      <p className="eyebrow">POR QUÉ PLUS</p><h2 id="plus-benefits-title">Todo lo que necesitas para vender online.</h2>
+      <div className="plus-benefits">{[
+        [Rocket, "Lanza tu tienda", "Crea tu e-commerce en Shopify y tu web con IA, paso a paso."],
+        [Target, "Anuncia con estrategia", "Meta Ads y Google Ads con creatividades y guiones que puedes aplicar."],
+        [TrendingUp, "Fideliza clientes", "Automatizaciones de email marketing con Klaviyo."],
+        [Users, "Acompañamiento opcional", "Suma asesoría 1 a 1, grupo de WhatsApp y clases grupales."],
+      ].map(([Icon, t, d]) => { const I = Icon as typeof Rocket; return <article key={t as string}><I aria-hidden="true" /><h3>{t as string}</h3><p>{d as string}</p></article>; })}</div>
+    </section>
+    <section className="shell plus-section" aria-labelledby="plus-steps-title">
+      <p className="eyebrow">CÓMO FUNCIONA</p><h2 id="plus-steps-title">Empiezas hoy, en 3 pasos.</h2>
+      <ol className="plus-steps">
+        <li><span>1</span><div><strong>Elige tu plan</strong><p>Marca los extras que quieras y paga con Mercado Pago.</p></div></li>
+        <li><span>2</span><div><strong>Ingresa al campus</strong><p>Accede de inmediato con el mismo correo de tu compra.</p></div></li>
+        <li><span>3</span><div><strong>Aplica a tu proyecto</strong><p>Clases grabadas y prácticas para avanzar a tu ritmo.</p></div></li>
+      </ol>
+    </section>
+    <section className="shell plus-section" aria-labelledby="plus-compare-title">
+      <h2 id="plus-compare-title">Por separado vs. Educommerce Plus.</h2>
+      <div className="plus-compare-table">
+        <div><small>Módulos por separado</small><s>{formatPrice(fullProgram.originalPrice)}</s><p>Sin Mentalidad ni Monetiza (exclusivos del programa)</p></div>
+        <div className="is-best"><small>Educommerce Plus</small><strong>{formatPrice(fullProgram.price)}</strong><p>Los 10 módulos · ahorras {formatPrice(fullProgram.originalPrice - fullProgram.price)}</p></div>
+      </div>
+    </section>
+    <section className="shell plus-section" aria-labelledby="plus-stories-title">
+      <p className="eyebrow">HISTORIAS DE ALUMNOS</p><h2 id="plus-stories-title">Lo que dicen quienes ya lo cursan.</h2>
+      <div className="plus-stories">{[1, 2, 3].map(n => <figure key={n} className="plus-story is-placeholder"><Quote aria-hidden="true" /><blockquote>Espacio reservado para el testimonio real de un alumno.</blockquote><figcaption><span className="plus-story-avatar" aria-hidden="true" /><span><strong>Alumno {n}</strong><small>Testimonio pendiente</small></span></figcaption></figure>)}</div>
+    </section>
+    <section className="shell plus-section" aria-labelledby="plus-guarantee-title">
+      <div className="plus-guarantee"><BadgeCheck aria-hidden="true" /><div><h2 id="plus-guarantee-title">Garantía de {fullProgram.guaranteeDays} días.</h2><p>Si el programa no es para ti, pide la devolución completa dentro de {fullProgram.guaranteeDays} días, según nuestros términos. Compras sin riesgo.</p></div></div>
+    </section>
     <section className="shell plus-section" aria-labelledby="plus-content-title">
       <p className="eyebrow">TODO CONECTADO</p><h2 id="plus-content-title">Qué incluye Educommerce Plus.</h2><p className="section-subtitle">Todos los planes incluyen los 10 módulos, también los exclusivos del programa.</p>
       <ol className="plus-curriculum">{modules.map(m => <li key={m.id}><span>{String(m.number).padStart(2, "0")}</span><div><strong>{m.title}</strong><small>{m.category}</small></div><Check aria-label="Incluido" /></li>)}</ol>
@@ -93,6 +137,10 @@ function PlusPage() {
         ["¿Tengo garantía?", `Tienes ${fullProgram.guaranteeDays} días de garantía o devolución completa, según nuestros términos.`],
       ].map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}
       <p className="plus-terms-note"><ShieldCheck aria-hidden="true" /> Garantía de {fullProgram.guaranteeDays} días · <Link to="/terminos">Ver términos</Link></p>
+    </section>
+    <section className="shell plus-section plus-final-cta" aria-label="Comprar Educommerce Plus">
+      <h2>Empieza hoy con {plan.name}.</h2><p>{formatPrice(plan.price)} · o 6 cuotas de {formatPrice(installmentPrice(plan.price))} sin interés</p>
+      <Button asChild size="lg"><Link to="/checkout" search={{ producto: plan.id }}>Quiero Educommerce Plus <ArrowRight aria-hidden="true" /></Link></Button>
     </section>
     <div className="plus-sticky-bar">
       <div className="plus-sticky-inner">
