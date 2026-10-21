@@ -18,15 +18,18 @@ export async function storeSiteActivity(input: z.infer<typeof activitySchema>) {
       ...(product ? { product_id: product.id, module_ids: product.moduleIds, amount: product.price, ...productTracking(product) } : {}) },
   }, { onConflict: "id", ignoreDuplicates: true });
   if (error) throw new Error("No pudimos registrar la actividad.");
+  await syncSiteActivity(input.id).catch(() => console.warn('[activity-sync] pending event retained'));
   return { ok: true };
 }
 
 /** Immutable IDs let the campus deduplicate deliveries. Failed events remain local. */
-export async function syncSiteActivity() {
+export async function syncSiteActivity(eventId?: string) {
   const secret = process.env["LEADS_SYNC_SECRET"];
   if (!secret) return;
-  const { data: rows } = await supabaseAdmin.from("site_activity").select("*")
-    .is("synced_at", null).lte("next_attempt_at", new Date().toISOString()).order("created_at").limit(5);
+  let query = supabaseAdmin.from("site_activity").select("*").is("synced_at", null);
+  query = eventId ? query.eq("id", eventId) : query.lte("next_attempt_at", new Date().toISOString());
+  const { data: rows, error } = await query.order("created_at").limit(5);
+  if (error) throw new Error("No pudimos consultar la actividad pendiente.");
   for (const row of rows ?? []) {
     let status = 0;
     try {
@@ -37,6 +40,7 @@ export async function syncSiteActivity() {
         signal: AbortSignal.timeout(3000), redirect: "error",
       });
       status = response.status;
+      if (!response.ok) console.warn(`[activity-sync] campus rejected event: HTTP ${status}`);
       if (response.ok) {
         await supabaseAdmin.from("site_activity").update({ synced_at: new Date().toISOString(), last_status: status }).eq("id", row.id);
         continue;

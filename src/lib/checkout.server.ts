@@ -4,6 +4,7 @@ import { getProduct } from "@/lib/products";
 import { recordCheckoutLead, markCheckoutLeadStage, syncCheckoutLeads } from "@/lib/checkout-leads.server";
 import { fullProgram } from "@/lib/educommerce";
 import { productTracking, campusPurchasePayload, reportedCouponAmount, purchaseTerms } from "@/lib/purchase-tracking";
+import { syncSiteActivity } from "@/lib/site-activity.server";
 
 const MP = "https://api.mercadopago.com";
 const CAMPUS_PURCHASES_URL = "https://app.educommerce.cl/api/public/purchases";
@@ -34,6 +35,7 @@ export async function startCheckout(input: { productId: string; email: string; n
     .single();
   if (error || !order) { console.error("order insert failed", error); return { ok: false as const, error: "No pudimos iniciar tu compra. Inténtalo de nuevo." }; }
   await markCheckoutLeadStage({ leadId: input.leadId, orderId: order.id }, "pago_iniciado");
+  await Promise.all([syncCheckoutLeads(input.leadId), syncSiteActivity()]);
 
   const origin = siteOrigin();
   const isPublic = origin.startsWith("https://") && !/localhost|127\.0\.0\.1/.test(origin);
@@ -85,6 +87,7 @@ export async function handlePaymentNotification(paymentId: string) {
   if (status === "approved") await markCheckoutLeadStage({ orderId: order.id }, "pagado");
   await syncPurchasesToCampus();
   await syncCheckoutLeads();
+  await syncSiteActivity();
 }
 
 /** Sends approved purchases to the campus so they attach to the student's account by email. */
