@@ -20,7 +20,7 @@ import { getProduct, bundlePrice, isPurchasable, PACK_ID } from "@/lib/products"
 describe("Full pack offer", () => {
   it("launch annual Plus costs $199.990 CLP", () => { expect(fullProgram.price).toBe(199990); expect(formatPrice(fullProgram.price)).toBe("$199.990"); });
   it("shows the $499.920 individual sum", () => { expect(fullProgram.originalPrice).toBe(499920); });
-  it("individual sum matches sellable module prices", () => { expect(modules.reduce((t, m) => t + (m.price ?? 0), 0)).toBe(499920); });
+  it("individual sum (temporary Gráficas test price) matches sellable module prices", () => { expect(modules.reduce((t, m) => t + (m.price ?? 0), 0)).toBe(499920 - 29990 + 1000); });
   it("allows up to 6 installments", () => { expect(fullProgram.installments).toBe(6); });
   it("annual Plus product is purchasable at 199990", () => { expect(getProduct(PACK_ID)?.price).toBe(199990); });
 });
