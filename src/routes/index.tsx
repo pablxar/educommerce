@@ -18,7 +18,7 @@ import { moduleImages } from "@/lib/module-images";
 import { FaqSection } from "@/components/faq-section";
 import { ProgramSection } from "@/components/program-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
-import student from "@/assets/student.png.asset.json";
+import foundersWall from "@/assets/founders-wall.png.asset.json";
 import teacher from "@/assets/teacher-restored.jpg";
 import founders from "@/assets/founders.jpg.asset.json";
 import individual from "@/assets/individual.png.asset.json";
@@ -165,9 +165,9 @@ function Index() {
                 <Clapperboard aria-hidden="true" />
                 De la idea a la práctica
               </div>
-              <img src={student.url} alt="Alumna estudiando frente a su computador" />
+              <img src={foundersWall.url} alt="Benjamín, Pablo y Martín, fundadores de Educommerce, frente al letrero de la marca" />
             </div>
-            <img className="side-student" src={individual.url} alt="Alumno trabajando en su portátil" />
+            <img className="side-student" src={founders.url} alt="Benjamín, Pablo y Martín trabajando en sus laptops" />
             <div
               className="class-preview"
               role="img"
