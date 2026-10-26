@@ -6,12 +6,11 @@ export const hashIdentifier = (value: string) => createHash('sha256').update(val
 export function purchasePayload(order: { id: string; amount: number; product_id: string; product_title: string; module_ids: string[]; email: string; phone: string | null; attribution: unknown }, approvedAt: string) {
   const attribution = order.attribution as { meta?: { consent?: { granted?: boolean; version?: string }; fbp?: string; fbc?: string; sourceUrl?: string; userAgent?: string } } | null;
   const m = attribution?.meta;
-  if (m?.consent?.granted !== true || m.consent.version !== '1') return null;
   const eventTime = Math.floor(Date.parse(approvedAt) / 1000);
   if (!Number.isFinite(eventTime) || Date.now()/1000 - eventTime > 7*86400) return null;
   const ids = order.module_ids.length ? order.module_ids : [order.product_id];
-  return { event_name: 'Purchase', event_time: eventTime, event_id: purchaseEventId(order.id), action_source: 'website', event_source_url: m.sourceUrl ?? 'https://educommerce.cl/checkout',
-    user_data: { em: [hashIdentifier(order.email)], ...(order.phone ? { ph: [hashIdentifier(order.phone.replace(/\D/g, ''))] } : {}), ...(m.fbp ? { fbp: m.fbp } : {}), ...(m.fbc ? { fbc: m.fbc } : {}), ...(m.userAgent ? { client_user_agent: m.userAgent } : {}) },
+  return { event_name: 'Purchase', event_time: eventTime, event_id: purchaseEventId(order.id), action_source: 'website', event_source_url: m?.sourceUrl ?? 'https://educommerce.cl/checkout',
+    user_data: { em: [hashIdentifier(order.email)], ...(order.phone ? { ph: [hashIdentifier(order.phone.replace(/\D/g, ''))] } : {}), ...(m?.fbp ? { fbp: m.fbp } : {}), ...(m?.fbc ? { fbc: m.fbc } : {}), ...(m?.userAgent ? { client_user_agent: m.userAgent } : {}) },
     custom_data: { currency: 'CLP', value: order.amount, order_id: order.id, content_type: 'product', content_ids: ids, content_name: order.product_title, contents: ids.map(id => ({ id, quantity: 1 })), num_items: ids.length } };
 }
 export async function sendMetaEvent(event: Record<string, unknown>, testCode?: string) {

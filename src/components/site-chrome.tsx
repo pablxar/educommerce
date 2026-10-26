@@ -1,5 +1,4 @@
 import type React from "react";
-import { openConsentPreferences } from "@/lib/meta-consent";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Instagram, Menu, X, Youtube } from "lucide-react";
@@ -187,7 +186,6 @@ export function SiteFooter() {
       <div className="footer-bottom">
         <div className="shell footer-bottom-inner">
           <p>© 2026 Educommerce. Todos los derechos reservados.</p>
-          <button type="button" className="footer-consent-link" onClick={openConsentPreferences}>Preferencias de cookies</button>
         </div>
       </div>
     </footer>

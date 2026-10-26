@@ -3,8 +3,7 @@ import { purchasePayload,sendMetaEvent,sendIsolatedMetaTest } from '@/lib/meta-p
 const order={id:'c0926b93-0e33-4e68-962e-676c417355b4',amount:349990,product_id:'educommerce-plus-vip',product_title:'Educommerce Plus',module_ids:['meta','shopify'],email:'synthetic@example.test',phone:null,attribution:{meta:{consent:{granted:true,version:'1'}}}};
 beforeEach(()=>vi.stubEnv('META_CAPI_ACCESS_TOKEN','synthetic-test-credential'));
 afterEach(()=>{vi.unstubAllEnvs();vi.unstubAllGlobals()});
-it('sends no purchase without explicit consent',()=>expect(purchasePayload({...order,attribution:{}},new Date().toISOString())).toBeNull());
-it('sends no purchase with denied consent',()=>expect(purchasePayload({...order,attribution:{meta:{consent:{granted:false,version:'1'}}}},new Date().toISOString())).toBeNull());
+it('sends purchase even without stored consent',()=>expect(purchasePayload({...order,attribution:{}},new Date().toISOString())?.custom_data.value).toBe(349990));
 it('uses actual approval time and 349990 CLP with bought products',()=>{const date=new Date(Date.now()-60000).toISOString();const e=purchasePayload(order,date);expect(e?.event_time).toBe(Math.floor(Date.parse(date)/1000));expect(e?.custom_data).toMatchObject({currency:'CLP',value:349990,content_ids:['meta','shopify']});});
 it('keeps event id stable on retry',()=>expect(purchasePayload(order,new Date().toISOString())?.event_id).toBe(purchasePayload(order,new Date().toISOString())?.event_id));
 it('isolated tests fail closed without Test Events code',async()=>{vi.stubEnv('META_TEST_EVENT_CODE','');const fetch=vi.fn();vi.stubGlobal('fetch',fetch);expect((await sendIsolatedMetaTest()).ok).toBe(false);expect(fetch).not.toHaveBeenCalled();});
