@@ -108,7 +108,7 @@ function CheckoutPage() {
               <><ul className="checkout-list">{product.benefits?.map(b => <li key={b}><Check aria-hidden="true" />{b}</li>)}</ul><p className="my-4 text-sm">Pago único · {product.access === "one_year" ? "Un año de acceso" : "Acceso de por vida"}</p><PlusPlanOptions selectedId={product.id} /></>
             ) : (
               <div className="checkout-upgrade">
-                <p><strong>¿Y si lo tienes todo?</strong> Educommerce Plus incluye los 10 módulos desde {formatPrice(fullProgram.price)} por un año, con opciones de acceso de por vida y acompañamiento.</p>
+                <p><strong>¿Y si lo tienes todo?</strong> Educommerce Plus incluye los 9 módulos desde {formatPrice(fullProgram.price)} por un año, con opciones de acceso de por vida y acompañamiento.</p>
                 <Button asChild variant="link"><Link to="/educommerce-plus">Ver Educommerce Plus</Link></Button>
               </div>
             )}
