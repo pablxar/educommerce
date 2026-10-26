@@ -1042,6 +1042,10 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-section > h2 + * { margin-top: 20px; }
 .plus-ticker { margin-block: 16px 0; }
 .plus-facts { margin-top: 32px; }
+@media (max-width: 700px) {
+  .plus-product { padding-block: 22px 22px; }
+  .plus-facts { margin-top: 16px; }
+}
 .plus-benefits { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
 .plus-benefits article { padding: 16px; display: grid; gap: 6px; align-content: start; background: var(--muted); border-color: transparent; }
 .plus-benefits h3 { margin: 6px 0 0; font-size: 15px; line-height: 1.3; } .plus-benefits p { font-size: 13px; line-height: 1.5; }
