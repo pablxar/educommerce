@@ -12,38 +12,45 @@ async function notification(body: Record<string, unknown> = {}, options: { badSi
   const digest = Array.from(new Uint8Array(bytes), byte => byte.toString(16).padStart(2, "0")).join("");
   return new Request(`https://example.test/api/public/mercadopago/test-webhook?data.id=${id}`, {
     method: "POST", headers: { "x-request-id": "test-request", "x-signature": `ts=${ts},v1=${options.badSignature ? "0".repeat(64) : digest}` },
-    body: JSON.stringify({ type: "payment", live_mode: false, application_id: "6428800267243215", data: { id: options.bodyId ?? id }, ...body }),
+    body: JSON.stringify({ type: "payment", live_mode: false, application_id: "3457752278222975", data: { id: options.bodyId ?? id }, ...body }),
   });
 }
 
 describe("Isolated Mercado Pago test receiver", () => {
-  beforeEach(() => { vi.stubGlobal("crypto", webcrypto); vi.stubEnv("MERCADOPAGO_TEST_WEBHOOK_SECRET", secret); });
+  beforeEach(() => { vi.stubGlobal("crypto", webcrypto); vi.stubEnv("MERCADOPAGO_TEST_WEBHOOK_SECRET", secret); vi.stubEnv("MERCADOPAGO_TEST_ACCESS_TOKEN", "synthetic-token"); });
+  const payment = (p: Record<string, unknown> = {}) => vi.fn(async () => Response.json({ collector_id: 3762626205, external_reference: "EDUCOMMERCE-TEST-abc", status: "approved", ...p }));
   afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
-  it("accepts correctly signed test reception without network effects or sensitive logs", async () => {
-    const fetch = vi.fn(); vi.stubGlobal("fetch", fetch);
+  it("accepts a signed test-app notification whose payment belongs to the test seller and reference", async () => {
+    const fetch = payment(); vi.stubGlobal("fetch", fetch);
     const log = vi.spyOn(console, "info").mockImplementation(() => undefined);
-    const response = await receiveMercadoPagoTestWebhook(await notification({ email: "not-for-logs@example.test" }));
+    const response = await receiveMercadoPagoTestWebhook(await notification({ live_mode: true, email: "not-for-logs@example.test" }));
     expect(response.status).toBe(200);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(log.mock.calls).toEqual([["mercadopago_test_webhook_diagnostic", { hmac: "valid", application_id: "3457752278222975", event_type: "payment", test_seller: true, test_reference: true, payment_status: "approved", http_status: 200, effects: "none" }]]);
+  });
+  it("rejects a signed notification for a payment of the real seller", async () => {
+    vi.stubGlobal("fetch", payment({ collector_id: 1111 })); vi.spyOn(console, "info").mockImplementation(() => undefined);
+    expect((await receiveMercadoPagoTestWebhook(await notification())).status).toBe(403);
+  });
+  it("rejects a signed notification without the test reference prefix", async () => {
+    vi.stubGlobal("fetch", payment({ external_reference: "real-order-uuid" })); vi.spyOn(console, "info").mockImplementation(() => undefined);
+    expect((await receiveMercadoPagoTestWebhook(await notification())).status).toBe(403);
+  });
+  it("rejects the production application before any lookup", async () => {
+    const fetch = payment(); vi.stubGlobal("fetch", fetch); vi.spyOn(console, "info").mockImplementation(() => undefined);
+    expect((await receiveMercadoPagoTestWebhook(await notification({ application_id: "6428800267243215" }))).status).toBe(400);
     expect(fetch).not.toHaveBeenCalled();
-    expect(log.mock.calls).toEqual([["mercadopago_test_webhook_diagnostic", { hmac: "valid", application_id: "6428800267243215", event_type: "payment", http_status: 200, effects: "none" }]]);
-  });
-  it("rejects approved production notifications even with a valid signature", async () => {
-    vi.spyOn(console, "info").mockImplementation(() => undefined);
-    expect((await receiveMercadoPagoTestWebhook(await notification({ live_mode: true, status: "approved" }))).status).toBe(400);
-  });
-  it("rejects a different application but records only its diagnostic", async () => {
-    const log = vi.spyOn(console, "info").mockImplementation(() => undefined);
-    expect((await receiveMercadoPagoTestWebhook(await notification({ application_id: "3457752278222975" }))).status).toBe(400);
-    expect(log.mock.calls[0]?.[1]).toEqual({ hmac: "valid", application_id: "3457752278222975", event_type: "payment", http_status: 400, effects: "none" });
   });
   it("reports an invalid HMAC and rejects it", async () => {
     const log = vi.spyOn(console, "info").mockImplementation(() => undefined);
     expect((await receiveMercadoPagoTestWebhook(await notification({}, { badSignature: true }))).status).toBe(401);
     expect(log.mock.calls[0]?.[1]).toMatchObject({ hmac: "invalid", http_status: 401 });
   });
-  it("rejects a forged signature", async () => {
+  it("rejects a forged signature without any lookup", async () => {
+    const fetch = payment(); vi.stubGlobal("fetch", fetch);
     expect((await receiveMercadoPagoTestWebhook(await notification({}, { badSignature: true }))).status).toBe(401);
+    expect(fetch).not.toHaveBeenCalled();
   });
   it("rejects expired replays", async () => {
     expect((await receiveMercadoPagoTestWebhook(await notification({}, { age: 16 * 60 * 1000 }))).status).toBe(401);
