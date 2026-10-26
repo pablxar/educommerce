@@ -18,8 +18,7 @@ import { moduleImages } from "@/lib/module-images";
 import { FaqSection } from "@/components/faq-section";
 import { ProgramSection } from "@/components/program-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
-import student from "@/assets/student.png.asset.json";
-import teacher from "@/assets/teacher-restored.jpg";
+import foundersWall from "@/assets/founders-wall.png.asset.json";
 import founders from "@/assets/founders.jpg.asset.json";
 import individual from "@/assets/individual.png.asset.json";
 import academy from "@/assets/academy.png.asset.json";
@@ -165,7 +164,7 @@ function Index() {
                 <Clapperboard aria-hidden="true" />
                 De la idea a la práctica
               </div>
-              <img src={student.url} alt="Alumna estudiando frente a su computador" />
+              <img src={foundersWall.url} alt="Benjamín, Pablo y Martín, fundadores de Educommerce, frente al letrero de la marca" />
             </div>
             <img className="side-student" src={individual.url} alt="Alumno trabajando en su portátil" />
             <div
@@ -173,7 +172,7 @@ function Index() {
               role="img"
               aria-label="Vista previa de una clase grabada: Crea tu tienda en Shopify"
             >
-              <img className="teacher-photo" src={teacher} alt="Docente explicando una clase grabada" />
+              <img className="teacher-photo" src={founders.url} alt="Benjamín, Pablo y Martín trabajando en sus laptops" />
               <div className="class-syllabus">
                 <h3>Crea tu tienda en Shopify</h3>
                 <ol>
