@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { SupportWidget } from "@/components/support-widget";
 import { captureAttribution } from "@/lib/attribution";
 import { JourneyTracker } from "@/components/journey-tracker";
+import { MetaPixel, MetaPixelNoscript } from "@/components/meta-pixel";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -104,6 +105,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <MetaPixelNoscript />
         {children}
         <Scripts />
       </body>
@@ -120,6 +122,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <JourneyTracker />
+      <MetaPixel />
       <SupportWidget />
     </QueryClientProvider>
   );
