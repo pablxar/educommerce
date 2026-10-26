@@ -181,7 +181,7 @@
 .photo-caption svg { color: var(--primary); width: 17px; }
 .main-photo > img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .side-student { width: 120px; height: 240px; border-radius: 12px; object-fit: cover; }
-.class-preview { grid-column: 1 / 3; grid-row: 2; z-index: 1; width: 84%; height: 158px; align-self: end; margin-left: auto; margin-top: -16px; display: grid; grid-template-columns: 1.1fr 1fr; border: 3px solid var(--background); border-radius: 10px; overflow: hidden; background: var(--background); }
+.class-preview { grid-column: 1 / 3; grid-row: 2; z-index: 1; width: 84%; height: 158px; align-self: end; margin-left: auto; margin-top: -16px; display: grid; grid-template-columns: 1.1fr 1fr; grid-template-rows: 1fr; border: 3px solid var(--background); border-radius: 10px; overflow: hidden; background: var(--background); }
 .teacher-photo { width: 100%; height: 100%; object-fit: cover; object-position: center 62%; min-width: 0; }
 .class-syllabus { padding: 15px 12px; }
 .class-syllabus h3 { font-size: 10px; margin-bottom: 12px; font-weight: 700; }
