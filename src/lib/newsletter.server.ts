@@ -18,7 +18,7 @@ export async function syncPendingLeads(secret: string, subscriberId?: string) {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${secret}` },
         body: JSON.stringify(leadPayload(row.email, row.name, row.source)),
         signal: AbortSignal.timeout(5000),
-        redirect: "error",
+        redirect: "manual",
       });
       if (!response.ok) {
         // Status only (no PII) so a rejected key is visible in server logs.

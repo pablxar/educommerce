@@ -50,10 +50,10 @@ export async function syncCheckoutLeads(leadId?: string) {
           created_at: row.created_at, updated_at: row.updated_at,
         }),
         signal: AbortSignal.timeout(5000),
-        redirect: "error",
+        redirect: "manual",
       });
       if (r.ok) await supabaseAdmin.from("checkout_leads").update({ synced_at: new Date().toISOString() }).eq("id", row.id).eq("sync_revision", row.sync_revision);
       else console.warn(`[checkout-sync] campus rejected contact: HTTP ${r.status}`);
-    } catch { /* keep pending */ }
+    } catch (e) { console.warn("[checkout-sync] transport error", e instanceof Error ? e.name + ": " + e.message : "unknown"); }
   }
 }

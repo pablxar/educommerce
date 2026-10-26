@@ -102,7 +102,7 @@ export async function syncPurchasesToCampus() {
         headers: { Authorization: `Bearer ${secret}`, "Content-Type": "application/json" },
         body: JSON.stringify(campusPurchasePayload(row)),
         signal: AbortSignal.timeout(5000),
-        redirect: "error",
+        redirect: "manual",
       });
       if (r.ok) await supabaseAdmin.from("orders").update({ campus_synced_at: new Date().toISOString() }).eq("id", row.id);
       else console.error(`campus purchase sync failed [${r.status}]`);
