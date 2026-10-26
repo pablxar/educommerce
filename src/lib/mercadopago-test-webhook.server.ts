@@ -4,11 +4,12 @@ import { z } from "zod";
 export const TEST_APPLICATION_ID = "3457752278222975";
 export const TEST_COLLECTOR_ID = "3762626205";
 export const TEST_REFERENCE_PREFIX = "EDUCOMMERCE-TEST-";
+export const TEST_NOTIFICATION_URL = "https://project--cbdb585c-64a4-4dfa-9488-711143cd509f-dev.lovable.app/api/public/mercadopago/test-webhook";
 const MAX_BODY_BYTES = 16384;
 const MAX_AGE_MS = 15 * 60 * 1000;
 const notificationSchema = z.object({
   type: z.literal("payment"),
-  application_id: z.union([z.string(), z.number()]).transform(String).pipe(z.literal(TEST_APPLICATION_ID)),
+  application_id: z.union([z.string(), z.number()]).transform(String).pipe(z.literal(TEST_APPLICATION_ID)).optional(),
   data: z.object({ id: z.union([z.string(), z.number()]).transform(String).pipe(z.string().regex(/^\d{1,20}$/)) }),
 });
 
@@ -44,7 +45,10 @@ type Diagnostic = {
   application_id: string | null;
   event_type: string | null;
   test_seller: boolean | null;
+  test_account: boolean | null;
   test_reference: boolean | null;
+  preference_application: boolean | null;
+  isolated_circuit: boolean | null;
   payment_status: string | null;
 };
 
@@ -53,9 +57,9 @@ function safeToken(value: unknown, pattern: RegExp) {
   return pattern.test(text) ? text : null;
 }
 
-/** Receipt-only sink: no database, campus or Meta dependencies; one read-only payment lookup with the test token. */
+/** Receipt-only sink: all provider reads use the test token; no database, campus or Meta dependencies. */
 export async function receiveMercadoPagoTestWebhook(request: Request) {
-  const diagnostic: Diagnostic = { hmac: "not_checked", application_id: null, event_type: null, test_seller: null, test_reference: null, payment_status: null };
+  const diagnostic: Diagnostic = { hmac: "not_checked", application_id: null, event_type: null, test_seller: null, test_account: null, test_reference: null, preference_application: null, isolated_circuit: null, payment_status: null };
   const response = await evaluate(request, diagnostic);
   // Diagnostic only: never body, headers, payment IDs, references, signature, buyer data or tokens.
   console.info("mercadopago_test_webhook_diagnostic", { ...diagnostic, http_status: response.status, effects: "none" });
@@ -109,12 +113,20 @@ async function evaluate(request: Request, diagnostic: Diagnostic) {
   const parsed = notificationSchema.safeParse(body);
   if (!parsed.success || parsed.data.data.id !== id) return reply(400, "invalid_test_notification");
 
-  // Environment proof does not rely on live_mode: the payment itself must belong to the test seller and test reference.
+  // No provider lookup occurs before HMAC, freshness and notification validation pass.
+  const readProvider = async (path: string): Promise<Record<string, unknown> | null> => {
+    const res = await fetch(`https://api.mercadopago.com${path}`, {
+      headers: { Authorization: `Bearer ${testToken}` }, signal: AbortSignal.timeout(10000),
+    });
+    if (!res.ok) return null;
+    const data: unknown = await res.json();
+    return data && typeof data === "object" && !Array.isArray(data) ? data as Record<string, unknown> : null;
+  };
   let payment: Record<string, unknown>;
   try {
-    const res = await fetch(`https://api.mercadopago.com/v1/payments/${id}`, { headers: { Authorization: `Bearer ${testToken}` } });
-    if (!res.ok) return reply(res.status === 404 ? 400 : 502, "test_payment_not_verifiable");
-    payment = await res.json() as Record<string, unknown>;
+    const found = await readProvider(`/v1/payments/${id}`);
+    if (!found) return reply(502, "test_payment_not_verifiable");
+    payment = found;
   } catch { return reply(502, "test_payment_not_verifiable"); }
   const collector = payment["collector_id"] ?? (payment["collector"] as Record<string, unknown> | undefined)?.["id"];
   const reference = payment["external_reference"];
@@ -122,5 +134,42 @@ async function evaluate(request: Request, diagnostic: Diagnostic) {
   diagnostic.test_reference = typeof reference === "string" && reference.startsWith(TEST_REFERENCE_PREFIX);
   diagnostic.payment_status = safeToken(payment["status"], /^[a-z_]{1,30}$/);
   if (!diagnostic.test_seller || !diagnostic.test_reference) return reply(403, "not_a_test_payment");
+  const metadata = payment["metadata"] as Record<string, unknown> | undefined;
+  const order = payment["order"] as Record<string, unknown> | undefined;
+  const orderId = safeToken(order?.["id"], /^\d{1,20}$/);
+  if (String(payment["id"]) !== id || payment["currency_id"] !== "CLP" ||
+      metadata?.["environment"] !== "isolated_test" || metadata?.["fulfillment"] !== "disabled" ||
+      metadata?.["meta_conversion"] !== "disabled" || order?.["type"] !== "mercadopago" || !orderId) {
+    diagnostic.isolated_circuit = false;
+    return reply(403, "not_the_isolated_test_circuit");
+  }
+  // Confirm test-user status independently; live_mode is deliberately not an environment gate.
+  try {
+    const seller = await readProvider(`/users/${TEST_COLLECTOR_ID}`);
+    if (!seller) return reply(502, "test_account_not_verifiable");
+    diagnostic.test_account = String(seller["id"]) === TEST_COLLECTOR_ID &&
+      Array.isArray(seller["tags"]) && seller["tags"].includes("test_user");
+    if (!diagnostic.test_account) return reply(403, "seller_not_a_test_account");
+    const merchantOrder = await readProvider(`/merchant_orders/${orderId}`);
+    if (!merchantOrder) return reply(502, "test_preference_not_verifiable");
+    const preferenceId = safeToken(merchantOrder["preference_id"], /^[a-zA-Z0-9-]{1,150}$/);
+    const payments = merchantOrder["payments"];
+    const linked = Array.isArray(payments) && payments.some(value =>
+      value && typeof value === "object" && String(value.id) === id);
+    if (String(merchantOrder["id"]) !== orderId || !linked || !preferenceId ||
+        merchantOrder["external_reference"] !== reference ||
+        String((merchantOrder["collector"] as Record<string, unknown> | undefined)?.["id"]) !== TEST_COLLECTOR_ID) {
+      return reply(403, "invalid_test_payment_association");
+    }
+    const preference = await readProvider(`/checkout/preferences/${preferenceId}`);
+    if (!preference) return reply(502, "test_preference_not_verifiable");
+    diagnostic.preference_application = String(preference["client_id"]) === TEST_APPLICATION_ID;
+    if (!diagnostic.preference_application) return reply(403, "not_the_test_application");
+    diagnostic.isolated_circuit = preference["id"] === preferenceId &&
+      String(preference["collector_id"]) === TEST_COLLECTOR_ID && preference["external_reference"] === reference &&
+      preference["notification_url"] === TEST_NOTIFICATION_URL &&
+      (preference["metadata"] as Record<string, unknown> | undefined)?.["environment"] === "isolated_test";
+    if (!diagnostic.isolated_circuit) return reply(403, "not_the_isolated_test_circuit");
+  } catch { return reply(502, "test_identity_not_verifiable"); }
   return reply(200, "signature_verified_test_received", crypto.randomUUID());
 }
