@@ -1,13 +1,14 @@
 import { z } from "zod";
 
-const APPLICATION_ID = "6428800267243215";
+/** Fictitious Mercado Pago test application, test seller and test-only reference prefix. */
+export const TEST_APPLICATION_ID = "3457752278222975";
+export const TEST_COLLECTOR_ID = "3762626205";
+export const TEST_REFERENCE_PREFIX = "EDUCOMMERCE-TEST-";
 const MAX_BODY_BYTES = 16384;
 const MAX_AGE_MS = 15 * 60 * 1000;
 const notificationSchema = z.object({
   type: z.literal("payment"),
-  live_mode: z.literal(false),
-  application_id: z.union([z.string(), z.number()]).optional()
-    .refine(value => value === undefined || String(value) === APPLICATION_ID),
+  application_id: z.union([z.string(), z.number()]).transform(String).pipe(z.literal(TEST_APPLICATION_ID)),
   data: z.object({ id: z.union([z.string(), z.number()]).transform(String).pipe(z.string().regex(/^\d{1,20}$/)) }),
 });
 
@@ -38,25 +39,33 @@ function reply(status: number, result: string, receipt?: string) {
   });
 }
 
-type Diagnostic = { hmac: "valid" | "invalid" | "not_checked"; application_id: string | null; event_type: string | null };
+type Diagnostic = {
+  hmac: "valid" | "invalid" | "not_checked";
+  application_id: string | null;
+  event_type: string | null;
+  test_seller: boolean | null;
+  test_reference: boolean | null;
+  payment_status: string | null;
+};
 
 function safeToken(value: unknown, pattern: RegExp) {
   const text = typeof value === "string" || typeof value === "number" ? String(value) : "";
   return pattern.test(text) ? text : null;
 }
 
-/** Receipt-only sink: deliberately has no database, payment API, campus or Meta dependencies. */
+/** Receipt-only sink: no database, campus or Meta dependencies; one read-only payment lookup with the test token. */
 export async function receiveMercadoPagoTestWebhook(request: Request) {
-  const diagnostic: Diagnostic = { hmac: "not_checked", application_id: null, event_type: null };
+  const diagnostic: Diagnostic = { hmac: "not_checked", application_id: null, event_type: null, test_seller: null, test_reference: null, payment_status: null };
   const response = await evaluate(request, diagnostic);
-  // Diagnostic only: never body, headers, payment IDs, signature, buyer data or payment details.
+  // Diagnostic only: never body, headers, payment IDs, references, signature, buyer data or tokens.
   console.info("mercadopago_test_webhook_diagnostic", { ...diagnostic, http_status: response.status, effects: "none" });
   return response;
 }
 
 async function evaluate(request: Request, diagnostic: Diagnostic) {
   const secret = process.env["MERCADOPAGO_TEST_WEBHOOK_SECRET"];
-  if (!secret) return reply(503, "test_receiver_not_configured");
+  const testToken = process.env["MERCADOPAGO_TEST_ACCESS_TOKEN"];
+  if (!secret || !testToken) return reply(503, "test_receiver_not_configured");
   const url = new URL(request.url);
   diagnostic.event_type = safeToken(url.searchParams.get("type") ?? url.searchParams.get("topic"), /^[a-z_.]{1,40}$/);
   const idValues = url.searchParams.getAll("data.id");
@@ -83,7 +92,6 @@ async function evaluate(request: Request, diagnostic: Diagnostic) {
     diagnostic.hmac = valid ? "valid" : "invalid";
   } catch { return reply(503, "test_verification_unavailable"); }
 
-  // Body is read for diagnostics only after the signature result is known; rejection rules are unchanged.
   const raw = await limitedBody(request);
   let body: unknown = null;
   if (raw !== null) { try { body = JSON.parse(raw); } catch { body = null; } }
@@ -93,11 +101,26 @@ async function evaluate(request: Request, diagnostic: Diagnostic) {
     diagnostic.event_type = safeToken(b["type"] ?? b["topic"], /^[a-z_.]{1,40}$/) ?? diagnostic.event_type;
   }
   if (diagnostic.hmac !== "valid") return reply(401, "invalid_webhook_authentication");
+  // Freshness applies to new deliveries; Mercado Pago re-signs resent notifications with a new ts.
   const time = Number(ts) * (ts.length === 10 ? 1000 : 1);
   if (Math.abs(Date.now() - time) > MAX_AGE_MS) return reply(401, "expired_test_notification");
   if (raw === null) return reply(413, "invalid_or_oversized_body");
   if (body === null) return reply(400, "invalid_test_notification");
   const parsed = notificationSchema.safeParse(body);
   if (!parsed.success || parsed.data.data.id !== id) return reply(400, "invalid_test_notification");
+
+  // Environment proof does not rely on live_mode: the payment itself must belong to the test seller and test reference.
+  let payment: Record<string, unknown>;
+  try {
+    const res = await fetch(`https://api.mercadopago.com/v1/payments/${id}`, { headers: { Authorization: `Bearer ${testToken}` } });
+    if (!res.ok) return reply(res.status === 404 ? 400 : 502, "test_payment_not_verifiable");
+    payment = await res.json() as Record<string, unknown>;
+  } catch { return reply(502, "test_payment_not_verifiable"); }
+  const collector = payment["collector_id"] ?? (payment["collector"] as Record<string, unknown> | undefined)?.["id"];
+  const reference = payment["external_reference"];
+  diagnostic.test_seller = String(collector ?? "") === TEST_COLLECTOR_ID;
+  diagnostic.test_reference = typeof reference === "string" && reference.startsWith(TEST_REFERENCE_PREFIX);
+  diagnostic.payment_status = safeToken(payment["status"], /^[a-z_]{1,30}$/);
+  if (!diagnostic.test_seller || !diagnostic.test_reference) return reply(403, "not_a_test_payment");
   return reply(200, "signature_verified_test_received", crypto.randomUUID());
 }
