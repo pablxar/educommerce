@@ -167,13 +167,13 @@ function Index() {
               </div>
               <img src={foundersWall.url} alt="Benjamín, Pablo y Martín, fundadores de Educommerce, frente al letrero de la marca" />
             </div>
-            <img className="side-student" src={founders.url} alt="Benjamín, Pablo y Martín trabajando en sus laptops" />
+            <img className="side-student" src={individual.url} alt="Alumno trabajando en su portátil" />
             <div
               className="class-preview"
               role="img"
               aria-label="Vista previa de una clase grabada: Crea tu tienda en Shopify"
             >
-              <img className="teacher-photo" src={teacher} alt="Docente explicando una clase grabada" />
+              <img className="teacher-photo" src={founders.url} alt="Benjamín, Pablo y Martín trabajando en sus laptops" />
               <div className="class-syllabus">
                 <h3>Crea tu tienda en Shopify</h3>
                 <ol>
