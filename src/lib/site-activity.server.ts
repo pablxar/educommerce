@@ -37,7 +37,7 @@ export async function syncSiteActivity(eventId?: string) {
         method: "POST", headers: { Authorization: `Bearer ${secret}`, "Content-Type": "application/json", "Idempotency-Key": row.id },
         body: JSON.stringify({ event_id: row.id, session_id: row.session_id, event_type: row.event_type,
           source_id: row.source_id, created_at: row.created_at, payload: row.payload }),
-        signal: AbortSignal.timeout(3000), redirect: "error",
+        signal: AbortSignal.timeout(8000), redirect: "manual",
       });
       status = response.status;
       if (!response.ok) console.warn(`[activity-sync] campus rejected event: HTTP ${status}`);
@@ -45,7 +45,7 @@ export async function syncSiteActivity(eventId?: string) {
         await supabaseAdmin.from("site_activity").update({ synced_at: new Date().toISOString(), last_status: status }).eq("id", row.id);
         continue;
       }
-    } catch { /* Retain pending event. */ }
+    } catch (e) { console.warn("[activity-sync] transport error", e instanceof Error ? e.name + ": " + e.message : "unknown"); }
     await supabaseAdmin.from("site_activity").update({ attempts: row.attempts + 1, last_status: status || null,
       next_attempt_at: new Date(Date.now() + Math.min(86400000, 60000 * 2 ** Math.min(row.attempts, 10))).toISOString(),
     }).eq("id", row.id).eq("attempts", row.attempts);
