@@ -1,4 +1,5 @@
 # Educommerce homepage
+- [ ] Prepare an isolated signed Mercado Pago test receiver with sanitized diagnostics and no campus/payment/Meta effects; verify rejection and acceptance tests. Activation awaits the secure test webhook signing secret; no production deployment.
 - [x] Audit existing Mercado Pago order identification, payment webhook, Meta Pixel and attribution before any payment integration changes.
 - [ ] Connect verified approved purchases to Meta CAPI with authorized identifiers, stable event IDs, durable delivery and safe retries — waiting for secure CAPI token, Mercado Pago webhook signing secret and attribution-authorization decision after the audit.
 - [x] Verify uploaded campus delivery contract and configured-key acceptance; deliver current newsletter/contact/activity immediately, and resend existing pending newsletter/checkouts/activity with successful campus acknowledgments. Campus admin screen readback remains blocked on the separate campus project; publish delivery changes to activate them on the live landing.
