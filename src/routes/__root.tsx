@@ -14,6 +14,7 @@ import { SupportWidget } from "@/components/support-widget";
 import { captureAttribution } from "@/lib/attribution";
 import { JourneyTracker } from "@/components/journey-tracker";
 import { MetaPixel, MetaPixelNoscript } from "@/components/meta-pixel";
+import { ConsentBanner } from "@/components/consent-banner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -124,6 +125,7 @@ function RootComponent() {
       <JourneyTracker />
       <MetaPixel />
       <SupportWidget />
+      <ConsentBanner />
     </QueryClientProvider>
   );
 }
