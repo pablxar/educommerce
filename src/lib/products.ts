@@ -17,10 +17,10 @@ export const bundlePairs: [string, string][] = [
 export type Product = { id: string; title: string; price: number; listPrice: number; moduleIds: string[]; kind: "module" | "bundle" | "pack"; access?: "one_year" | "lifetime"; benefits?: string[] };
 
 export const plusPlans = [
-  { id: "educommerce-plus", name: "Plus Anual", title: "Educommerce Plus · 1 año", price: 199990, access: "one_year", benefits: ["Los 10 módulos", "Acceso por un año", "Clases grabadas y prácticas"] },
-  { id: "educommerce-plus-vitalicio", name: "Plus de por vida", title: "Educommerce Plus · De por vida", price: 219990, access: "lifetime", benefits: ["Los 10 módulos", "Acceso de por vida", "Clases grabadas y prácticas"] },
-  { id: "educommerce-plus-asesoria", name: "Plus con asesoría", title: "Educommerce Plus · De por vida + asesoría y WhatsApp", price: 269990, access: "lifetime", benefits: ["Los 10 módulos", "Acceso de por vida", "Clases grabadas y prácticas", "1 asesoría por llamada", "Grupo WhatsApp para dudas pequeñas"] },
-  { id: "educommerce-plus-vip", name: "Plus VIP", title: "Educommerce Plus · VIP + asesoría + clases grupales", price: 349990, access: "lifetime", benefits: ["Los 10 módulos", "Acceso de por vida", "Clases grabadas y prácticas", "1 asesoría por llamada", "Grupo WhatsApp para dudas pequeñas", "1 clase grupal semanal durante 1 mes", "Grupo VIP"] },
+  { id: "educommerce-plus", name: "Plus Anual", title: "Educommerce Plus · 1 año", price: 199990, access: "one_year", benefits: ["Los 9 módulos", "Acceso por un año", "Clases grabadas y prácticas"] },
+  { id: "educommerce-plus-vitalicio", name: "Plus de por vida", title: "Educommerce Plus · De por vida", price: 219990, access: "lifetime", benefits: ["Los 9 módulos", "Acceso de por vida", "Clases grabadas y prácticas"] },
+  { id: "educommerce-plus-asesoria", name: "Plus con asesoría", title: "Educommerce Plus · De por vida + asesoría y WhatsApp", price: 269990, access: "lifetime", benefits: ["Los 9 módulos", "Acceso de por vida", "Clases grabadas y prácticas", "1 asesoría por llamada", "Grupo WhatsApp para dudas pequeñas"] },
+  { id: "educommerce-plus-vip", name: "Plus VIP", title: "Educommerce Plus · VIP + asesoría + clases grupales", price: 349990, access: "lifetime", benefits: ["Los 9 módulos", "Acceso de por vida", "Clases grabadas y prácticas", "1 asesoría por llamada", "Grupo WhatsApp para dudas pequeñas", "1 clase grupal semanal durante 1 mes", "Grupo VIP"] },
 ] as const;
 
 export function isPurchasable(moduleId: string) {
@@ -66,7 +66,7 @@ export function getProduct(id: string): Product | undefined {
 }
 
 export const packBenefits = [
-  { title: "Todos los módulos", text: "Incluye los que no se venden por separado: Mentalidad emprendedora y Monetiza tus skills." },
+  { title: "Todos los módulos", text: "Incluye el módulo exclusivo del programa: Mentalidad emprendedora." },
   { title: "Un año de acceso", text: "Aprende a tu ritmo con clases grabadas y prácticas." },
   { title: "De por vida por $20.000 más", text: "Elige el acceso vitalicio por un total de $219.990." },
   { title: "Acompañamiento opcional", text: "Planes con asesoría, WhatsApp y clases grupales según la opción elegida." },
@@ -84,5 +84,4 @@ export const moduleDetails: Record<string, ModuleDetail> = {
   capcut: { tagline: "Edición que vende y que se cobra bien.", forWho: ["Grabas contenido para tu marca", "Quieres trabajar editando para clientes", "Tus videos no retienen"], learn: ["Ritmo, cortes y subtítulos dinámicos", "Color, sonido y transiciones con intención", "Formatos para anuncios y reels", "Cotizar y presentar proyectos de edición"], project: "Un anuncio editado y tu tarifa de servicio.", tools: ["CapCut"], level: "Inicial a intermedio" },
   graficas: { tagline: "Piezas que se ven bien y convierten.", forWho: ["Necesitas creatividades para anuncios", "Diseñas sin base de diseño", "Quieres ofrecer piezas a clientes"], learn: ["Jerarquía, color y tipografía aplicadas", "Plantillas para anuncios y carruseles", "Adaptar una pieza a todos los formatos", "Probar variantes creativas"], project: "Un set de creatividades para una campaña.", tools: ["Canva"], level: "Inicial" },
   lovable: { tagline: "Tu web profesional, sin escribir código.", forWho: ["Necesitas una web o landing", "Quieres vender sitios a clientes", "Tienes una idea de app"], learn: ["Escribir instrucciones claras para la IA", "Diseñar y estructurar una landing", "Conectar formularios y dominio", "Publicar y medir visitas"], project: "Tu landing publicada con tu dominio.", tools: ["Lovable"], level: "Inicial" },
-  monetiza: { tagline: "Convierte lo que sabes en ingresos.", forWho: ["Ya tienes una habilidad digital", "Quieres empezar a cobrar por ella", "Buscas tus primeros clientes"], learn: ["Elegir un servicio rentable", "Poner precio a tu trabajo", "Conseguir y cerrar clientes", "Entregar y pedir recomendaciones"], project: "Tu oferta de servicio con precio y propuesta.", tools: ["Notion", "WhatsApp Business"], level: "Inicial" },
 };
