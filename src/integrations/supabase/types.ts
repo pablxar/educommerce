@@ -137,6 +137,21 @@ export type Database = {
         }
         Relationships: []
       }
+      measurement_settings: {
+        Row: {
+          id: boolean
+          real_conversions_enabled: boolean
+        }
+        Insert: {
+          id?: boolean
+          real_conversions_enabled?: boolean
+        }
+        Update: {
+          id?: boolean
+          real_conversions_enabled?: boolean
+        }
+        Relationships: []
+      }
       newsletter_name_receipts: {
         Row: {
           created_at: string
@@ -274,6 +289,65 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_measurements: {
+        Row: {
+          approved_at: string | null
+          attempts: number
+          event_id: string
+          last_error: string | null
+          lease_until: string | null
+          meta_attempts: number
+          meta_next_at: string
+          meta_sent_at: string | null
+          meta_status: string
+          next_check_at: string
+          order_id: string
+          updated_at: string
+          verification_status: string
+          verified_payment_id: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          attempts?: number
+          event_id: string
+          last_error?: string | null
+          lease_until?: string | null
+          meta_attempts?: number
+          meta_next_at?: string
+          meta_sent_at?: string | null
+          meta_status?: string
+          next_check_at?: string
+          order_id: string
+          updated_at?: string
+          verification_status?: string
+          verified_payment_id?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          attempts?: number
+          event_id?: string
+          last_error?: string | null
+          lease_until?: string | null
+          meta_attempts?: number
+          meta_next_at?: string
+          meta_sent_at?: string | null
+          meta_status?: string
+          next_check_at?: string
+          order_id?: string
+          updated_at?: string
+          verification_status?: string
+          verified_payment_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_measurements_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           apellido: string
@@ -387,6 +461,31 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_payment_measurements: {
+        Args: { requested_order?: string }
+        Returns: {
+          approved_at: string | null
+          attempts: number
+          event_id: string
+          last_error: string | null
+          lease_until: string | null
+          meta_attempts: number
+          meta_next_at: string
+          meta_sent_at: string | null
+          meta_status: string
+          next_check_at: string
+          order_id: string
+          updated_at: string
+          verification_status: string
+          verified_payment_id: string | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "payment_measurements"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
