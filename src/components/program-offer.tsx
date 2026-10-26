@@ -10,13 +10,13 @@ export function ProgramOffer() {
       <div className="program-offer-copy">
         <span className="program-offer-badge">Mejor valor</span>
         <h2 id="offer-title">Educommerce Plus</h2>
-        <p className="program-offer-description">Los {fullProgram.moduleCount} módulos en un solo programa. Un año de acceso, con opciones de por vida y acompañamiento.</p>
-        <ul className="program-offer-benefits">
-          {["Un año de acceso", "De por vida por $20.000 más", "Asesoría y VIP según tu plan", `${fullProgram.installments} cuotas sin interés`].map(item => (
-            <li key={item}><span><Check aria-hidden="true" /></span>{item}</li>
-          ))}
-        </ul>
+        <p className="program-offer-description">Los {fullProgram.moduleCount} módulos en un solo programa.<span className="program-offer-description-extra"> Un año de acceso, con opciones de por vida y acompañamiento.</span></p>
       </div>
+      <ul className="program-offer-benefits">
+        {["Un año de acceso", "De por vida por $20.000 más", "Asesoría y VIP según tu plan", `${fullProgram.installments} cuotas sin interés`].map(item => (
+          <li key={item}><span><Check aria-hidden="true" /></span>{item}</li>
+        ))}
+      </ul>
       <img className="program-offer-image" src={box.url} alt="Caja del programa Educommerce con las herramientas de sus módulos" loading="lazy" width={768} height={768} />
       <div className="program-offer-bottom">
         <p className="program-offer-price"><span><strong>Desde {formatPrice(fullProgram.price)}</strong> <span>Lanzamiento · 1 año · Hasta {fullProgram.installments} × {formatPrice(installmentPrice(fullProgram.price))}</span></span></p>
