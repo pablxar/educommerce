@@ -19,7 +19,6 @@ import { FaqSection } from "@/components/faq-section";
 import { ProgramSection } from "@/components/program-section";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import foundersWall from "@/assets/founders-wall.png.asset.json";
-import teacher from "@/assets/teacher-restored.jpg";
 import founders from "@/assets/founders.jpg.asset.json";
 import individual from "@/assets/individual.png.asset.json";
 import academy from "@/assets/academy.png.asset.json";
