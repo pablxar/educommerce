@@ -26,15 +26,21 @@ describe("Isolated Mercado Pago test receiver", () => {
     const response = await receiveMercadoPagoTestWebhook(await notification({ email: "not-for-logs@example.test" }));
     expect(response.status).toBe(200);
     expect(fetch).not.toHaveBeenCalled();
-    expect(log.mock.calls).toEqual([["mercadopago_test_webhook", { receipt: expect.any(String), result: "signature_verified_test_received", effects: "none" }]]);
+    expect(log.mock.calls).toEqual([["mercadopago_test_webhook_diagnostic", { hmac: "valid", application_id: "6428800267243215", event_type: "payment", http_status: 200, effects: "none" }]]);
   });
   it("rejects approved production notifications even with a valid signature", async () => {
-    const log = vi.spyOn(console, "info");
+    vi.spyOn(console, "info").mockImplementation(() => undefined);
     expect((await receiveMercadoPagoTestWebhook(await notification({ live_mode: true, status: "approved" }))).status).toBe(400);
-    expect(log).not.toHaveBeenCalled();
   });
-  it("rejects a different application", async () => {
-    expect((await receiveMercadoPagoTestWebhook(await notification({ application_id: "different-app" }))).status).toBe(400);
+  it("rejects a different application but records only its diagnostic", async () => {
+    const log = vi.spyOn(console, "info").mockImplementation(() => undefined);
+    expect((await receiveMercadoPagoTestWebhook(await notification({ application_id: "3457752278222975" }))).status).toBe(400);
+    expect(log.mock.calls[0]?.[1]).toEqual({ hmac: "valid", application_id: "3457752278222975", event_type: "payment", http_status: 400, effects: "none" });
+  });
+  it("reports an invalid HMAC and rejects it", async () => {
+    const log = vi.spyOn(console, "info").mockImplementation(() => undefined);
+    expect((await receiveMercadoPagoTestWebhook(await notification({}, { badSignature: true }))).status).toBe(401);
+    expect(log.mock.calls[0]?.[1]).toMatchObject({ hmac: "invalid", http_status: 401 });
   });
   it("rejects a forged signature", async () => {
     expect((await receiveMercadoPagoTestWebhook(await notification({}, { badSignature: true }))).status).toBe(401);
