@@ -10,7 +10,7 @@ export function ProgramOffer() {
       <div className="program-offer-copy">
         <span className="program-offer-badge">Mejor valor</span>
         <h2 id="offer-title">Educommerce Plus</h2>
-        <p className="program-offer-description">Los {fullProgram.moduleCount} módulos en un solo programa. Un año de acceso, con opciones de por vida y acompañamiento.</p>
+        <p className="program-offer-description">Los {fullProgram.moduleCount} módulos en un solo programa.<span className="program-offer-description-extra"> Un año de acceso, con opciones de por vida y acompañamiento.</span></p>
         <ul className="program-offer-benefits">
           {["Un año de acceso", "De por vida por $20.000 más", "Asesoría y VIP según tu plan", `${fullProgram.installments} cuotas sin interés`].map(item => (
             <li key={item}><span><Check aria-hidden="true" /></span>{item}</li>
