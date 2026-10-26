@@ -80,8 +80,7 @@ function CheckoutPage() {
     try {
       await pending.current;
       const captured = captureMetaAttribution();
-      const meta = captured?.consent?.granted === true && ['https://educommerce.cl','https://www.educommerce.cl'].includes(window.location.origin)
-        ? { ...captured, consent: { ...captured.consent, granted: true as const } } : undefined;
+      const meta = ['https://educommerce.cl','https://www.educommerce.cl'].includes(window.location.origin) ? captured : undefined;
       const res = await start({ data: { productId: product.id, ...parsed.data, sessionId: journeySession(), attribution: readAttribution(), leadId: contactId(), meta } });
       if (!res.ok) { setError(res.error); setSending(false); return; }
       window.location.href = res.url;

@@ -41,7 +41,7 @@ function Privacidad() {
         <li>Medir y mejorar el sitio y nuestras campañas publicitarias.</li>
       </ul>
       <h2>3. Cookies y píxeles</h2>
-      <p>Usamos cookies propias y de terceros para el funcionamiento del sitio, analítica y publicidad. Puedes bloquearlas o eliminarlas desde la configuración de tu navegador; algunas funciones podrían dejar de funcionar.</p>
+      <p>Usamos cookies propias y de terceros para el funcionamiento del sitio, analítica y publicidad. Las cookies necesarias siempre están activas. Las publicitarias (Meta) solo se activan si las aceptas en el aviso de cookies, y puedes cambiar tu decisión cuando quieras desde «Preferencias de cookies» al pie de la página. Rechazarlas no impide navegar, comprar ni ingresar al campus.</p>
       <p>También usamos almacenamiento del navegador para conservar identificadores de sesión y atribución de campañas (UTM, identificadores de clic y página de llegada). No guardamos tu nombre, correo ni teléfono en ese almacenamiento.</p>
       <h2>4. Con quién compartimos datos</h2>
       <p>No vendemos tus datos. Solo los compartimos con proveedores que nos ayudan a operar (alojamiento, base de datos, pagos, email y analítica), bajo obligaciones de confidencialidad, o cuando la ley lo exija.</p>

@@ -22,13 +22,15 @@ export async function sendMetaEvent(event: Record<string, unknown>, testCode?: s
       method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ data: [event], ...(testCode ? { test_event_code: testCode } : {}) }), signal: AbortSignal.timeout(5000),
     });
-    const result = await response.json() as { events_received?: number; error?: { code?: number; error_subcode?: number } };
-    return response.ok && result.events_received === 1 ? { ok: true } : { ok: false, error: `meta_http_${response.status}_code_${result.error?.code ?? 0}_${result.error?.error_subcode ?? 0}` };
+    const result = await response.json() as { events_received?: number; fbtrace_id?: string; error?: { code?: number; error_subcode?: number } };
+    return response.ok && result.events_received === 1 ? { ok: true, eventsReceived: 1, fbtraceId: result.fbtrace_id } : { ok: false, error: `meta_http_${response.status}_code_${result.error?.code ?? 0}_${result.error?.error_subcode ?? 0}` };
   } catch { return { ok: false, error: 'meta_transport_error' }; }
 }
 /** Explicitly synthetic: never reads or changes orders or the real conversion outbox. */
 export async function sendIsolatedMetaTest() {
   const code = process.env['META_TEST_EVENT_CODE'];
   if (!code) return { ok: false, error: 'test_code_missing' };
-  return sendMetaEvent({ event_name: 'Purchase', event_time: Math.floor(Date.now()/1000), event_id: `EDUCOMMERCE-META-TEST-${crypto.randomUUID()}`, action_source: 'website', event_source_url: 'https://educommerce.cl', user_data: { external_id: [hashIdentifier('educommerce-synthetic-test-not-a-customer')] }, custom_data: { currency: 'CLP', value: 1000, content_ids: ['EDUCOMMERCE-META-TEST-NOT-A-SALE'], content_type: 'product', content_name: 'Prueba ficticia Meta, no venta real' } }, code);
+  const eventId = `EDUCOMMERCE-META-TEST-${crypto.randomUUID()}`;
+  const result = await sendMetaEvent({ event_name: 'Purchase', event_time: Math.floor(Date.now()/1000), event_id: eventId, action_source: 'website', event_source_url: 'https://educommerce.cl', user_data: { external_id: [hashIdentifier('educommerce-synthetic-test-not-a-customer')] }, custom_data: { currency: 'CLP', value: 1000, content_ids: ['EDUCOMMERCE-META-TEST-NOT-A-SALE'], content_type: 'product', content_name: 'Prueba ficticia Meta, no venta real' } }, code);
+  return { ...result, eventId, value: 1000, currency: 'CLP', testEvent: true };
 }

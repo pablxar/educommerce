@@ -1061,3 +1061,14 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-sticky-name { font-size: 12px; color: var(--muted-foreground); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .plus-sticky-price { font-size: 19px; line-height: 1.2; }
 @media (min-width: 700px) { .plus-section { padding-block: 64px; } .plus-section h2 { font-size: 34px; } .plus-benefits { grid-template-columns: repeat(4, 1fr); } .plus-steps { grid-template-columns: repeat(3, 1fr); } }
+
+/* Advertising consent */
+.footer-consent-link { font-size: 13px; color: var(--muted-foreground); text-decoration: underline; text-underline-offset: 4px; background: none; border: 0; padding: 0; cursor: pointer; }
+.footer-consent-link:hover { color: var(--foreground); }
+.consent-banner { position: fixed; z-index: 1000; left: 12px; right: 12px; bottom: 12px; max-width: 440px; padding: 16px; border: 1px solid var(--border); border-radius: 16px; background: var(--card); box-shadow: 0 18px 48px -18px color-mix(in oklab, var(--foreground) 35%, transparent); color: var(--card-foreground); }
+.consent-banner h2 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.consent-banner p { font-size: 13px; line-height: 1.5; color: var(--muted-foreground); }
+.consent-banner p a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
+.consent-actions { display: flex; gap: 8px; margin-top: 12px; }
+.consent-actions > * { flex: 1; }
+@media (min-width: 640px) { .consent-banner { left: 20px; bottom: 20px; right: auto; } }
