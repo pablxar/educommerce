@@ -18,7 +18,9 @@ export const getOrderStatus = createServerFn({ method: "GET" })
     const order = await readOrderStatus(data.orderId);
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
     const { data: measurement } = await supabaseAdmin.from('payment_measurements').select('verification_status').eq('order_id',data.orderId).maybeSingle();
-    return order && measurement?.verification_status === 'verified' ? { ...order, status: 'approved' } : order;
+    if (!order) return null;
+    if (measurement?.verification_status === 'refunded') return { ...order, status: 'refunded' };
+    return measurement?.verification_status === 'verified' ? { ...order, status: 'approved' } : order;
   });
 
 export const saveCheckoutLead = createServerFn({ method: "POST" })
