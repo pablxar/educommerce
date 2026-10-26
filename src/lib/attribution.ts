@@ -1,3 +1,4 @@
+import { advertisingAllowed } from './meta-consent';
 const KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid"] as const;
 const STORAGE = "edu_attribution";
 
@@ -14,6 +15,7 @@ export function pickAttribution(search: string): Attribution {
 export function captureAttribution() {
   if (typeof window === "undefined") return;
   const found = pickAttribution(window.location.search);
+  if (!advertisingAllowed()) { delete found.fbclid; delete found.gclid; }
   let stored: { first?: Attribution; last?: Attribution } = {};
   try { stored = JSON.parse(localStorage.getItem(STORAGE) ?? "{}"); } catch { /* ignore */ }
   const touch: Attribution = { ...found, landing_page: window.location.pathname, ...(document.referrer ? { referrer: document.referrer.slice(0, 300) } : {}), first_seen: new Date().toISOString() };
@@ -24,5 +26,9 @@ export function captureAttribution() {
 
 export function readAttribution(): { first?: Attribution; last?: Attribution } {
   if (typeof window === "undefined") return {};
-  try { return JSON.parse(localStorage.getItem(STORAGE) ?? "{}"); } catch { return {}; }
+  try {
+    const stored = JSON.parse(localStorage.getItem(STORAGE) ?? '{}');
+    if (!advertisingAllowed()) for (const touch of [stored.first,stored.last]) if (touch) { delete touch.fbclid; delete touch.gclid; }
+    return stored;
+  } catch { return {}; }
 }

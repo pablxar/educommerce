@@ -17,7 +17,7 @@ function siteOrigin() {
   return `${proto}://${host}`;
 }
 
-export async function startCheckout(input: { productId: string; email: string; name: string; phone: string; sessionId?: string | undefined; attribution?: unknown; leadId: string }) {
+export async function startCheckout(input: { productId: string; email: string; name: string; phone: string; sessionId?: string | undefined; attribution?: unknown; leadId: string; meta?: { consent: { granted: true; version: '1'; updatedAt: string }; fbp?: string; fbc?: string; sourceUrl: string } }) {
   const lead = await recordCheckoutLead(input);
   if (!lead.ok) return { ok: false as const, error: "No pudimos guardar tus datos. Inténtalo de nuevo." };
   const token = process.env["MERCADOPAGO_ACCESS_TOKEN"];
@@ -26,7 +26,7 @@ export async function startCheckout(input: { productId: string; email: string; n
   if (!product) return { ok: false as const, error: "Este producto no está disponible." };
   const tracking = productTracking(product);
   const terms = purchaseTerms(product);
-  const attribution = { ...(input.attribution && typeof input.attribution === "object" && !Array.isArray(input.attribution) ? input.attribution : {}), ...(terms ? { purchase_terms: terms } : {}) };
+  const attribution = { ...(input.attribution && typeof input.attribution === "object" && !Array.isArray(input.attribution) ? input.attribution : {}), ...(terms ? { purchase_terms: terms } : {}), ...(input.meta ? { meta: { ...input.meta, userAgent: getRequest().headers.get('user-agent')?.slice(0,500) } } : {}) };
 
   const { data: order, error } = await supabaseAdmin
     .from("orders")
