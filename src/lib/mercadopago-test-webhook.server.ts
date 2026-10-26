@@ -38,11 +38,27 @@ function reply(status: number, result: string, receipt?: string) {
   });
 }
 
+type Diagnostic = { hmac: "valid" | "invalid" | "not_checked"; application_id: string | null; event_type: string | null };
+
+function safeToken(value: unknown, pattern: RegExp) {
+  const text = typeof value === "string" || typeof value === "number" ? String(value) : "";
+  return pattern.test(text) ? text : null;
+}
+
 /** Receipt-only sink: deliberately has no database, payment API, campus or Meta dependencies. */
 export async function receiveMercadoPagoTestWebhook(request: Request) {
+  const diagnostic: Diagnostic = { hmac: "not_checked", application_id: null, event_type: null };
+  const response = await evaluate(request, diagnostic);
+  // Diagnostic only: never body, headers, payment IDs, signature, buyer data or payment details.
+  console.info("mercadopago_test_webhook_diagnostic", { ...diagnostic, http_status: response.status, effects: "none" });
+  return response;
+}
+
+async function evaluate(request: Request, diagnostic: Diagnostic) {
   const secret = process.env["MERCADOPAGO_TEST_WEBHOOK_SECRET"];
   if (!secret) return reply(503, "test_receiver_not_configured");
   const url = new URL(request.url);
+  diagnostic.event_type = safeToken(url.searchParams.get("type") ?? url.searchParams.get("topic"), /^[a-z_.]{1,40}$/);
   const idValues = url.searchParams.getAll("data.id");
   const id = idValues[0];
   const requestId = request.headers.get("x-request-id");
@@ -58,26 +74,30 @@ export async function receiveMercadoPagoTestWebhook(request: Request) {
       !ts || !/^\d{10,13}$/.test(ts) || !digest || !/^[a-fA-F0-9]{64}$/.test(digest)) {
     return reply(401, "invalid_webhook_authentication");
   }
-  const time = Number(ts) * (ts.length === 10 ? 1000 : 1);
-  if (Math.abs(Date.now() - time) > MAX_AGE_MS) return reply(401, "expired_test_notification");
   try {
     const encoder = new TextEncoder();
     const key = await crypto.subtle.importKey("raw", encoder.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["verify"]);
     const signatureBytes = Uint8Array.from(digest.match(/../g) ?? [], byte => parseInt(byte, 16));
     const valid = await crypto.subtle.verify("HMAC", key, signatureBytes,
       encoder.encode(`id:${id};request-id:${requestId};ts:${ts};`));
-    if (!valid) return reply(401, "invalid_webhook_authentication");
+    diagnostic.hmac = valid ? "valid" : "invalid";
   } catch { return reply(503, "test_verification_unavailable"); }
 
+  // Body is read for diagnostics only after the signature result is known; rejection rules are unchanged.
   const raw = await limitedBody(request);
+  let body: unknown = null;
+  if (raw !== null) { try { body = JSON.parse(raw); } catch { body = null; } }
+  if (body && typeof body === "object") {
+    const b = body as Record<string, unknown>;
+    diagnostic.application_id = safeToken(b["application_id"], /^\d{1,20}$/);
+    diagnostic.event_type = safeToken(b["type"] ?? b["topic"], /^[a-z_.]{1,40}$/) ?? diagnostic.event_type;
+  }
+  if (diagnostic.hmac !== "valid") return reply(401, "invalid_webhook_authentication");
+  const time = Number(ts) * (ts.length === 10 ? 1000 : 1);
+  if (Math.abs(Date.now() - time) > MAX_AGE_MS) return reply(401, "expired_test_notification");
   if (raw === null) return reply(413, "invalid_or_oversized_body");
-  let body: unknown;
-  try { body = JSON.parse(raw); } catch { return reply(400, "invalid_test_notification"); }
+  if (body === null) return reply(400, "invalid_test_notification");
   const parsed = notificationSchema.safeParse(body);
   if (!parsed.success || parsed.data.data.id !== id) return reply(400, "invalid_test_notification");
-
-  // Never log body, headers, provider IDs, signature, buyer data or payment details.
-  const receipt = crypto.randomUUID();
-  console.info("mercadopago_test_webhook", { receipt, result: "signature_verified_test_received", effects: "none" });
-  return reply(200, "signature_verified_test_received", receipt);
+  return reply(200, "signature_verified_test_received", crypto.randomUUID());
 }
