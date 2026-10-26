@@ -10,13 +10,12 @@ export const modules = [
   { id: "capcut", price: 49990, number: 7, category: "Creatividad", title: "Edición high-ticket con CapCut", description: "Edita videos que venden y cobra proyectos de alto valor." },
   { id: "graficas", price: 29990, number: 8, category: "Creatividad", title: "Gráficas publicitarias", description: "Diseña creatividades y piezas que convierten." },
   { id: "lovable", price: 49990, number: 9, category: "Web", title: "Crea tu web con IA (Lovable)", description: "Diseña y publica sitios web profesionales sin escribir código." },
-  { id: "monetiza", price: null, number: 10, category: "Negocio", title: "Monetiza tus skills", description: "Convierte tus habilidades en ingresos con negocios digitales." },
 ] as const;
 export function filterModules(category: Category) {
   return modules.filter(m => category === "Todos" || m.category === category);
 }
 export function catalogShowsPack(moduleId: string) {
-  return moduleId === "mentalidad" || moduleId === "monetiza";
+  return moduleId === "mentalidad";
 }
 export function externalUrl(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
@@ -34,7 +33,7 @@ export const fullProgram = {
   originalPrice: 499920,
   installments: 6,
   guaranteeDays: 30,
-  moduleCount: 10,
+  moduleCount: 9,
 } as const;
 
 export function formatPrice(price: number) {
