@@ -34,9 +34,12 @@ async function limitedBody(request: Request): Promise<string | null> {
   finally { reader.releaseLock(); }
 }
 
+/** Non-sensitive implementation label; bump when receiver rules change to confirm which build each host runs. */
+export const RECEIVER_VERSION = "test-webhook-v3-optional-app-id";
+
 function reply(status: number, result: string, receipt?: string) {
-  return Response.json({ ok: status === 200, result, ...(receipt ? { receipt } : {}) }, {
-    status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" },
+  return Response.json({ ok: status === 200, result, version: RECEIVER_VERSION, ...(receipt ? { receipt } : {}) }, {
+    status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", "X-Receiver-Version": RECEIVER_VERSION },
   });
 }
 

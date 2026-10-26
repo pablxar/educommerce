@@ -32,6 +32,7 @@ describe("Isolated Mercado Pago test receiver", () => {
     const log = vi.spyOn(console, "info").mockImplementation(() => undefined);
     const response = await receiveMercadoPagoTestWebhook(await notification({ live_mode: true, email: "not-for-logs@example.test" }));
     expect(response.status).toBe(200);
+    expect(response.headers.get("X-Receiver-Version")).toBe("test-webhook-v3-optional-app-id");
     expect(fetch).toHaveBeenCalledTimes(4);
     expect(log.mock.calls).toEqual([["mercadopago_test_webhook_diagnostic", { hmac: "valid", application_id: "3457752278222975", event_type: "payment", test_seller: true, test_account: true, test_reference: true, preference_application: true, isolated_circuit: true, payment_status: "approved", http_status: 200, effects: "none" }]]);
   });
