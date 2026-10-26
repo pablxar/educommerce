@@ -19,8 +19,8 @@ describe("Educommerce Plus commercial rules", () => {
     const p = getProduct("educommerce-plus-vip");
     expect(p?.price).toBe(349990); expect(p?.access).toBe("lifetime"); expect(p?.benefits).toEqual([...plusPlans[2].benefits, "1 clase grupal semanal durante 1 mes", "Grupo VIP"]);
   });
-  it("each plan grants all 10 modules including the two pack-only modules", () => {
-    for (const plan of plusPlans) { const p = getProduct(plan.id); expect(p?.moduleIds).toHaveLength(10); expect(p?.moduleIds).toContain("mentalidad"); expect(p?.moduleIds).toContain("monetiza"); }
+  it("each plan grants all 9 modules and the pack-only module, without removed module 10", () => {
+    for (const plan of plusPlans) { const p = getProduct(plan.id); expect(p?.moduleIds).toHaveLength(9); expect(p?.moduleIds).toContain("mentalidad"); expect(p?.moduleIds).not.toContain("monetiza"); }
   });
   it("sends immutable paid access terms to the campus rather than resolving current prices", () => {
     const p = getProduct("educommerce-plus-vip"); if (!p) throw new Error("Missing Plus");

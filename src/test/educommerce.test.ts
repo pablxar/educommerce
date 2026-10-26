@@ -4,14 +4,13 @@ import { filterModules, externalUrl, catalogShowsPack } from "@/lib/educommerce"
 const ids = (c: Parameters<typeof filterModules>[0]) => filterModules(c).map(m => m.number);
 describe("Homepage module filter rules", () => {
   it("module 1 directs to the full pack", () => { expect(catalogShowsPack(modules[0].id)).toBe(true); });
-  it("module 10 directs to the full pack", () => { expect(catalogShowsPack(modules[9].id)).toBe(true); });
-  it("individual sellable modules retain their product pages", () => { expect(modules.filter(m => catalogShowsPack(m.id)).map(m => m.number)).toEqual([1, 10]); });
-  it("Todos shows all 10 modules in order", () => { expect(ids("Todos")).toEqual([1,2,3,4,5,6,7,8,9,10]); });
+  it("individual sellable modules retain their product pages", () => { expect(modules.filter(m => catalogShowsPack(m.id)).map(m => m.number)).toEqual([1]); });
+  it("Todos shows all 9 modules in order", () => { expect(ids("Todos")).toEqual([1,2,3,4,5,6,7,8,9]); });
   it("E-commerce shows Shopify and Klaviyo", () => { expect(ids("E-commerce")).toEqual([2,5]); });
   it("Ads shows Meta Ads and Google Ads", () => { expect(ids("Ads")).toEqual([3,4]); });
   it("Creatividad shows guiones, CapCut and gráficas", () => { expect(ids("Creatividad")).toEqual([6,7,8]); });
   it("Web shows Lovable", () => { expect(ids("Web")).toEqual([9]); });
-  it("Negocio shows mentalidad and monetiza", () => { expect(ids("Negocio")).toEqual([1,10]); });
+  it("Negocio shows mentalidad", () => { expect(ids("Negocio")).toEqual([1]); });
   it("External destinations reject unsafe protocols", () => { expect(externalUrl("javascript:alert(1)")).toBeUndefined(); expect(externalUrl("https://example.com/login")).toBe("https://example.com/login"); });
 });
 
