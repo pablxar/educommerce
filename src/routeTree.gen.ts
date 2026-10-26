@@ -19,6 +19,7 @@ import { Route as CheckoutResultadoRouteImport } from './routes/checkout.resulta
 import { Route as ModulosIndexRouteImport } from './routes/modulos.index'
 import { Route as ModulosModuleIdRouteImport } from './routes/modulos.$moduleId'
 import { Route as ApiPublicJobsCampusSyncRouteImport } from './routes/api/public/jobs/campus-sync'
+import { Route as ApiPublicMercadopagoTestWebhookRouteImport } from './routes/api/public/mercadopago/test-webhook'
 import { Route as ApiPublicMercadopagoWebhookRouteImport } from './routes/api/public/mercadopago/webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
@@ -74,6 +75,12 @@ const ApiPublicJobsCampusSyncRoute = ApiPublicJobsCampusSyncRouteImport.update({
   path: '/api/public/jobs/campus-sync',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMercadopagoTestWebhookRoute =
+  ApiPublicMercadopagoTestWebhookRouteImport.update({
+    id: '/api/public/mercadopago/test-webhook',
+    path: '/api/public/mercadopago/test-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicMercadopagoWebhookRoute =
   ApiPublicMercadopagoWebhookRouteImport.update({
     id: '/api/public/mercadopago/webhook',
@@ -108,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/checkout/': typeof CheckoutIndexRoute
   '/modulos/': typeof ModulosIndexRoute
   '/api/public/jobs/campus-sync': typeof ApiPublicJobsCampusSyncRoute
+  '/api/public/mercadopago/test-webhook': typeof ApiPublicMercadopagoTestWebhookRoute
   '/api/public/mercadopago/webhook': typeof ApiPublicMercadopagoWebhookRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -124,6 +132,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutIndexRoute
   '/modulos': typeof ModulosIndexRoute
   '/api/public/jobs/campus-sync': typeof ApiPublicJobsCampusSyncRoute
+  '/api/public/mercadopago/test-webhook': typeof ApiPublicMercadopagoTestWebhookRoute
   '/api/public/mercadopago/webhook': typeof ApiPublicMercadopagoWebhookRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -141,6 +150,7 @@ export interface FileRoutesById {
   '/checkout/': typeof CheckoutIndexRoute
   '/modulos/': typeof ModulosIndexRoute
   '/api/public/jobs/campus-sync': typeof ApiPublicJobsCampusSyncRoute
+  '/api/public/mercadopago/test-webhook': typeof ApiPublicMercadopagoTestWebhookRoute
   '/api/public/mercadopago/webhook': typeof ApiPublicMercadopagoWebhookRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/checkout/'
     | '/modulos/'
     | '/api/public/jobs/campus-sync'
+    | '/api/public/mercadopago/test-webhook'
     | '/api/public/mercadopago/webhook'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/modulos'
     | '/api/public/jobs/campus-sync'
+    | '/api/public/mercadopago/test-webhook'
     | '/api/public/mercadopago/webhook'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -191,6 +203,7 @@ export interface FileRouteTypes {
     | '/checkout/'
     | '/modulos/'
     | '/api/public/jobs/campus-sync'
+    | '/api/public/mercadopago/test-webhook'
     | '/api/public/mercadopago/webhook'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -208,6 +221,7 @@ export interface RootRouteChildren {
   CheckoutIndexRoute: typeof CheckoutIndexRoute
   ModulosIndexRoute: typeof ModulosIndexRoute
   ApiPublicJobsCampusSyncRoute: typeof ApiPublicJobsCampusSyncRoute
+  ApiPublicMercadopagoTestWebhookRoute: typeof ApiPublicMercadopagoTestWebhookRoute
   ApiPublicMercadopagoWebhookRoute: typeof ApiPublicMercadopagoWebhookRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -286,6 +300,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicJobsCampusSyncRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/mercadopago/test-webhook': {
+      id: '/api/public/mercadopago/test-webhook'
+      path: '/api/public/mercadopago/test-webhook'
+      fullPath: '/api/public/mercadopago/test-webhook'
+      preLoaderRoute: typeof ApiPublicMercadopagoTestWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/mercadopago/webhook': {
       id: '/api/public/mercadopago/webhook'
       path: '/api/public/mercadopago/webhook'
@@ -328,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutIndexRoute: CheckoutIndexRoute,
   ModulosIndexRoute: ModulosIndexRoute,
   ApiPublicJobsCampusSyncRoute: ApiPublicJobsCampusSyncRoute,
+  ApiPublicMercadopagoTestWebhookRoute: ApiPublicMercadopagoTestWebhookRoute,
   ApiPublicMercadopagoWebhookRoute: ApiPublicMercadopagoWebhookRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
