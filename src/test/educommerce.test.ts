@@ -20,7 +20,7 @@ import { getProduct, bundlePrice, isPurchasable, PACK_ID } from "@/lib/products"
 describe("Full pack offer", () => {
   it("launch annual Plus costs $199.990 CLP", () => { expect(fullProgram.price).toBe(199990); expect(formatPrice(fullProgram.price)).toBe("$199.990"); });
   it("shows the $499.920 individual sum", () => { expect(fullProgram.originalPrice).toBe(499920); });
-  it("individual sum (temporary Gráficas test price) matches sellable module prices", () => { expect(modules.reduce((t, m) => t + (m.price ?? 0), 0)).toBe(499920 - 29990 + 1000); });
+  it("individual sum matches sellable module prices", () => { expect(modules.reduce((t, m) => t + (m.price ?? 0), 0)).toBe(499920); });
   it("allows up to 6 installments", () => { expect(fullProgram.installments).toBe(6); });
   it("annual Plus product is purchasable at 199990", () => { expect(getProduct(PACK_ID)?.price).toBe(199990); });
 });
@@ -29,7 +29,7 @@ describe("Module prices CLP", () => {
   it("Meta Ads and Shopify cost 89990", () => { expect(price("meta")).toBe(89990); expect(price("shopify")).toBe(89990); });
   it("Google Ads costs 79990", () => { expect(price("google")).toBe(79990); });
   it("Guiones costs 39990", () => { expect(price("guiones")).toBe(39990); });
-  it("Gráficas temporary real-flow test price is 1000", () => { expect(price("graficas")).toBe(1000); });
+  it("Gráficas costs 29990", () => { expect(price("graficas")).toBe(29990); });
   it("Klaviyo costs 69990", () => { expect(price("klaviyo")).toBe(69990); });
   it("CapCut and Lovable cost 49990", () => { expect(price("capcut")).toBe(49990); expect(price("lovable")).toBe(49990); });
   it("Mentalidad cannot be bought alone", () => { expect(isPurchasable("mentalidad")).toBe(false); expect(getProduct("mentalidad")).toBeUndefined(); });

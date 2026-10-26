@@ -8,7 +8,7 @@ export const modules = [
   { id: "klaviyo", price: 69990, number: 5, category: "E-commerce", title: "Email marketing con Klaviyo", description: "Convierte y fideliza clientes con automatizaciones que venden." },
   { id: "guiones", price: 39990, number: 6, category: "Creatividad", title: "Estrategia y guiones", description: "Define tu oferta, mensajes y guiones que convierten." },
   { id: "capcut", price: 49990, number: 7, category: "Creatividad", title: "Edición high-ticket con CapCut", description: "Edita videos que venden y cobra proyectos de alto valor." },
-  { id: "graficas", price: 1000, number: 8, category: "Creatividad", title: "Gráficas publicitarias", description: "Diseña creatividades y piezas que convierten." },
+  { id: "graficas", price: 29990, number: 8, category: "Creatividad", title: "Gráficas publicitarias", description: "Diseña creatividades y piezas que convierten." },
   { id: "lovable", price: 49990, number: 9, category: "Web", title: "Crea tu web con IA (Lovable)", description: "Diseña y publica sitios web profesionales sin escribir código." },
   { id: "monetiza", price: null, number: 10, category: "Negocio", title: "Monetiza tus skills", description: "Convierte tus habilidades en ingresos con negocios digitales." },
 ] as const;
