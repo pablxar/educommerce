@@ -13,7 +13,14 @@ export const getOrderStatus = createServerFn({ method: "GET" })
   .inputValidator((input: unknown) => z.object({ orderId: z.string().uuid() }).parse(input))
   .handler(async ({ data }) => {
     const { readOrderStatus } = await import("./checkout.server");
-    return readOrderStatus(data.orderId);
+    const { reconcilePayments } = await import('./payment-reconciliation.server');
+    await reconcilePayments(data.orderId).catch(() => undefined);
+    const order = await readOrderStatus(data.orderId);
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+    const { data: measurement } = await supabaseAdmin.from('payment_measurements').select('verification_status').eq('order_id',data.orderId).maybeSingle();
+    if (!order) return null;
+    if (measurement?.verification_status === 'refunded') return { ...order, status: 'refunded' };
+    return measurement?.verification_status === 'verified' ? { ...order, status: 'approved' } : order;
   });
 
 export const saveCheckoutLead = createServerFn({ method: "POST" })

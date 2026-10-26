@@ -23,19 +23,22 @@ export const Route = createFileRoute("/checkout/resultado")({
 });
 
 function ResultPage() {
-  const { orden, status: mpStatus } = Route.useSearch();
+  const { orden } = Route.useSearch();
   const read = useServerFn(getOrderStatus);
-  const [status, setStatus] = useState(mpStatus ?? "pending");
+  const [status, setStatus] = useState('pending');
   useEffect(() => {
     if (!/^[0-9a-f-]{36}$/i.test(orden)) return;
     let tries = 0;
+    let cancelled = false;
+    setStatus('pending');
     const tick = async () => {
       const o = await read({ data: { orderId: orden } }).catch(() => null);
+      if (cancelled) return;
       if (o?.status && o.status !== "pending") { setStatus(o.status); return; }
       if (++tries < 10) timer = setTimeout(tick, 3000);
     };
     let timer = setTimeout(tick, 0);
-    return () => clearTimeout(timer);
+    return () => { cancelled = true; clearTimeout(timer); };
   }, [orden, read]);
 
   const approved = status === "approved";

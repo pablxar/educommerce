@@ -12,6 +12,7 @@ import { PlusPlanOptions } from "@/components/plus-plan-options";
 import { createCheckout, saveCheckoutLead } from "@/lib/checkout.functions";
 import { readAttribution } from "@/lib/attribution";
 import { productTracking } from "@/lib/purchase-tracking";
+import { captureMetaAttribution } from '@/lib/meta-consent';
 
 export const Route = createFileRoute("/checkout/")({
   validateSearch: (s: Record<string, unknown>) => ({ producto: typeof s["producto"] === "string" ? s["producto"] : PACK_ID }),
@@ -78,7 +79,10 @@ function CheckoutPage() {
     setError(""); setSending(true);
     try {
       await pending.current;
-      const res = await start({ data: { productId: product.id, ...parsed.data, sessionId: journeySession(), attribution: readAttribution(), leadId: contactId() } });
+      const captured = captureMetaAttribution();
+      const meta = captured?.consent?.granted === true && ['https://educommerce.cl','https://www.educommerce.cl'].includes(window.location.origin)
+        ? { ...captured, consent: { ...captured.consent, granted: true as const } } : undefined;
+      const res = await start({ data: { productId: product.id, ...parsed.data, sessionId: journeySession(), attribution: readAttribution(), leadId: contactId(), meta } });
       if (!res.ok) { setError(res.error); setSending(false); return; }
       window.location.href = res.url;
     } catch { setError("No pudimos conectar con Mercado Pago. Inténtalo de nuevo."); setSending(false); }

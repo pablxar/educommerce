@@ -1,0 +1,13 @@
+CREATE TABLE public.payment_measurements (order_id uuid PRIMARY KEY REFERENCES public.orders(id), event_id text NOT NULL UNIQUE, verified_payment_id text UNIQUE, approved_at timestamptz, verification_status text NOT NULL DEFAULT 'pending', attempts integer NOT NULL DEFAULT 0, next_check_at timestamptz NOT NULL DEFAULT now(), lease_until timestamptz, last_error text, meta_status text NOT NULL DEFAULT 'pending', meta_attempts integer NOT NULL DEFAULT 0, meta_next_at timestamptz NOT NULL DEFAULT now(), meta_sent_at timestamptz, updated_at timestamptz NOT NULL DEFAULT now());
+GRANT ALL ON public.payment_measurements TO service_role;
+ALTER TABLE public.payment_measurements ENABLE ROW LEVEL SECURITY;
+CREATE TABLE public.measurement_settings (id boolean PRIMARY KEY DEFAULT true CHECK (id), real_conversions_enabled boolean NOT NULL DEFAULT false);
+GRANT ALL ON public.measurement_settings TO service_role;
+ALTER TABLE public.measurement_settings ENABLE ROW LEVEL SECURITY;
+CREATE FUNCTION public.enqueue_payment_measurement() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$ BEGIN INSERT INTO public.payment_measurements(order_id,event_id) VALUES (NEW.id,'educommerce-purchase-' || NEW.id::text) ON CONFLICT DO NOTHING; RETURN NEW; END $$;
+REVOKE ALL ON FUNCTION public.enqueue_payment_measurement() FROM PUBLIC, anon, authenticated;
+CREATE TRIGGER enqueue_order_measurement AFTER INSERT ON public.orders FOR EACH ROW EXECUTE FUNCTION public.enqueue_payment_measurement();
+INSERT INTO public.payment_measurements(order_id,event_id) SELECT id,'educommerce-purchase-' || id::text FROM public.orders ON CONFLICT DO NOTHING;
+CREATE FUNCTION public.claim_payment_measurements(requested_order uuid DEFAULT NULL) RETURNS SETOF public.payment_measurements LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$ UPDATE public.payment_measurements SET lease_until=now()+interval '90 seconds', next_check_at=now()+interval '5 minutes', attempts=attempts+1 WHERE order_id IN (SELECT m.order_id FROM public.payment_measurements m JOIN public.orders o ON o.id=m.order_id WHERE (requested_order IS NULL OR m.order_id=requested_order) AND o.created_at > now()-interval '30 days' AND m.next_check_at<=now() AND (m.lease_until IS NULL OR m.lease_until<now()) AND m.attempts<8640 AND m.verification_status NOT IN ('blocked','refunded') ORDER BY m.next_check_at LIMIT 3 FOR UPDATE OF m SKIP LOCKED) RETURNING * $$;
+REVOKE ALL ON FUNCTION public.claim_payment_measurements(uuid) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.claim_payment_measurements(uuid) TO service_role;

@@ -17,6 +17,12 @@ export const checkoutLeadSchema = checkoutContactSchema.extend({
 });
 export const checkoutSchema = checkoutLeadSchema.extend({
   phone: phoneSchema.refine(value => value.length > 0, "Escribe tu teléfono con código de país"),
+  meta: z.object({
+    consent: z.object({ granted: z.literal(true), version: z.literal('1'), updatedAt: z.string().datetime() }),
+    fbp: z.string().regex(/^fb\.\d\.\d{10,13}\.[A-Za-z0-9_-]{1,200}$/).optional(),
+    fbc: z.string().regex(/^fb\.\d\.\d{10,13}\.[A-Za-z0-9_-]{1,200}$/).optional(),
+    sourceUrl: z.string().url().max(500).refine(v => ['https://educommerce.cl','https://www.educommerce.cl'].includes(new URL(v).origin)),
+  }).optional(),
 });
 export const activitySchema = z.object({
   id: z.string().uuid(), sessionId: z.string().uuid(),
