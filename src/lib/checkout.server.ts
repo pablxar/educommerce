@@ -17,7 +17,7 @@ function siteOrigin() {
   return `${proto}://${host}`;
 }
 
-export async function startCheckout(input: { productId: string; email: string; name: string; phone: string; sessionId?: string | undefined; attribution?: unknown; leadId: string; meta?: { consent: { granted: true; version: '1'; updatedAt: string }; fbp?: string; fbc?: string; sourceUrl: string } }) {
+export async function startCheckout(input: { productId: string; email: string; name: string; phone: string; sessionId?: string | undefined; attribution?: unknown; leadId: string; meta?: { consent: { granted: true; version: '1'; updatedAt: string }; fbp?: string | undefined; fbc?: string | undefined; sourceUrl: string } | undefined }) {
   const lead = await recordCheckoutLead(input);
   if (!lead.ok) return { ok: false as const, error: "No pudimos guardar tus datos. Inténtalo de nuevo." };
   const token = process.env["MERCADOPAGO_ACCESS_TOKEN"];
