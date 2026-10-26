@@ -25,7 +25,7 @@ const gallery = [
   { src: f4.url, alt: "Educommerce Plus: foto de producto 4" },
 ];
 
-const title = "Educommerce Plus | 10 módulos desde $199.990 CLP";
+const title = "Educommerce Plus | 9 módulos desde $199.990 CLP";
 const description = "Aprende e-commerce, publicidad, contenido y web con Educommerce Plus. Elige un año, acceso de por vida o acompañamiento. Pago con Mercado Pago.";
 export const Route = createFileRoute("/educommerce-plus")({
   head: () => ({ meta: [
@@ -63,11 +63,11 @@ function PlusPage() {
     return () => document.body.classList.remove("plus-product-page");
   }, []);
 
-  return <><SiteHeader announcement={<><span className="top-strip-tag">Lanzamiento</span><span className="desktop-only">Educommerce Plus con los 10 módulos · hasta 6 cuotas sin interés</span><span className="mobile-only">10 módulos · 6 cuotas sin interés</span></>} /><main className="plus-page">
+  return <><SiteHeader announcement={<><span className="top-strip-tag">Lanzamiento</span><span className="desktop-only">Educommerce Plus con los 9 módulos · hasta 6 cuotas sin interés</span><span className="mobile-only">9 módulos · 6 cuotas sin interés</span></>} /><main className="plus-page">
     <section className="plus-product shell" aria-labelledby="plus-title">
       <PlusGallery images={gallery} />
       <div className="plus-buybox">
-        <p className="plus-badge"><Crown aria-hidden="true" /> Educommerce Plus · 10 módulos</p>
+        <p className="plus-badge"><Crown aria-hidden="true" /> Educommerce Plus · 9 módulos</p>
         <h1 id="plus-title">Educommerce <span>Plus</span></h1>
         <p className="plus-tagline">Crea tu tienda, tus anuncios, tu contenido y tu web con clases grabadas y prácticas, a tu ritmo.</p>
         <div className="plus-chips">
@@ -99,13 +99,13 @@ function PlusPage() {
     </section>
     <div className="shell"><div className="plus-facts">
       <ul>
-        <li><GraduationCap aria-hidden="true" /><span><strong>10 módulos</strong> en un solo programa</span></li>
+        <li><GraduationCap aria-hidden="true" /><span><strong>9 módulos</strong> en un solo programa</span></li>
         <li><MonitorPlay aria-hidden="true" /><span><strong>100% online</strong> · clases grabadas</span></li>
         <li><Timer aria-hidden="true" /><span><strong>A tu ritmo</strong> · aplicado a tus proyectos</span></li>
         <li><ShieldCheck aria-hidden="true" /><span><strong>{fullProgram.guaranteeDays} días</strong> de garantía</span></li>
       </ul>
     </div></div>
-    <div className="plus-ticker" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>Precio de lanzamiento · Acceso inmediato · 6 cuotas sin interés · Garantía de {fullProgram.guaranteeDays} días · 10 módulos · </span>)}</div></div>
+    <div className="plus-ticker" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>Precio de lanzamiento · Acceso inmediato · 6 cuotas sin interés · Garantía de {fullProgram.guaranteeDays} días · 9 módulos · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-benefits-title">
       <p className="eyebrow">POR QUÉ PLUS</p><h2 id="plus-benefits-title">Todo lo que necesitas para vender online.</h2>
       <div className="plus-benefits">{[
@@ -126,8 +126,8 @@ function PlusPage() {
     <section className="shell plus-section" aria-labelledby="plus-compare-title">
       <h2 id="plus-compare-title">Por separado vs. Educommerce Plus.</h2>
       <div className="plus-compare-table">
-        <div><small>Módulos por separado</small><s>{formatPrice(fullProgram.originalPrice)}</s><p>Sin Mentalidad ni Monetiza (exclusivos del programa)</p></div>
-        <div className="is-best"><small>Educommerce Plus</small><strong>{formatPrice(fullProgram.price)}</strong><p>Los 10 módulos · ahorras {formatPrice(fullProgram.originalPrice - fullProgram.price)}</p></div>
+        <div><small>Módulos por separado</small><s>{formatPrice(fullProgram.originalPrice)}</s><p>Sin Mentalidad (exclusivo del programa)</p></div>
+        <div className="is-best"><small>Educommerce Plus</small><strong>{formatPrice(fullProgram.price)}</strong><p>Los 9 módulos · ahorras {formatPrice(fullProgram.originalPrice - fullProgram.price)}</p></div>
       </div>
     </section>
     <section className="shell plus-section" aria-labelledby="plus-stories-title">
@@ -140,12 +140,12 @@ function PlusPage() {
       <div className="plus-guarantee-card"><span className="plus-guarantee-seal" aria-hidden="true"><strong>{fullProgram.guaranteeDays}</strong><small>días</small></span><div><h3>Garantía de devolución de {fullProgram.guaranteeDays} días</h3><ul><li><Check aria-hidden="true" /> Devolución del 100% de tu pago</li><li><Check aria-hidden="true" /> Válida si has visto más del 50% de las cápsulas</li><li><Check aria-hidden="true" /> Solicítala desde la página de contacto</li></ul><Link to="/terminos">Ver términos completos</Link></div></div>
     </section>
     <section className="shell plus-section" aria-labelledby="plus-content-title">
-      <p className="eyebrow">TODO CONECTADO</p><h2 id="plus-content-title">Qué incluye Educommerce Plus.</h2><p className="section-subtitle">Todos los planes incluyen los 10 módulos, también los exclusivos del programa.</p>
+      <p className="eyebrow">TODO CONECTADO</p><h2 id="plus-content-title">Qué incluye Educommerce Plus.</h2><p className="section-subtitle">Todos los planes incluyen los 9 módulos, también los exclusivos del programa.</p>
       <ol className="plus-curriculum">{modules.map(m => <li key={m.id}><span>{String(m.number).padStart(2, "0")}</span><div><strong>{m.title}</strong><small>{m.category}</small></div><Check aria-label="Incluido" /></li>)}</ol>
     </section>
     <section className="shell plus-section plus-questions" aria-labelledby="plus-questions-title"><h2 id="plus-questions-title">Antes de empezar.</h2>
       {[
-        ["¿Qué incluye Educommerce Plus?", "Los 10 módulos de habilidades digitales de Educommerce, con clases grabadas y aprendizaje práctico. El acceso y el acompañamiento dependen del plan que elijas."],
+        ["¿Qué incluye Educommerce Plus?", "Los 9 módulos de habilidades digitales de Educommerce, con clases grabadas y aprendizaje práctico. El acceso y el acompañamiento dependen del plan que elijas."],
         ["¿Cómo funciona el acceso de por vida?", "Por $20.000 adicionales al plan anual, el total queda en $219.990 y tu acceso pasa a ser de por vida. Los planes con asesoría y VIP ya lo incluyen."],
         ["¿Qué incluye el acompañamiento?", "Plus con asesoría incluye una asesoría por llamada y un grupo WhatsApp para dudas pequeñas. Plus VIP incluye lo anterior, una clase semanal grupal durante un mes y un grupo VIP."],
         ["¿Necesito una cuenta para comprar?", "No. Puedes comprar con tu nombre y correo; después ingresa al campus con ese mismo correo para asociar tu compra."],
