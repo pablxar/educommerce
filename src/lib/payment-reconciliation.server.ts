@@ -55,8 +55,9 @@ export async function reconcilePayments(orderId?: string, dryRun = false) {
           const event = purchasePayload(order,result.approvedAt);
           if (!event) await supabaseAdmin.from('payment_measurements').update({meta_status:'consent_or_age_blocked'}).eq('order_id',order.id);
           else {
+            // Production conversions never carry a Test Events code.
             const sent = await sendMetaEvent(event);
-            await supabaseAdmin.from('payment_measurements').update({meta_status:sent.ok?'sent':'retry',meta_sent_at:sent.ok?new Date().toISOString():null,meta_attempts:claim.meta_attempts+1,meta_next_at:new Date(Date.now()+Math.min(86400000,300000*2**claim.meta_attempts)).toISOString(),last_error:sent.ok?null:sent.error ?? 'meta_error'}).eq('order_id',order.id);
+            await supabaseAdmin.from('payment_measurements').update({meta_status:sent.ok?'sent':'retry',meta_sent_at:sent.ok?new Date().toISOString():null,meta_attempts:claim.meta_attempts+1,meta_next_at:new Date(Date.now()+Math.min(86400000,300000*2**claim.meta_attempts)).toISOString(),last_error:sent.ok?null:sent.error ?? 'meta_error'}).eq('order_id',order.id).is('meta_sent_at',null);
           }
         }
       }
