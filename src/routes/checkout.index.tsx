@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { formatPrice, fullProgram, installmentPrice } from "@/lib/educommerce";
 import { getProduct, PACK_ID } from "@/lib/products";
-import { PlusPlanOptions } from "@/components/plus-plan-options";
 import { createCheckout, saveCheckoutLead } from "@/lib/checkout.functions";
 import { readAttribution } from "@/lib/attribution";
 import { productTracking } from "@/lib/purchase-tracking";
@@ -105,7 +104,7 @@ function CheckoutPage() {
             {product.kind === "bundle" && <ul className="checkout-list mb-5">{product.moduleIds.map(id => <li key={id}><Check aria-hidden="true" />{getProduct(id)?.title}</li>)}</ul>}
             <p className="checkout-installments">Hasta {fullProgram.installments} cuotas sin interés de {formatPrice(installmentPrice(product.price))}</p>
             {product.kind === "pack" ? (
-              <><ul className="checkout-list">{product.benefits?.map(b => <li key={b}><Check aria-hidden="true" />{b}</li>)}</ul><p className="my-4 text-sm">Pago único · {product.access === "one_year" ? "Un año de acceso" : "Acceso de por vida"}</p><PlusPlanOptions selectedId={product.id} /></>
+              <><ul className="checkout-list">{product.benefits?.map(b => <li key={b}><Check aria-hidden="true" />{b}</li>)}</ul><p className="my-4 text-sm">Pago único · {product.access === "one_year" ? "Un año de acceso" : "Acceso de por vida"}</p></>
             ) : (
               <div className="checkout-upgrade">
                 <p><strong>¿Y si lo tienes todo?</strong> Educommerce Plus incluye los 9 módulos desde {formatPrice(fullProgram.price)} por un año, con opciones de acceso de por vida y acompañamiento.</p>
