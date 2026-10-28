@@ -1002,11 +1002,6 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-compare-table .is-best { border: 2px solid var(--primary); background: color-mix(in oklab, var(--primary) 7%, var(--background)); }
 .plus-compare-table s, .plus-compare-table strong { font-size: 28px; font-weight: 800; } .plus-compare-table s { color: var(--muted-foreground); }
 .plus-compare-table p { margin: 0; color: var(--muted-foreground); font-size: 14px; }
-.plus-stories { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin-top: 18px; padding-bottom: 6px; }
-.plus-story { flex: 0 0 min(300px, 85%); scroll-snap-align: start; margin: 0; padding: 20px; border: 1px dashed var(--border); border-radius: var(--radius); display: grid; gap: 12px; }
-.plus-story svg { color: var(--primary); } .plus-story blockquote { margin: 0; color: var(--muted-foreground); }
-.plus-story figcaption { display: flex; gap: 10px; align-items: center; } .plus-story figcaption span:last-child { display: grid; } .plus-story small { color: var(--muted-foreground); }
-.plus-story-avatar { width: 40px; height: 40px; border-radius: 999px; background: var(--muted); }
 .plus-guarantee { display: flex; gap: 16px; align-items: flex-start; padding: 24px; border-radius: var(--radius); background: color-mix(in oklab, var(--primary) 8%, var(--background)); border: 1px solid color-mix(in oklab, var(--primary) 30%, transparent); }
 .plus-guarantee > svg { flex: 0 0 44px; height: 44px; color: var(--primary); } .plus-guarantee h2 { margin: 0 0 6px; } .plus-guarantee p { margin: 0; }
 .plus-final-cta { text-align: center; display: grid; gap: 10px; justify-items: center; } .plus-final-cta p { margin: 0; color: var(--muted-foreground); }
@@ -1058,7 +1053,6 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-steps p { font-size: 14px; line-height: 1.5; }
 .plus-compare-table > div { padding: 18px 20px; }
 .plus-compare-table s, .plus-compare-table strong { font-size: 26px; }
-.plus-story { flex-basis: min(280px, 82%); }
 .plus-guarantee-card { margin-top: 0; padding: 24px; }
 .plus-guarantee-seal { width: 84px; height: 84px; flex: 0 0 auto; }
 .plus-guarantee-card h3 { font-size: 19px; line-height: 1.3; }
@@ -1147,3 +1141,29 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .consent-actions { display: flex; gap: 8px; margin-top: 12px; }
 .consent-actions > * { flex: 1; }
 @media (min-width: 640px) { .consent-banner { left: 20px; bottom: 20px; right: auto; } }
+
+/* Rating, mini review and student stories */
+.plus-badge-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.plus-rating { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-size: 12px; }
+.plus-rating > span:not(.plus-stars) { font-weight: 700; }
+.plus-rating small { color: var(--muted-foreground); }
+.plus-stars { display: inline-flex; gap: 1px; color: var(--primary); }
+.plus-stars svg { width: 13px; height: 13px; fill: currentColor; }
+.plus-mini-review { margin: 4px 0 0; display: flex; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); }
+.plus-mini-review img { width: 32px; height: 32px; border-radius: 999px; object-fit: cover; object-position: center 38%; flex: none; }
+.plus-mini-review blockquote { margin: 0; font-size: 13px; line-height: 1.35; }
+.plus-mini-review figcaption { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 11px; color: var(--muted-foreground); }
+.plus-stories-title span { color: var(--primary); }
+.plus-stories { display: grid; gap: 14px; margin-top: 18px; }
+.plus-story { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) 150px; gap: 16px; padding: 14px; border: 1px solid var(--border); border-radius: calc(var(--radius) * 1.5); background: var(--card); }
+.plus-story-body { display: grid; gap: 10px; align-content: start; padding: 4px; }
+.plus-story figcaption { display: flex; gap: 12px; align-items: center; }
+.plus-story figcaption span { display: grid; }
+.plus-story small { color: var(--muted-foreground); font-size: 13px; }
+.plus-story-avatar { width: 52px; height: 52px; border-radius: 999px; object-fit: cover; object-position: center 38%; }
+.plus-story blockquote { margin: 0; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5; }
+.plus-story blockquote.is-open { display: block; }
+.plus-story-more { justify-self: start; display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: 0; color: var(--primary); font: inherit; font-weight: 600; cursor: pointer; }
+.plus-story-more svg { width: 16px; height: 16px; }
+.plus-story-photo { width: 100%; height: 100%; min-height: 190px; max-height: 260px; object-fit: cover; object-position: center 40%; border-radius: var(--radius); }
+@media (max-width: 560px) { .plus-story { grid-template-columns: minmax(0, 1fr) 96px; gap: 10px; } .plus-story-photo { min-height: 150px; } .plus-story-avatar { width: 44px; height: 44px; } }
