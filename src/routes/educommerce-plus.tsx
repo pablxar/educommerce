@@ -84,6 +84,7 @@ function StoryCard({ story }: { story: Story }) {
   </figure>;
 }
 
+const featured = stories[0]!;
 const STORIES_VISIBLE = 3;
 function StoryList() {
   const [all, setAll] = useState(false);
@@ -150,8 +151,8 @@ function PlusPage() {
           </div>
         </div>
         <figure className="plus-mini-review">
-          <img src={stories[0].photo} alt="" loading="lazy" />
-          <div><blockquote>“Pasé de solo consumir contenido a generar plata con lo digital.”</blockquote><figcaption><Stars /> {stories[0].name}</figcaption></div>
+          <img src={featured.photo} alt="" loading="lazy" />
+          <div><blockquote>“Pasé de solo consumir contenido a generar plata con lo digital.”</blockquote><figcaption><Stars /> {featured.name}</figcaption></div>
         </figure>
       </div>
     </section>
