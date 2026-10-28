@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Check, CreditCard, Crown, GraduationCap, MonitorPlay, ShieldCheck, Tag, Timer, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { formatPrice, fullProgram, installmentPrice, modules } from "@/lib/educommerce";
 import { plusPlans } from "@/lib/products";
@@ -61,16 +62,36 @@ function Stars() {
 }
 
 function StoryCard({ story }: { story: Story }) {
-  const [open, setOpen] = useState(false);
   return <figure className="plus-story">
     <div className="plus-story-body">
       <figcaption><img className="plus-story-avatar" src={story.photo} alt="" loading="lazy" /><span><strong>{story.name}</strong><small>{story.skill}</small></span></figcaption>
       <Stars />
-      <blockquote className={open ? "is-open" : undefined}>“{story.quote}”</blockquote>
-      <button type="button" className="plus-story-more" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Ver menos" : "Ver su historia"} <ArrowRight aria-hidden="true" /></button>
+      <blockquote>“{story.quote}”</blockquote>
+      <Dialog>
+        <DialogTrigger asChild><button type="button" className="plus-story-more">Ver su historia <ArrowRight aria-hidden="true" /></button></DialogTrigger>
+        <DialogContent className="plus-story-dialog">
+          <img className="plus-story-dialog-photo" src={story.photo} alt={`${story.name}, alumno de Educommerce`} />
+          <div className="plus-story-dialog-body">
+            <DialogTitle>{story.name}</DialogTitle>
+            <DialogDescription>{story.skill}</DialogDescription>
+            <Stars />
+            <blockquote>“{story.quote}”</blockquote>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
     <img className="plus-story-photo" src={story.photo} alt={`${story.name}, alumno de Educommerce`} loading="lazy" />
   </figure>;
+}
+
+const STORIES_VISIBLE = 3;
+function StoryList() {
+  const [all, setAll] = useState(false);
+  const shown = all ? stories : stories.slice(0, STORIES_VISIBLE);
+  return <>
+    <div className="plus-stories">{shown.map(s => <StoryCard key={s.name} story={s} />)}</div>
+    {stories.length > STORIES_VISIBLE && <Button variant="outline" className="plus-stories-toggle" aria-expanded={all} onClick={() => setAll(!all)}>{all ? "Ver menos" : `Ver más historias (${stories.length - STORIES_VISIBLE})`}</Button>}
+  </>;
 }
 
 function PlusPage() {
@@ -170,7 +191,7 @@ function PlusPage() {
     <section className="shell plus-section" aria-labelledby="plus-stories-title">
       <h2 id="plus-stories-title" className="plus-stories-title">Conoce sus <span>experiencias.</span></h2>
       <p className="section-subtitle">Qué aprendieron, cómo lo aplicaron y qué cambió en su trabajo.</p>
-      <div className="plus-stories">{stories.map(s => <StoryCard key={s.name} story={s} />)}</div>
+      <StoryList />
     </section>
     <div className="plus-ticker is-alt" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>El precio de lanzamiento sube al terminar el lanzamiento · Asegura tu acceso hoy · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-guarantee-title">
