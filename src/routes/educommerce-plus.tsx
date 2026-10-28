@@ -11,7 +11,8 @@ import f2 from "@/assets/plus-foto_producto_2.jpg.asset.json";
 import f3 from "@/assets/plus-foto_producto_3.jpg.asset.json";
 import f4 from "@/assets/plus-foto_producto_4.jpg.asset.json";
 import { PlusGallery } from "@/components/plus-gallery";
-import { AlertTriangle, Quote, Rocket, Target, TrendingUp, Users } from "lucide-react";
+import { AlertTriangle, Quote, Rocket, Star, Target, TrendingUp, Users } from "lucide-react";
+import franco from "@/assets/franco-henriquez.jpg.asset.json";
 import { useServerFn } from "@tanstack/react-start";
 import { saveSiteActivity } from "@/lib/site-activity.functions";
 import { journeySession } from "@/lib/journey";
@@ -45,6 +46,33 @@ const upsells = [
   { label: "Clases grupales + VIP", note: "Una clase semanal por un mes y grupo VIP.", delta: plusPlans[3].price - plusPlans[2].price },
 ];
 
+type Story = { name: string; skill: string; quote: string; photo: string };
+const stories: Story[] = [{
+  name: "Franco Henríquez",
+  skill: "Edición de video, guiones, Meta Ads y dropshipping",
+  photo: franco.url,
+  quote: "Gracias a EduCommerce pasé de solo consumir contenido a generar plata con lo digital. Partí por lo más básico, que fue aprender a editar videos. De ahí empecé a escribir mis propios guiones, después me metí al marketing de afiliados corriendo campañas para empresas en Estados Unidos, y aprendí tanto de Meta Ads que terminé llevando campañas para empresas que me buscaban justamente por eso. Hoy ya estoy armando mis propias tiendas online de dropshipping. Lo que más me abrió los ojos es que el mundo digital está recién explotando: faltan personas que sepan hacer estas cosas y hay pega por todos lados. Si aprendes bien, las oportunidades sobran. Si quieres partir y no sabes por dónde, EduCommerce es el lugar.",
+}];
+// Shown next to the badge; update with real aggregated numbers as reviews grow.
+const rating = { score: "5,0", label: `${stories.length} reseña${stories.length === 1 ? "" : "s"} de alumnos` };
+
+function Stars() {
+  return <span className="plus-stars" aria-hidden="true">{Array.from({ length: 5 }, (_, i) => <Star key={i} />)}</span>;
+}
+
+function StoryCard({ story }: { story: Story }) {
+  const [open, setOpen] = useState(false);
+  return <figure className="plus-story">
+    <div className="plus-story-body">
+      <figcaption><img className="plus-story-avatar" src={story.photo} alt="" loading="lazy" /><span><strong>{story.name}</strong><small>{story.skill}</small></span></figcaption>
+      <Stars />
+      <blockquote className={open ? "is-open" : undefined}>“{story.quote}”</blockquote>
+      <button type="button" className="plus-story-more" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Ver menos" : "Ver su historia"} <ArrowRight aria-hidden="true" /></button>
+    </div>
+    <img className="plus-story-photo" src={story.photo} alt={`${story.name}, alumno de Educommerce`} loading="lazy" />
+  </figure>;
+}
+
 function PlusPage() {
   const [tier, setTier] = useState(0);
   const plan = plusPlans[tier] ?? plusPlans[0];
@@ -67,7 +95,10 @@ function PlusPage() {
     <section className="plus-product shell" aria-labelledby="plus-title">
       <PlusGallery images={gallery} />
       <div className="plus-buybox">
-        <p className="plus-badge"><Crown aria-hidden="true" /> Educommerce Plus · 9 módulos</p>
+        <div className="plus-badge-row">
+          <p className="plus-badge"><Crown aria-hidden="true" /> Educommerce Plus · 9 módulos</p>
+          <p className="plus-rating" aria-label={`Calificación ${rating.score} de 5, ${rating.label}`}><Stars /><span>{rating.score}</span><small>{rating.label}</small></p>
+        </div>
         <h1 id="plus-title">Educommerce <span>Plus</span></h1>
         <p className="plus-tagline">Crea tu tienda, tus anuncios, tu contenido y tu web con clases grabadas y prácticas, a tu ritmo.</p>
         <div className="plus-offer" aria-label="Personalizar Educommerce Plus">
@@ -77,11 +108,6 @@ function PlusPage() {
               <p className="plus-offer-access">Acceso por 1 año</p>
             </div>
             <p className="plus-offer-price">{formatPrice(plusPlans[0].price)} <span>CLP</span></p>
-            <ul className="plus-offer-features">
-              <li><Check aria-hidden="true" /><span>Clases grabadas</span></li>
-              <li><Check aria-hidden="true" /><span>Acceso inmediato</span></li>
-              <li><Check aria-hidden="true" /><span>6 cuotas sin interés</span></li>
-            </ul>
             <p className="plus-offer-launch" role="note"><Tag aria-hidden="true" /><span><strong>Precio de lanzamiento.</strong> Sube al terminar el lanzamiento.</span></p>
           </div>
           <div className="plus-offer-body">
@@ -102,6 +128,10 @@ function PlusPage() {
         <p className="plus-terms-note">Pago único. Los extras son acumulativos e incluyen los beneficios anteriores.</p>
           </div>
         </div>
+        <figure className="plus-mini-review">
+          <img src={stories[0].photo} alt="" loading="lazy" />
+          <div><blockquote>“Pasé de solo consumir contenido a generar plata con lo digital.”</blockquote><figcaption><Stars /> {stories[0].name}</figcaption></div>
+        </figure>
       </div>
     </section>
     <div className="shell"><div className="plus-facts">
@@ -138,8 +168,9 @@ function PlusPage() {
       </div>
     </section>
     <section className="shell plus-section" aria-labelledby="plus-stories-title">
-      <p className="eyebrow">HISTORIAS DE ALUMNOS</p><h2 id="plus-stories-title">Lo que dicen quienes ya lo cursan.</h2>
-      <div className="plus-stories">{[1, 2, 3].map(n => <figure key={n} className="plus-story is-placeholder"><Quote aria-hidden="true" /><blockquote>Espacio reservado para el testimonio real de un alumno.</blockquote><figcaption><span className="plus-story-avatar" aria-hidden="true" /><span><strong>Alumno {n}</strong><small>Testimonio pendiente</small></span></figcaption></figure>)}</div>
+      <h2 id="plus-stories-title" className="plus-stories-title">Conoce sus <span>experiencias.</span></h2>
+      <p className="section-subtitle">Qué aprendieron, cómo lo aplicaron y qué cambió en su trabajo.</p>
+      <div className="plus-stories">{stories.map(s => <StoryCard key={s.name} story={s} />)}</div>
     </section>
     <div className="plus-ticker is-alt" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>El precio de lanzamiento sube al terminar el lanzamiento · Asegura tu acceso hoy · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-guarantee-title">
