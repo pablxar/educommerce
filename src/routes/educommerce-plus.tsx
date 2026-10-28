@@ -72,9 +72,11 @@ function PlusPage() {
         <p className="plus-tagline">Crea tu tienda, tus anuncios, tu contenido y tu web con clases grabadas y prácticas, a tu ritmo.</p>
         <div className="plus-offer" aria-label="Personalizar Educommerce Plus">
           <div className="plus-offer-header">
-            <p className="plus-offer-kicker">Plan anual · 9 módulos</p>
+            <div className="plus-offer-top">
+              <p className="plus-offer-kicker">Plan anual · 9 módulos</p>
+              <p className="plus-offer-access">Acceso por 1 año</p>
+            </div>
             <p className="plus-offer-price">{formatPrice(plusPlans[0].price)} <span>CLP</span></p>
-            <p className="plus-offer-access">Acceso por 1 año</p>
             <ul className="plus-offer-features">
               <li><Check aria-hidden="true" /><span>Clases grabadas</span></li>
               <li><Check aria-hidden="true" /><span>Acceso inmediato</span></li>
@@ -85,7 +87,6 @@ function PlusPage() {
           <div className="plus-offer-body">
         <fieldset className="plus-upsells">
           <legend>Personaliza tu programa</legend>
-          <p className="plus-offer-help">Extras opcionales. Puedes continuar sin agregarlos.</p>
           {upsells.map((upsell, i) => <label key={upsell.label} className="plus-upsell">
             <input type="checkbox" checked={tier > i} onChange={() => selectTier(tier > i ? i : i + 1)} />
             <span className="plus-upsell-text"><strong>{upsell.label}</strong><small>{upsell.note}</small></span>
