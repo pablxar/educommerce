@@ -102,16 +102,12 @@ function PlusPage() {
         <p className="plus-terms-note">Pago único. Los extras son acumulativos e incluyen los beneficios anteriores.</p>
           </div>
         </div>
+        <figure className="plus-mini-review">
+          <img src={stories[0].photo} alt="" loading="lazy" />
+          <div><blockquote>“Pasé de solo consumir contenido a generar plata con lo digital.”</blockquote><figcaption><Stars /> {stories[0].name}</figcaption></div>
+        </figure>
       </div>
     </section>
-    <div className="shell"><div className="plus-facts">
-      <ul>
-        <li><GraduationCap aria-hidden="true" /><span><strong>9 módulos</strong> en un solo programa</span></li>
-        <li><MonitorPlay aria-hidden="true" /><span><strong>100% online</strong> · clases grabadas</span></li>
-        <li><Timer aria-hidden="true" /><span><strong>A tu ritmo</strong> · aplicado a tus proyectos</span></li>
-        <li><ShieldCheck aria-hidden="true" /><span><strong>{fullProgram.guaranteeDays} días</strong> de garantía</span></li>
-      </ul>
-    </div></div>
     <div className="plus-ticker" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>Precio de lanzamiento · Acceso inmediato · 6 cuotas sin interés · Garantía de {fullProgram.guaranteeDays} días · 9 módulos · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-benefits-title">
       <p className="eyebrow">POR QUÉ PLUS</p><h2 id="plus-benefits-title">Todo lo que necesitas para vender online.</h2>
@@ -138,8 +134,9 @@ function PlusPage() {
       </div>
     </section>
     <section className="shell plus-section" aria-labelledby="plus-stories-title">
-      <p className="eyebrow">HISTORIAS DE ALUMNOS</p><h2 id="plus-stories-title">Lo que dicen quienes ya lo cursan.</h2>
-      <div className="plus-stories">{[1, 2, 3].map(n => <figure key={n} className="plus-story is-placeholder"><Quote aria-hidden="true" /><blockquote>Espacio reservado para el testimonio real de un alumno.</blockquote><figcaption><span className="plus-story-avatar" aria-hidden="true" /><span><strong>Alumno {n}</strong><small>Testimonio pendiente</small></span></figcaption></figure>)}</div>
+      <h2 id="plus-stories-title" className="plus-stories-title">Conoce sus <span>experiencias.</span></h2>
+      <p className="section-subtitle">Qué aprendieron, cómo lo aplicaron y qué cambió en su trabajo.</p>
+      <div className="plus-stories">{stories.map(s => <StoryCard key={s.name} story={s} />)}</div>
     </section>
     <div className="plus-ticker is-alt" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>El precio de lanzamiento sube al terminar el lanzamiento · Asegura tu acceso hoy · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-guarantee-title">
