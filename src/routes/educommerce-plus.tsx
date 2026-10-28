@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Check, CreditCard, Crown, GraduationCap, MonitorPlay, ShieldCheck, Timer, Zap } from "lucide-react";
+import { ArrowRight, Check, CreditCard, Crown, GraduationCap, MonitorPlay, ShieldCheck, Tag, Timer, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { formatPrice, fullProgram, installmentPrice, modules } from "@/lib/educommerce";
@@ -40,9 +40,9 @@ export const Route = createFileRoute("/educommerce-plus")({
 // Cumulative upsells: each checkbox upgrades to the next plan, prices stay
 // resolved server-side from the same catalog.
 const upsells = [
-  { label: "Acceso de por vida", note: "Tu acceso no vence nunca: olvídate del plazo de un año.", delta: plusPlans[1].price - plusPlans[0].price },
-  { label: "Asesoría 1 a 1 + grupo WhatsApp", note: "Una asesoría por llamada y un grupo de WhatsApp para dudas pequeñas.", delta: plusPlans[2].price - plusPlans[1].price },
-  { label: "Clases grupales + grupo VIP", note: "Una clase grupal semanal durante un mes y acceso al grupo VIP.", delta: plusPlans[3].price - plusPlans[2].price },
+  { label: "Acceso de por vida", note: "Amplía tu acceso sin fecha de término.", delta: plusPlans[1].price - plusPlans[0].price },
+  { label: "Asesoría 1 a 1 + WhatsApp", note: "Una llamada y un grupo para dudas pequeñas.", delta: plusPlans[2].price - plusPlans[1].price },
+  { label: "Clases grupales + VIP", note: "Una clase semanal por un mes y grupo VIP.", delta: plusPlans[3].price - plusPlans[2].price },
 ];
 
 function PlusPage() {
@@ -70,31 +70,37 @@ function PlusPage() {
         <p className="plus-badge"><Crown aria-hidden="true" /> Educommerce Plus · 9 módulos</p>
         <h1 id="plus-title">Educommerce <span>Plus</span></h1>
         <p className="plus-tagline">Crea tu tienda, tus anuncios, tu contenido y tu web con clases grabadas y prácticas, a tu ritmo.</p>
-        <div className="plus-chips">
-          <span><ShieldCheck aria-hidden="true" /> {fullProgram.guaranteeDays} días de garantía</span>
-          <span><Zap aria-hidden="true" /> Acceso inmediato</span>
-          <span><CreditCard aria-hidden="true" /> 6 cuotas sin interés</span>
-        </div>
-        <div className="plus-price-row">
-          <span className="plus-price">{formatPrice(plan.price)}</span>
-          <span className="plus-compare">{formatPrice(fullProgram.originalPrice)}</span>
-          <span className="plus-save">Ahorras {formatPrice(fullProgram.originalPrice - plan.price)}</span>
-        </div>
-        <p className="plus-alert" role="note"><AlertTriangle aria-hidden="true" /> <span><strong>Precio de lanzamiento para early adopters.</strong> Sube cuando termine el lanzamiento.</span></p>
+        <div className="plus-offer" aria-label="Personalizar Educommerce Plus">
+          <div className="plus-offer-header">
+            <p className="plus-offer-kicker">Plan anual · 9 módulos</p>
+            <p className="plus-offer-price">{formatPrice(plusPlans[0].price)} <span>CLP</span></p>
+            <p className="plus-offer-access">Acceso por 1 año</p>
+            <ul className="plus-offer-features">
+              <li><Check aria-hidden="true" /><span>Clases grabadas</span></li>
+              <li><Check aria-hidden="true" /><span>Acceso inmediato</span></li>
+              <li><Check aria-hidden="true" /><span>6 cuotas sin interés</span></li>
+            </ul>
+            <p className="plus-offer-launch" role="note"><Tag aria-hidden="true" /><span><strong>Precio de lanzamiento.</strong> Sube al terminar el lanzamiento.</span></p>
+          </div>
+          <div className="plus-offer-body">
         <fieldset className="plus-upsells">
-          <legend>Suma a tu programa</legend>
+          <legend>Personaliza tu programa</legend>
+          <p className="plus-offer-help">Extras opcionales. Puedes continuar sin agregarlos.</p>
           {upsells.map((upsell, i) => <label key={upsell.label} className="plus-upsell">
             <input type="checkbox" checked={tier > i} onChange={() => selectTier(tier > i ? i : i + 1)} />
-            <span className="plus-upsell-text"><strong>{upsell.label}{i === 1 && <em className="plus-upsell-tag">Más elegido</em>}</strong><small>{upsell.note}</small></span>
+            <span className="plus-upsell-text"><strong>{upsell.label}</strong><small>{upsell.note}</small></span>
             <span className="plus-upsell-price">+{formatPrice(upsell.delta)}</span>
           </label>)}
         </fieldset>
-        <p className="plus-total-row"><span>Total · {plan.name}</span><strong>{formatPrice(plan.price)}</strong></p>
+        <p className="plus-total-row" aria-live="polite"><span>{tier === 0 ? "Total sin extras" : "Total con extras"}</span><strong>{formatPrice(plan.price)} <span>CLP</span></strong></p>
         <div className="plus-buy">
           <Button asChild size="lg"><Link to="/checkout" search={{ producto: plan.id }}>Agregar al carrito <ArrowRight aria-hidden="true" /></Link></Button>
         </div>
-        <p className="plus-pay-note"><CreditCard aria-hidden="true" /> Paga en 6 cuotas de {formatPrice(installmentPrice(plan.price))} sin interés con Mercado Pago. Acceso inmediato después del pago.</p>
-        <p className="plus-terms-note">Todos son pagos únicos. El plan anual cubre un año de acceso; los demás incluyen acceso de por vida.</p>
+        <div className="plus-offer-guarantee"><ShieldCheck aria-hidden="true" /><div><strong>{fullProgram.guaranteeDays} días de garantía</strong><Link to="/terminos">Ver condiciones</Link></div></div>
+        <p className="plus-pay-note"><CreditCard aria-hidden="true" /> 6 cuotas de {formatPrice(installmentPrice(plan.price))} sin interés con Mercado Pago.</p>
+        <p className="plus-terms-note">Pago único. Los extras son acumulativos e incluyen los beneficios anteriores.</p>
+          </div>
+        </div>
       </div>
     </section>
     <div className="shell"><div className="plus-facts">
