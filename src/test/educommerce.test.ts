@@ -17,11 +17,17 @@ describe("Homepage module filter rules", () => {
 import { modules, formatPrice, moduleProgress, fullProgram } from "@/lib/educommerce";
 import { getProduct, bundlePrice, isPurchasable, PACK_ID } from "@/lib/products";
 describe("Full pack offer", () => {
-  it("launch annual Plus costs $199.990 CLP", () => { expect(fullProgram.price).toBe(199990); expect(formatPrice(fullProgram.price)).toBe("$199.990"); });
+  it("launch annual Plus costs $169.990 CLP", () => { expect(fullProgram.price).toBe(169990); expect(formatPrice(fullProgram.price)).toBe("$169.990"); });
   it("shows the $499.920 individual sum", () => { expect(fullProgram.originalPrice).toBe(499920); });
   it("individual sum matches sellable module prices", () => { expect(modules.reduce((t, m) => t + (m.price ?? 0), 0)).toBe(499920); });
   it("allows up to 6 installments", () => { expect(fullProgram.installments).toBe(6); });
-  it("annual Plus product is purchasable at 199990", () => { expect(getProduct(PACK_ID)?.price).toBe(199990); });
+  it("annual Plus product is purchasable at 169990", () => { expect(getProduct(PACK_ID)?.price).toBe(169990); });
+  it("keeps the 249990 normal price struck through until 1 November 2026", () => {
+    expect(fullProgram.normalPrice).toBe(249990);
+    expect(fullProgram.price).toBeLessThan(fullProgram.normalPrice);
+    expect(Date.parse("2026-11-01T12:00:00Z")).toBeLessThan(Date.parse(fullProgram.launchUntil));
+    expect(Date.parse("2026-11-02T04:00:00Z")).toBeGreaterThan(Date.parse(fullProgram.launchUntil));
+  });
 });
 describe("Module prices CLP", () => {
   const price = (id: string) => modules.find(m => m.id === id)?.price;

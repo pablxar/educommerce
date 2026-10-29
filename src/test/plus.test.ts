@@ -1,15 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { getProduct, plusPlans } from "@/lib/products";
-import { purchaseTerms, campusPurchasePayload, type CampusPurchase } from "@/lib/purchase-tracking";
+import { productTracking, purchaseTerms, campusPurchasePayload, type CampusPurchase } from "@/lib/purchase-tracking";
 
 describe("Educommerce Plus commercial rules", () => {
-  it("annual launch plan is 199990 for one year without advisory or VIP", () => {
+  it("annual launch plan is 169990 for one year without advisory or VIP", () => {
     const p = getProduct("educommerce-plus");
-    expect(p?.price).toBe(199990); expect(p?.access).toBe("one_year"); expect(p?.benefits).toHaveLength(3);
+    expect(p?.price).toBe(169990); expect(p?.access).toBe("one_year"); expect(p?.benefits).toHaveLength(3);
   });
-  it("lifetime adds exactly 20000 for a 219990 total", () => {
+  it("launch price is struck against the 249990 normal price", () => {
+    const p = getProduct("educommerce-plus"); if (!p) throw new Error("Missing Plus");
+    expect(p.listPrice).toBe(249990); expect(productTracking(p).discount_amount).toBe(80000);
+  });
+  it("lifetime adds exactly 50000 for a 219990 total", () => {
     const p = getProduct("educommerce-plus-vitalicio");
-    expect(p?.price).toBe(219990); expect((p?.price ?? 0) - plusPlans[0].price).toBe(20000); expect(p?.access).toBe("lifetime");
+    expect(p?.price).toBe(219990); expect((p?.price ?? 0) - plusPlans[0].price).toBe(50000); expect(p?.access).toBe("lifetime");
   });
   it("269990 includes lifetime, one advisory call and WhatsApp", () => {
     const p = getProduct("educommerce-plus-asesoria");
