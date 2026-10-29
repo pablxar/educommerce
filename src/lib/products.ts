@@ -18,7 +18,7 @@ export type Product = { id: string; title: string; price: number; listPrice: num
 
 export const plusPlans = [
   { id: "educommerce-plus", name: "Plus Anual", title: "Educommerce Plus · 1 año", price: 169990, access: "one_year", benefits: ["Los 9 módulos", "Acceso por un año", "Clases grabadas y prácticas"] },
-  { id: "educommerce-plus-vitalicio", name: "Plus de por vida", title: "Educommerce Plus · De por vida", price: 219990, access: "lifetime", benefits: ["Los 9 módulos", "Acceso de por vida", "Clases grabadas y prácticas"] },
+  { id: "educommerce-plus-vitalicio", name: "Plus de por vida", title: "Educommerce Plus · De por vida", price: 189990, access: "lifetime", benefits: ["Los 9 módulos", "Acceso de por vida", "Clases grabadas y prácticas"] },
   { id: "educommerce-plus-asesoria", name: "Plus con asesoría", title: "Educommerce Plus · De por vida + asesoría y WhatsApp", price: 269990, access: "lifetime", benefits: ["Los 9 módulos", "Acceso de por vida", "Clases grabadas y prácticas", "1 asesoría por llamada", "Grupo WhatsApp para dudas pequeñas"] },
   { id: "educommerce-plus-vip", name: "Plus VIP", title: "Educommerce Plus · VIP + asesoría + clases grupales", price: 349990, access: "lifetime", benefits: ["Los 9 módulos", "Acceso de por vida", "Clases grabadas y prácticas", "1 asesoría por llamada", "Grupo WhatsApp para dudas pequeñas", "1 clase grupal semanal durante 1 mes", "Grupo VIP"] },
 ] as const;
@@ -68,7 +68,7 @@ export function getProduct(id: string): Product | undefined {
 export const packBenefits = [
   { title: "Todos los módulos", text: "Incluye el módulo exclusivo del programa: Mentalidad emprendedora." },
   { title: "Un año de acceso", text: "Aprende a tu ritmo con clases grabadas y prácticas." },
-  { title: "De por vida por $50.000 más", text: "Elige el acceso vitalicio por un total de $219.990." },
+  { title: "De por vida por $20.000 más", text: "Elige el acceso vitalicio por un total de $189.990." },
   { title: "Acompañamiento opcional", text: "Planes con asesoría, WhatsApp y clases grupales según la opción elegida." },
 ];
 
