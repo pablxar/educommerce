@@ -29,11 +29,15 @@ export const destinations = {
 };
 
 export const fullProgram = {
-  price: 199990,
+  price: 169990,
+  normalPrice: 249990,
   originalPrice: 499920,
   installments: 6,
   guaranteeDays: 30,
   moduleCount: 9,
+  // Launch offer ends on 1 November 2026 at 23:59:59, Santiago time (UTC-3).
+  launchUntil: "2026-11-02T02:59:59Z",
+  launchLabel: "1 de noviembre",
 } as const;
 
 export function formatPrice(price: number) {
