@@ -53,6 +53,11 @@
   --offer-header-text: var(--background);
   --offer-header-muted: var(--border);
   --offer-header-border: var(--muted-foreground);
+  --offer-alert: oklch(0.63 0.19 25);
+  --offer-alert-text: color-mix(in oklab, var(--offer-alert) 62%, var(--background));
+  --offer-alert-soft: color-mix(in oklab, var(--offer-alert) 16%, var(--offer-header-surface));
+  --offer-alert-bubble: color-mix(in oklab, var(--offer-alert) 30%, var(--offer-header-surface));
+  --offer-alert-border: color-mix(in oklab, var(--offer-alert) 55%, transparent);
   --dialog-overlay: color-mix(in oklab, var(--foreground) 28%, transparent);
   --dialog-glass: color-mix(in oklab, var(--background) 94%, transparent);
   --section-wash: linear-gradient(180deg, var(--background), var(--offer-surface) 38%, var(--offer-surface) 62%, var(--background));
@@ -1032,7 +1037,7 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-buy .edu-button, .plus-buy a { position: relative; overflow: hidden; }
 .plus-buy a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 35%, color-mix(in oklab, var(--primary-foreground) 35%, transparent) 50%, transparent 65%); transform: translateX(-100%); animation: plus-shine 3.2s ease-in-out infinite; pointer-events: none; }
 @keyframes plus-shine { 60%, 100% { transform: translateX(100%); } }
-@media (prefers-reduced-motion: reduce) { .plus-ticker > div, .plus-alert.is-pulse, .plus-sticky-live i, .plus-buy a::after { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .plus-ticker > div, .plus-alert.is-pulse, .plus-sticky-live i, .plus-buy a::after, .plus-countdown, .plus-countdown-unit { animation: none; } }
 .plus-sticky-live { white-space: nowrap; }
 /* Plus PDP polish: unified rhythm */
 .plus-section { padding-block: 40px; }
@@ -1079,11 +1084,15 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-offer-price span { font-size: 28px; }
 .plus-offer-price s { font-size: 19px; font-weight: 600; color: var(--offer-header-muted); text-decoration: line-through; text-decoration-thickness: 2px; }
 .plus-offer-price .plus-offer-save { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--offer-header-surface); background: var(--primary); border-radius: 999px; padding: 5px 10px; }
-.plus-countdown { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--offer-header-border); font-size: 12px; color: var(--offer-header-muted); }
-.plus-countdown svg { flex: 0 0 16px; width: 16px; height: 16px; color: var(--primary); }
-.plus-countdown span { display: inline-flex; align-items: baseline; gap: 2px; font-variant-numeric: tabular-nums; }
-.plus-countdown strong { font-size: 17px; font-weight: 800; color: var(--offer-header-text); }
-.plus-countdown small { margin-left: auto; }
+.plus-countdown { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; padding: 9px 12px; border: 1px solid var(--offer-alert-border); border-radius: 999px; background: var(--offer-alert-soft); font-size: 12px; color: var(--offer-alert-text); animation: plus-alert-pulse 1.8s ease-in-out infinite; }
+.plus-countdown svg { flex: 0 0 16px; width: 16px; height: 16px; color: var(--offer-alert-text); }
+.plus-countdown-label { font-size: 11px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+.plus-countdown-clock { display: inline-flex; align-items: center; gap: 5px; }
+.plus-countdown-unit { display: inline-flex; align-items: baseline; gap: 2px; padding: 4px 9px; border: 1px solid var(--offer-alert-border); border-radius: 999px; background: var(--offer-alert-bubble); font-variant-numeric: tabular-nums; animation: plus-countdown-bubble 1.8s ease-in-out infinite; }
+.plus-countdown-unit strong { font-size: 17px; font-weight: 800; color: var(--offer-alert-text); }
+.plus-countdown small { margin-left: auto; opacity: .9; }
+@keyframes plus-alert-pulse { 50% { box-shadow: 0 0 0 6px color-mix(in oklab, var(--offer-alert) 20%, transparent); } }
+@keyframes plus-countdown-bubble { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-2px) scale(1.06); } }
 .plus-sticky-price s, .plus-final-cta p s { font-size: 13px; font-weight: 600; color: var(--muted-foreground); margin-right: 7px; }
 .plus-offer-access { font-size: 12px; font-weight: 600; line-height: 1.4; text-align: right; color: var(--offer-header-muted); }
 .plus-offer-features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; padding: 0; margin: 12px 0 10px; gap: 10px; }
@@ -1124,8 +1133,9 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
   .plus-offer-price { font-size: 34px; margin-top: 4px; }
   .plus-offer-price span { font-size: 22px; }
   .plus-offer-price s { font-size: 15px; }
-  .plus-countdown { gap: 6px; }
-  .plus-countdown strong { font-size: 15px; }
+  .plus-countdown { gap: 6px; padding: 8px 10px; }
+  .plus-countdown-unit { padding: 3px 7px; }
+  .plus-countdown-unit strong { font-size: 15px; }
   .plus-offer-features { gap: 8px; margin: 10px 0 8px; }
   .plus-offer-features li { flex-direction: column; align-items: flex-start; font-size: 11px; gap: 5px; }
   .plus-offer-features li + li { padding-left: 8px; }
