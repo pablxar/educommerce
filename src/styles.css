@@ -1077,6 +1077,14 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-offer-kicker { font-size: 12px; font-weight: 650; text-transform: uppercase; }
 .plus-offer-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; font-size: 42px; line-height: 1.15; font-weight: 800; margin-top: 6px; }
 .plus-offer-price span { font-size: 28px; }
+.plus-offer-price s { font-size: 19px; font-weight: 600; color: var(--offer-header-muted); text-decoration: line-through; text-decoration-thickness: 2px; }
+.plus-offer-price .plus-offer-save { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--offer-header-surface); background: var(--primary); border-radius: 999px; padding: 5px 10px; }
+.plus-countdown { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--offer-header-border); font-size: 12px; color: var(--offer-header-muted); }
+.plus-countdown svg { flex: 0 0 16px; width: 16px; height: 16px; color: var(--primary); }
+.plus-countdown span { display: inline-flex; align-items: baseline; gap: 2px; font-variant-numeric: tabular-nums; }
+.plus-countdown strong { font-size: 17px; font-weight: 800; color: var(--offer-header-text); }
+.plus-countdown small { margin-left: auto; }
+.plus-sticky-price s, .plus-final-cta p s { font-size: 13px; font-weight: 600; color: var(--muted-foreground); margin-right: 7px; }
 .plus-offer-access { font-size: 12px; font-weight: 600; line-height: 1.4; text-align: right; color: var(--offer-header-muted); }
 .plus-offer-features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; padding: 0; margin: 12px 0 10px; gap: 10px; }
 .plus-offer-features li { display: flex; align-items: center; gap: 7px; font-size: 11px; line-height: 1.3; }

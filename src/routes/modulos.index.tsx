@@ -29,7 +29,7 @@ const heroBullets = ["Clases prácticas", "Proyectos reales", "Acceso de por vid
 export const Route = createFileRoute("/modulos/")({
   head: () => ({ meta: [
     { title: "Módulos | Educommerce" },
-    { name: "description", content: "Explora los 9 módulos de Educommerce: e-commerce, publicidad, creatividad, web y negocio. Precios en CLP, combos con 20% y Educommerce Plus desde $199.990." },
+    { name: "description", content: "Explora los 9 módulos de Educommerce: e-commerce, publicidad, creatividad, web y negocio. Precios en CLP, combos con 20% y Educommerce Plus desde $169.990." },
     { property: "og:title", content: "Módulos | Educommerce" },
     { property: "og:description", content: "Explora todos los módulos de Educommerce y elige la habilidad que quieres aprender hoy." },
     { property: "og:type", content: "website" },
