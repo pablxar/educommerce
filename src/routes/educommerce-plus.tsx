@@ -27,8 +27,8 @@ const gallery = [
   { src: f4.url, alt: "Educommerce Plus: foto de producto 4" },
 ];
 
-const title = "Educommerce Plus | 9 módulos desde $199.990 CLP";
-const description = "Aprende e-commerce, publicidad, contenido y web con Educommerce Plus. Elige un año, acceso de por vida o acompañamiento. Pago con Mercado Pago.";
+const title = "Educommerce Plus | 9 módulos desde $169.990 CLP";
+const description = "Aprende e-commerce, publicidad, contenido y web con Educommerce Plus. Precio de lanzamiento $169.990 (normal $249.990) hasta el 1 de noviembre. Elige un año, acceso de por vida o acompañamiento.";
 export const Route = createFileRoute("/educommerce-plus")({
   head: () => ({ meta: [
     { title }, { name: "description", content: description },
@@ -95,6 +95,32 @@ function StoryList() {
   </>;
 }
 
+// Ticking countdown to the end of the launch offer. It only renders after
+// mount, so the server markup and the first client paint stay identical.
+function LaunchCountdown() {
+  const [left, setLeft] = useState<number | null>(null);
+  useEffect(() => {
+    const end = Date.parse(fullProgram.launchUntil);
+    if (!Number.isFinite(end)) return;
+    const tick = () => setLeft(Math.max(0, end - Date.now()));
+    tick();
+    const id = window.setInterval(tick, 1000);
+    return () => window.clearInterval(id);
+  }, []);
+  if (left === null || left <= 0) return null;
+  const parts: [number, string][] = [
+    [Math.floor(left / 86400000), "d"],
+    [Math.floor(left / 3600000) % 24, "h"],
+    [Math.floor(left / 60000) % 60, "min"],
+    [Math.floor(left / 1000) % 60, "s"],
+  ];
+  return <p className="plus-countdown" role="timer" aria-label={`El precio de lanzamiento termina en ${parts.map(([v, u]) => `${v} ${u}`).join(", ")}`}>
+    <Timer aria-hidden="true" />
+    {parts.map(([value, unit]) => <span key={unit}><strong>{String(value).padStart(2, "0")}</strong>{unit}</span>)}
+    <small>hasta el {fullProgram.launchLabel}</small>
+  </p>;
+}
+
 function PlusPage() {
   const [tier, setTier] = useState(0);
   const plan = plusPlans[tier] ?? plusPlans[0];
@@ -129,8 +155,9 @@ function PlusPage() {
               <p className="plus-offer-kicker">Plan anual · 9 módulos</p>
               <p className="plus-offer-access">Acceso por 1 año</p>
             </div>
-            <p className="plus-offer-price">{formatPrice(plusPlans[0].price)} <span>CLP</span></p>
-            <p className="plus-offer-launch" role="note"><Tag aria-hidden="true" /><span><strong>Precio de lanzamiento.</strong> Sube al terminar el lanzamiento.</span></p>
+            <p className="plus-offer-price"><s>{formatPrice(fullProgram.normalPrice)}</s>{formatPrice(plusPlans[0].price)} <span>CLP</span><span className="plus-offer-save">Ahorras {formatPrice(fullProgram.normalPrice - plusPlans[0].price)}</span></p>
+            <p className="plus-offer-launch" role="note"><Tag aria-hidden="true" /><span><strong>Precio de lanzamiento.</strong> Hasta el {fullProgram.launchLabel}; después vuelve a {formatPrice(fullProgram.normalPrice)}.</span></p>
+            <LaunchCountdown />
           </div>
           <div className="plus-offer-body">
         <fieldset className="plus-upsells">
@@ -164,7 +191,7 @@ function PlusPage() {
         <li><ShieldCheck aria-hidden="true" /><span><strong>{fullProgram.guaranteeDays} días</strong> de garantía</span></li>
       </ul>
     </div></div>
-    <div className="plus-ticker" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>Precio de lanzamiento · Acceso inmediato · 6 cuotas sin interés · Garantía de {fullProgram.guaranteeDays} días · 9 módulos · </span>)}</div></div>
+    <div className="plus-ticker" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>Precio de lanzamiento hasta el {fullProgram.launchLabel} · Acceso inmediato · 6 cuotas sin interés · Garantía de {fullProgram.guaranteeDays} días · 9 módulos · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-benefits-title">
       <p className="eyebrow">POR QUÉ PLUS</p><h2 id="plus-benefits-title">Todo lo que necesitas para vender online.</h2>
       <div className="plus-benefits">{[
@@ -194,7 +221,7 @@ function PlusPage() {
       <p className="section-subtitle">Qué aprendieron, cómo lo aplicaron y qué cambió en su trabajo.</p>
       <StoryList />
     </section>
-    <div className="plus-ticker is-alt" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>El precio de lanzamiento sube al terminar el lanzamiento · Asegura tu acceso hoy · </span>)}</div></div>
+    <div className="plus-ticker is-alt" aria-hidden="true"><div>{Array.from({ length: 2 }, (_, k) => <span key={k}>El precio de lanzamiento termina el {fullProgram.launchLabel} · Asegura tu acceso hoy · </span>)}</div></div>
     <section className="shell plus-section" aria-labelledby="plus-guarantee-title">
       <h2 id="plus-guarantee-title" className="sr-only">Garantía</h2>
       <div className="plus-guarantee-card"><span className="plus-guarantee-seal" aria-hidden="true"><strong>{fullProgram.guaranteeDays}</strong><small>días</small></span><div><h3>Garantía de devolución de {fullProgram.guaranteeDays} días</h3><ul><li><Check aria-hidden="true" /> Devolución del 100% de tu pago</li><li><Check aria-hidden="true" /> Válida si has visto más del 50% de las cápsulas</li><li><Check aria-hidden="true" /> Solicítala desde la página de contacto</li></ul><Link to="/terminos">Ver términos completos</Link></div></div>
@@ -206,7 +233,7 @@ function PlusPage() {
     <section className="shell plus-section plus-questions" aria-labelledby="plus-questions-title"><h2 id="plus-questions-title">Antes de empezar.</h2>
       {[
         ["¿Qué incluye Educommerce Plus?", "Los 9 módulos de habilidades digitales de Educommerce, con clases grabadas y aprendizaje práctico. El acceso y el acompañamiento dependen del plan que elijas."],
-        ["¿Cómo funciona el acceso de por vida?", "Por $20.000 adicionales al plan anual, el total queda en $219.990 y tu acceso pasa a ser de por vida. Los planes con asesoría y VIP ya lo incluyen."],
+        ["¿Cómo funciona el acceso de por vida?", "Por $50.000 adicionales al plan anual, el total queda en $219.990 y tu acceso pasa a ser de por vida. Los planes con asesoría y VIP ya lo incluyen."],
         ["¿Qué incluye el acompañamiento?", "Plus con asesoría incluye una asesoría por llamada y un grupo WhatsApp para dudas pequeñas. Plus VIP incluye lo anterior, una clase semanal grupal durante un mes y un grupo VIP."],
         ["¿Necesito una cuenta para comprar?", "No. Puedes comprar con tu nombre y correo; después ingresa al campus con ese mismo correo para asociar tu compra."],
         ["¿Cómo pago?", "Elige tu plan, completa tus datos y paga de forma segura en Mercado Pago. Los precios están en pesos chilenos, con hasta 6 cuotas sin interés."],
@@ -214,14 +241,14 @@ function PlusPage() {
       ].map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}
     </section>
     <section className="shell plus-section plus-final-cta" aria-label="Comprar Educommerce Plus">
-      <p className="plus-alert is-pulse" role="note"><AlertTriangle aria-hidden="true" /> <span><strong>Oferta de lanzamiento:</strong> este precio no se mantendrá.</span></p><h2>Empieza hoy con {plan.name}.</h2><p>{formatPrice(plan.price)} · o 6 cuotas de {formatPrice(installmentPrice(plan.price))} sin interés</p>
+      <p className="plus-alert is-pulse" role="note"><AlertTriangle aria-hidden="true" /> <span><strong>Oferta de lanzamiento:</strong> termina el {fullProgram.launchLabel}.</span></p><h2>Empieza hoy con {plan.name}.</h2><p>{tier === 0 && <s>{formatPrice(fullProgram.normalPrice)}</s>}{formatPrice(plan.price)} · o 6 cuotas de {formatPrice(installmentPrice(plan.price))} sin interés</p>
       <Button asChild size="lg"><Link to="/checkout" search={{ producto: plan.id }}>Quiero Educommerce Plus <ArrowRight aria-hidden="true" /></Link></Button>
     </section>
     <div className="plus-sticky-bar">
       <div className="plus-sticky-inner">
         <div className="plus-sticky-info">
           <p className="plus-sticky-live"><i aria-hidden="true" /> Precio lanzamiento</p><p className="plus-sticky-name">{plan.name}</p>
-          <p className="plus-sticky-price">{formatPrice(plan.price)}</p>
+          <p className="plus-sticky-price">{tier === 0 && <s>{formatPrice(fullProgram.normalPrice)}</s>}{formatPrice(plan.price)}</p>
         </div>
         <Button asChild><Link to="/checkout" search={{ producto: plan.id }}>Agregar al carrito <ArrowRight aria-hidden="true" /></Link></Button>
       </div>
