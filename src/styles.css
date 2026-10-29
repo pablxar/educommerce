@@ -1123,6 +1123,9 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
   .plus-offer-header { padding: 14px 16px 12px; }
   .plus-offer-price { font-size: 34px; margin-top: 4px; }
   .plus-offer-price span { font-size: 22px; }
+  .plus-offer-price s { font-size: 15px; }
+  .plus-countdown { gap: 6px; }
+  .plus-countdown strong { font-size: 15px; }
   .plus-offer-features { gap: 8px; margin: 10px 0 8px; }
   .plus-offer-features li { flex-direction: column; align-items: flex-start; font-size: 11px; gap: 5px; }
   .plus-offer-features li + li { padding-left: 8px; }
