@@ -11,9 +11,9 @@ describe("Educommerce Plus commercial rules", () => {
     const p = getProduct("educommerce-plus"); if (!p) throw new Error("Missing Plus");
     expect(p.listPrice).toBe(249990); expect(productTracking(p).discount_amount).toBe(80000);
   });
-  it("lifetime adds exactly 50000 for a 219990 total", () => {
+  it("lifetime adds exactly 20000 for a 189990 total", () => {
     const p = getProduct("educommerce-plus-vitalicio");
-    expect(p?.price).toBe(219990); expect((p?.price ?? 0) - plusPlans[0].price).toBe(50000); expect(p?.access).toBe("lifetime");
+    expect(p?.price).toBe(189990); expect((p?.price ?? 0) - plusPlans[0].price).toBe(20000); expect(p?.access).toBe("lifetime");
   });
   it("269990 includes lifetime, one advisory call and WhatsApp", () => {
     const p = getProduct("educommerce-plus-asesoria");

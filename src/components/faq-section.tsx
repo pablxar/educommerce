@@ -38,7 +38,7 @@ const faqGroups: FaqGroup[] = [
       {
         question: "¿Puedo comprar un módulo por separado o tengo que comprar el programa completo?",
         answer:
-          "Puedes elegir un módulo disponible por separado o acceder a Educommerce Plus, que incluye los 9 módulos. Plus ofrece un año de acceso desde $169.990 (precio de lanzamiento hasta el 1 de noviembre; precio normal $249.990), acceso de por vida por $219.990 y opciones con asesoría o acompañamiento grupal.",
+          "Puedes elegir un módulo disponible por separado o acceder a Educommerce Plus, que incluye los 9 módulos. Plus ofrece un año de acceso desde $169.990 (precio de lanzamiento hasta el 1 de noviembre; precio normal $249.990), acceso de por vida por $189.990 y opciones con asesoría o acompañamiento grupal.",
       },
       {
         question: "¿Qué incluye cada módulo?",
