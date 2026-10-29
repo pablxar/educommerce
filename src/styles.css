@@ -56,7 +56,7 @@
   --offer-alert: oklch(0.7 0.23 25);
   --offer-alert-text: color-mix(in oklab, var(--offer-alert) 38%, var(--background));
   --offer-alert-soft: color-mix(in oklab, var(--offer-alert) 28%, var(--offer-header-surface));
-  --offer-alert-bubble: color-mix(in oklab, var(--offer-alert) 68%, var(--offer-header-surface));
+  --offer-alert-bubble: color-mix(in oklab, var(--offer-alert) 80%, var(--offer-header-surface));
   --offer-alert-border: color-mix(in oklab, var(--offer-alert) 92%, transparent);
   --dialog-overlay: color-mix(in oklab, var(--foreground) 28%, transparent);
   --dialog-glass: color-mix(in oklab, var(--background) 94%, transparent);
