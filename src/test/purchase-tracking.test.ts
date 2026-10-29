@@ -9,11 +9,11 @@ describe("Purchase promotion tracking", () => {
     expect(productTracking(product)).toEqual({ product_name: "Combo Lanza tu e-commerce con Shopify + Email marketing con Klaviyo", product_kind: "bundle", list_amount: 159980, discount_code: "COMBO20-SHOPIFY-KLAVIYO", discount_percent: 20, discount_amount: 32000 });
     expect(product.price).toBe(127980);
   });
-  it("sends exact pack name without inventing a coupon", () => {
+  it("sends the launch discount without inventing a coupon", () => {
     const product = getProduct("pack-completo");
     if (!product) throw new Error("Missing pack");
     expect(product.id).toBe("educommerce-plus");
-    expect(productTracking(product).discount_amount).toBe(0);
+    expect(productTracking(product)).toMatchObject({ list_amount: 249990, discount_amount: 80000, discount_percent: null });
     expect(productTracking(product).discount_code).toBeNull();
   });
   it("does not attach a bundle promotion to an individual module", () => {
