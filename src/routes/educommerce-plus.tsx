@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Check, CreditCard, Crown, GraduationCap, MonitorPlay, ShieldCheck, Tag, Timer, Zap } from "lucide-react";
+import { ArrowRight, Check, CreditCard, Crown, GraduationCap, MonitorPlay, ShieldCheck, Tag, Timer, Zap, AlarmClock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -115,8 +115,9 @@ function LaunchCountdown() {
     [Math.floor(left / 1000) % 60, "s"],
   ];
   return <p className="plus-countdown" role="timer" aria-label={`El precio de lanzamiento termina en ${parts.map(([v, u]) => `${v} ${u}`).join(", ")}`}>
-    <Timer aria-hidden="true" />
-    {parts.map(([value, unit]) => <span key={unit}><strong>{String(value).padStart(2, "0")}</strong>{unit}</span>)}
+    <AlarmClock aria-hidden="true" />
+    <strong className="plus-countdown-label">Termina en</strong>
+    <span className="plus-countdown-clock">{parts.map(([value, unit], i) => <span className="plus-countdown-unit" key={unit} style={{ animationDelay: `${i * 140}ms` }}><strong>{String(value).padStart(2, "0")}</strong>{unit}</span>)}</span>
     <small>hasta el {fullProgram.launchLabel}</small>
   </p>;
 }
@@ -156,7 +157,7 @@ function PlusPage() {
               <p className="plus-offer-access">Acceso por 1 año</p>
             </div>
             <p className="plus-offer-price"><s>{formatPrice(fullProgram.normalPrice)}</s>{formatPrice(plusPlans[0].price)} <span>CLP</span><span className="plus-offer-save">Ahorras {formatPrice(fullProgram.normalPrice - plusPlans[0].price)}</span></p>
-            <p className="plus-offer-launch" role="note"><Tag aria-hidden="true" /><span><strong>Precio de lanzamiento.</strong> Hasta el {fullProgram.launchLabel}; después vuelve a {formatPrice(fullProgram.normalPrice)}.</span></p>
+            <p className="plus-offer-launch" role="note"><Tag aria-hidden="true" /><span><strong>Precio de lanzamiento.</strong> Hasta el {fullProgram.launchLabel}.</span></p>
             <LaunchCountdown />
           </div>
           <div className="plus-offer-body">
