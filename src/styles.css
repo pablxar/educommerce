@@ -53,11 +53,11 @@
   --offer-header-text: var(--background);
   --offer-header-muted: var(--border);
   --offer-header-border: var(--muted-foreground);
-  --offer-alert: oklch(0.63 0.19 25);
-  --offer-alert-text: color-mix(in oklab, var(--offer-alert) 62%, var(--background));
-  --offer-alert-soft: color-mix(in oklab, var(--offer-alert) 16%, var(--offer-header-surface));
-  --offer-alert-bubble: color-mix(in oklab, var(--offer-alert) 30%, var(--offer-header-surface));
-  --offer-alert-border: color-mix(in oklab, var(--offer-alert) 55%, transparent);
+  --offer-alert: oklch(0.68 0.21 25);
+  --offer-alert-text: color-mix(in oklab, var(--offer-alert) 42%, var(--background));
+  --offer-alert-soft: color-mix(in oklab, var(--offer-alert) 22%, var(--offer-header-surface));
+  --offer-alert-bubble: color-mix(in oklab, var(--offer-alert) 52%, var(--offer-header-surface));
+  --offer-alert-border: color-mix(in oklab, var(--offer-alert) 85%, transparent);
   --dialog-overlay: color-mix(in oklab, var(--foreground) 28%, transparent);
   --dialog-glass: color-mix(in oklab, var(--background) 94%, transparent);
   --section-wash: linear-gradient(180deg, var(--background), var(--offer-surface) 38%, var(--offer-surface) 62%, var(--background));
@@ -1090,8 +1090,7 @@ body.plus-product-page .support-widget { bottom: max(104px, env(safe-area-inset-
 .plus-countdown-clock { display: inline-flex; align-items: center; gap: 5px; }
 .plus-countdown-unit { display: inline-flex; align-items: baseline; gap: 2px; padding: 4px 9px; border: 1px solid var(--offer-alert-border); border-radius: 999px; background: var(--offer-alert-bubble); font-variant-numeric: tabular-nums; animation: plus-countdown-bubble 1.8s ease-in-out infinite; }
 .plus-countdown-unit strong { font-size: 17px; font-weight: 800; color: var(--offer-alert-text); }
-.plus-countdown small { margin-left: auto; opacity: .9; }
-@keyframes plus-alert-pulse { 50% { box-shadow: 0 0 0 6px color-mix(in oklab, var(--offer-alert) 20%, transparent); } }
+@keyframes plus-alert-pulse { 50% { box-shadow: 0 0 0 7px color-mix(in oklab, var(--offer-alert) 32%, transparent); } }
 @keyframes plus-countdown-bubble { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-2px) scale(1.06); } }
 .plus-sticky-price s, .plus-final-cta p s { font-size: 13px; font-weight: 600; color: var(--muted-foreground); margin-right: 7px; }
 .plus-offer-access { font-size: 12px; font-weight: 600; line-height: 1.4; text-align: right; color: var(--offer-header-muted); }

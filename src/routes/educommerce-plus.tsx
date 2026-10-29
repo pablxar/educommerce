@@ -118,7 +118,6 @@ function LaunchCountdown() {
     <AlarmClock aria-hidden="true" />
     <strong className="plus-countdown-label">Termina en</strong>
     <span className="plus-countdown-clock">{parts.map(([value, unit], i) => <span className="plus-countdown-unit" key={unit} style={{ animationDelay: `${i * 140}ms` }}><strong>{String(value).padStart(2, "0")}</strong>{unit}</span>)}</span>
-    <small>hasta el {fullProgram.launchLabel}</small>
   </p>;
 }
 
