@@ -122,7 +122,7 @@ function CheckoutPage() {
             timer.current = setTimeout(() => captureLead(form), 700);
           }} noValidate>
             <h2>Tus datos</h2>
-            <p>Usa el correo con el que entrarás al campus. Si aún no tienes cuenta, la creas después con ese mismo correo. Guardamos tu nombre, correo y teléfono para gestionar tu compra y ayudarte si no la terminas; esto no te suscribe al newsletter. <Link to="/privacidad">Ver privacidad</Link>.</p>
+            <p>Usa el correo con el que entrarás al campus.</p>
             <label>Nombre<input name="name" autoComplete="name" required maxLength={100} /></label>
             <label>Correo<input name="email" type="email" autoComplete="email" required maxLength={255} /></label>
             <label>Teléfono<input name="phone" type="tel" autoComplete="tel" inputMode="tel" placeholder="+56 9 1234 5678" required maxLength={30} /></label>
