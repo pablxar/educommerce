@@ -3,7 +3,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { checkoutContactSchema } from "@/lib/checkout-schema";
 import { journeySession } from "@/lib/journey";
-import { ArrowRight, Check, Lock, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, CreditCard, Lock, MonitorPlay, ShieldCheck } from "lucide-react";
+import checkoutVideo from "@/assets/checkout-video.mp4.asset.json";
+import checkoutPoster from "@/assets/checkout-video-poster.jpg.asset.json";
+import franco from "@/assets/franco-henriquez.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { formatPrice, fullProgram, installmentPrice } from "@/lib/educommerce";
@@ -112,6 +115,7 @@ function CheckoutPage() {
               </div>
             )}
           </section>
+          <div className="checkout-side">
           <form className="checkout-form" onSubmit={onSubmit} onBlur={e => captureLead(e.currentTarget)} onChange={e => {
             const form = e.currentTarget;
             clearTimeout(timer.current);
@@ -128,6 +132,20 @@ function CheckoutPage() {
             <p className="checkout-trust"><Lock aria-hidden="true" /> Pago seguro en Mercado Pago · <ShieldCheck aria-hidden="true" /> Garantía {fullProgram.guaranteeDays} días</p>
             <p className="checkout-legal">Al pagar aceptas los <Link to="/terminos">Términos</Link> y la <Link to="/privacidad">Política de privacidad</Link>.</p>
           </form>
+          <section className="checkout-confidence" aria-labelledby="confidence">
+            <h2 id="confidence">Te explicamos Educommerce en menos de 1 minuto</h2>
+            <video className="checkout-video" src={checkoutVideo.url} poster={checkoutPoster.url} autoPlay muted playsInline controls preload="metadata" aria-label="Video: qué es Educommerce y cómo funciona" />
+            <ul className="checkout-assurances">
+              <li><MonitorPlay aria-hidden="true" /><span><strong>Acceso con tu correo</strong>Después del pago entras al campus con el mismo correo que escribiste arriba.</span></li>
+              <li><ShieldCheck aria-hidden="true" /><span><strong>Garantía de {fullProgram.guaranteeDays} días</strong>Si no es para ti, pides tu devolución dentro de ese plazo.</span></li>
+              <li><CreditCard aria-hidden="true" /><span><strong>Pago protegido por Mercado Pago</strong>Hasta {fullProgram.installments} cuotas sin interés. No guardamos los datos de tu tarjeta.</span></li>
+            </ul>
+            <figure className="checkout-quote">
+              <img src={franco.url} alt="Franco Henríquez" width={44} height={44} loading="lazy" />
+              <blockquote>«Gracias a Educommerce pasé de solo consumir contenido a generar plata con lo digital.»<figcaption>Franco Henríquez · Alumno</figcaption></blockquote>
+            </figure>
+          </section>
+          </div>
         </div>
       )}
     </main>
